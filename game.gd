@@ -28,6 +28,9 @@ func _ready():
 	select = load("selector.scn").instance()
 	add_child(select)
 	
+	for i in sprites:
+		sprites[i].check_physics()
+	
 	set_process_input(true)
 	
 	pass
@@ -66,8 +69,8 @@ func shift(s):
 	
 	
 	set_cell(s[0], out_buf)
+	
 	pass
-
 
 func move_row_left(row):
 	
@@ -76,6 +79,14 @@ func move_row_left(row):
 		shift.append(Vector2(i, row))
 	
 	shift(shift)
+	
+	for i in shift:
+		var sprite = sprites[i]
+		if sprite.color == "empty":
+			sprites[i-Vector2(0, 1)].check_physics()
+		else:
+			sprites[i].check_physics()
+	
 	pass
 
 func move_row_right(row):
@@ -86,5 +97,8 @@ func move_row_right(row):
 		shift.append(Vector2(i, row))
 	
 	shift(shift)
+	
+	for i in sprites:
+		sprites[i].check_physics()
 	
 	pass

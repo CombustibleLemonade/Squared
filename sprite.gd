@@ -25,6 +25,24 @@ func set_color(c):
 	set_modulate(colors[c])
 	pass
 
+func check_physics():
+	# Check if a tile is supported at all
+	if not parent == null and target_cell.y < parent.height - 1:
+		var support = parent.get_cell(target_cell + Vector2(0, 1))
+		if support.color == "empty":
+			#print(target_cell.x)
+			var top = parent.get_cell(target_cell - Vector2())
+			drop()
+			check_physics()
+	
+	pass
+
+func drop():
+	var s = [target_cell, target_cell + Vector2(0, 1)]
+	parent.shift(s)
+	
+	pass
+
 func _ready():
 	# Initalization here
 	
