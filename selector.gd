@@ -1,4 +1,3 @@
-
 extends Sprite
 
 # member variables here, example:
@@ -6,7 +5,7 @@ extends Sprite
 var target = 4
 
 func move(dx):
-	
+	# Will move (Positive is up, negative is down)
 	target -= dx
 	
 	if target < 0:
@@ -18,14 +17,12 @@ func move(dx):
 
 func _ready():
 	# Initalization here
-	
 	set_process(true)
 	set_process_input(true)
 	pass
 
 func _input(ev):
 	# To handle input
-	
 	if ev.type == InputEvent.KEY and ev.is_pressed() and not ev.echo:
 		if ev.is_action("up"):
 			move(1)
@@ -35,10 +32,9 @@ func _input(ev):
 	pass
 
 func _process(delta):
+	# Will make the selector move to the target position
+	var deltavector = Vector2(0, 64*(target-4)) - get_pos()
 	
-	var position = get_pos()
-	var deltavector = Vector2(0, 64*(target-4)) - position
-	
-	set_pos(position + deltavector*0.5)
+	set_pos(get_pos() + deltavector*25*delta)
 	
 	pass
