@@ -7,14 +7,9 @@ var sprites = {}
 var width = 7 # Amount of columns
 var height = 9 # Amount of rows
 
-var select # Bar node that hovers over the tiles
-var drop_indicator = [] # Indicates what block drops where
-
 func _ready():
 	# Initialization
-	
 	global = get_node("/root/global")
-	
 	
 	# Place tiles upon initialization
 	randomize()
@@ -33,17 +28,8 @@ func _ready():
 			
 			sprites[Vector2(x, y)] = sprite
 	
-	# Create a drop indicator
-	drop_indicator = load("dropindicator.scn").instance()
-	add_child(drop_indicator)
-	
-	# Create a selector
-	select = load("selector.scn").instance()
-	add_child(select)
-	
 	# Compute physics
-	for i in sprites:
-		sprites[i].check_physics()
+	check_physics()
 	
 	set_process_input(true)
 	
@@ -54,9 +40,14 @@ func _input(ev):
 	if ev.type == InputEvent.KEY and ev.is_pressed() and not ev.echo:
 		# Shift rows when arrows are pressed
 		if ev.is_action("left"):
-			move_row_left(select.target)
+			move_row_left(get_node("Sprite").target)
 		elif ev.is_action("right"):
-			move_row_right(select.target)
+			move_row_right(get_node("Sprite").target)
+	
+	pass
+
+func grid_to_screen(grid):
+	return Vector2((grid.x-width/2.0+0.5)*64, (grid.y-4)*64)
 	
 	pass
 
@@ -83,6 +74,11 @@ func shift(s):
 	
 	pass
 
+func shift_incoming():
+	return get_node("Node2D").shift()
+	
+	pass
+
 func move_row_left(row):
 	# Will move selected row one element to the left
 	var shift = []
@@ -90,9 +86,7 @@ func move_row_left(row):
 		shift.append(Vector2(i, row))
 	
 	shift(shift)
-	
-	for i in sprites:
-		sprites[i].check_physics()
+	check_physics()
 	
 	pass
 
@@ -104,8 +98,15 @@ func move_row_right(row):
 		shift.append(Vector2(i, row))
 	
 	shift(shift)
+	check_physics()
 	
+	pass
+
+func check_physics():
+	# checks physics of all sprites
 	for i in sprites:
 		sprites[i].check_physics()
+	
+	get_node("DropIndicator").check_physics()
 	
 	pass
