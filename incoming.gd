@@ -18,8 +18,6 @@ func _ready():
 		tile.target_cell = Vector2(0, i)
 		tile.set_color(get_node("/root/global").possible_colors[randi()%4])
 	
-	print(tiles[8].color + " Lastcolor" )
-	
 	pass
 
 # Todo

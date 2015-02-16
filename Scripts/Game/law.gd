@@ -1,0 +1,16 @@
+
+extends Node2D
+
+var rules = []
+
+func _ready():
+	# Initialization here
+	
+	var rule_template = load("Scenes/Game/forbidden.scn")
+	for i in range (0, 3):
+		var new_rule = rule_template.instance()
+		add_child(new_rule)
+		new_rule.set_pos(Vector2(0, 64*i))
+		rules.append(new_rule)
+	
+	pass
