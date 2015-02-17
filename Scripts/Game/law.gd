@@ -10,7 +10,7 @@ func _ready():
 	for i in range (0, 3):
 		var new_rule = rule_template.instance()
 		add_child(new_rule)
-		new_rule.set_pos(Vector2(0, 64*i))
+		new_rule.set_pos(Vector2(0, 128*i))
 		rules.append(new_rule)
 	
 	pass
