@@ -91,7 +91,7 @@ func move_row_left(row):
 	pass
 
 func move_row_right(row):
-	# Will move selected row one element to the right
+	# Will move selected row one element to the right 
 	var shift = []
 	
 	for i in range (0, width):
@@ -108,5 +108,7 @@ func check_physics():
 		sprites[i].check_physics()
 	
 	get_node("DropIndicator").check_physics()
+	
+	get_node("law").police()
 	
 	pass

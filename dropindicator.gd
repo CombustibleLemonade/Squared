@@ -18,7 +18,7 @@ func _ready():
 	get_node("Timer").set_wait_time(4)
 	get_node("Timer").start()
 	
-	next_color = get_node("/root/Grid/Node2D").tiles[0].color
+	next_color = get_parent().get_node("Node2D").tiles[0].color
 	set_color(global.colors[next_color])
 	
 	pass

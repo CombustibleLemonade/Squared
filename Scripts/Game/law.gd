@@ -14,3 +14,10 @@ func _ready():
 		rules.append(new_rule)
 	
 	pass
+
+func police():
+	# TODO check if everything in the grid is legal
+	
+	
+	
+	pass
