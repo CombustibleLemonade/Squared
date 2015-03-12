@@ -23,6 +23,8 @@ func _ready():
 			if y < 4:
 				rand_color = "empty"
 			
+			rand_color = "empty"
+			
 			sprite.set_color(rand_color)
 			sprite.target_cell = Vector2(x, y)
 			
@@ -43,7 +45,9 @@ func _input(ev):
 			move_row_left(get_node("Sprite").target)
 		elif ev.is_action("right"):
 			move_row_right(get_node("Sprite").target)
-	
+		elif ev.is_action("Next"):
+			get_node("DropIndicator/Timer").start()
+			get_node("DropIndicator")._on_Timer_timeout()
 	pass
 
 func grid_to_screen(grid):
@@ -52,7 +56,8 @@ func grid_to_screen(grid):
 	pass
 
 func get_cell(v):
-	return sprites[v]
+	if v.x < width and v.y < height and v.x >= 0 and v.y >= 0:
+		return sprites[v]
 	pass
 
 func set_cell(v, cell):

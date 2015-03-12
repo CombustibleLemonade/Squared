@@ -53,11 +53,20 @@ func set_color(c):
 func check_physics():
 	# Checks if the indicator is pointing to the right block
 	var cell = parent.get_cell(target_cell)
+	if cell == null:
+		get_node("/root/global").menu.game_over("You died from hitting the ceiling!")
+		get_parent().queue_free()
+		return
+	
 	if cell.color != "empty":
 		target_cell -= Vector2(0, 1)
 		check_physics()
 	
 	cell = parent.get_cell(target_cell+Vector2(0, 1))
+	
+	if cell == null:
+		return
+	
 	if cell.color == "empty":
 		target_cell += Vector2(0, 1)
 		check_physics()
