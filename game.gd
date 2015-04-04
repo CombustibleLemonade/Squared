@@ -39,7 +39,7 @@ func _ready():
 
 func _input(ev):
 	# To handle input
-	if ev.type == InputEvent.KEY and ev.is_pressed() and not ev.echo:
+	if ev.type == InputEvent.KEY and ev.is_pressed() and not ev.echo and not get_node("DropIndicator/Timer") == null:
 		# Shift rows when arrows are pressed
 		if ev.is_action("left"):
 			move_row_left(get_node("Sprite").target)
@@ -115,5 +115,21 @@ func check_physics():
 	get_node("DropIndicator").check_physics()
 	
 	get_node("law").police()
+	
+	pass
+
+func compute_score():
+	# Make sure only grid is shown
+	get_node("DropIndicator").queue_free()
+	get_node("Node2D").queue_free()
+	get_node("Sprite").queue_free()
+	get_node("law").queue_free()
+	global.is_playing = false
+	
+	var score = 0
+	for i in sprites:
+		if sprites[i].color == "red":
+			score+=1
+	print(score)
 	
 	pass

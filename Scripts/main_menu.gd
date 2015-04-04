@@ -7,7 +7,6 @@ var thread
 func _ready():
 	get_node("/root/global").menu = get_node(".")
 	set_process_input(true)
-	
 	#thread = Thread.new()
 	
 	#thread.start(self, "get_version_info", "asdf")
@@ -52,7 +51,6 @@ func get_version_info(var input):
 
 func _input(ev):
 	var menu = get_node("menu/main_menu")
-
 	if ev.type == 1 and ev.is_pressed() and not ev.echo and not menu.is_hidden():
 		if ev.is_action("ui_accept"):
 			_on_menu_button_selected(get_node("menu/main_menu").get_selected())
@@ -71,6 +69,7 @@ func _on_menu_button_selected( button ):
 		var game = preload("../Scenes/Game/game.scn").instance()
 		add_child(game)
 		get_node("menu/main_menu").hide()
+		get_node("/root/global").is_playing = true
 	elif button == 3:
 		# Quit the game
 		get_tree().quit()

@@ -9,6 +9,8 @@ var colors = {"red":Color(0.8,0.2,0.1),
 var forbidden_pos = [Vector2(1, -1), Vector2(1, 0), Vector2(1, 1), 
 	Vector2(-1, -1), Vector2(-1, 0), Vector2(-1, 1), Vector2(0, -1), Vector2(0, 1)]
 var menu
+var is_playing
 
 func _ready():
+	is_playing = false
 	pass

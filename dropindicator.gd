@@ -54,8 +54,9 @@ func check_physics():
 	# Checks if the indicator is pointing to the right block
 	var cell = parent.get_cell(target_cell)
 	if cell == null:
-		get_node("/root/global").menu.game_over("You died from hitting the ceiling!")
-		get_parent().queue_free()
+		get_parent().compute_score()
+		#get_node("/root/global").menu.game_over("You died from hitting the ceiling!")
+		#get_parent().queue_free()
 		return
 	
 	if cell.color != "empty":
@@ -70,5 +71,10 @@ func check_physics():
 	if cell.color == "empty":
 		target_cell += Vector2(0, 1)
 		check_physics()
+	
+	pass
+
+func check_score_thread():
+	
 	
 	pass
