@@ -7,6 +7,12 @@ var sprites = {}
 var width = 7 # Amount of columns
 var height = 9 # Amount of rows
 
+var scores = []
+
+class Group:
+	var color = ""
+	var score = 0
+
 func _ready():
 	# Initialization
 	global = get_node("/root/global")
@@ -130,6 +136,9 @@ func compute_score():
 	for i in sprites:
 		if sprites[i].color == "red":
 			score+=1
-	print(score)
+	
+	for i in range(width):
+		for j in range(height):
+			sprites[Vector2(i, j)].compute_score()
 	
 	pass

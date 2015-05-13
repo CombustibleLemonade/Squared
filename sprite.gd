@@ -8,12 +8,13 @@ var color
 var target_cell = Vector2(0, 0)
 var parent
 var is_falling
-
+var index # Index in the score-computing hash table
 
 func _ready():
 	# Initalization here
-	
 	global = get_node("/root/global")
+	
+	index = -1 # We're not in the hash table yet.
 	
 	parent = get_parent()
 	
@@ -30,6 +31,12 @@ func _process(delta):
 
 func compute_target():
 	return Vector2((target_cell.x-parent.width/2.0+0.5)*64, (target_cell.y-4)*64)
+	
+	pass
+
+func compute_score():
+	if color == "empty":
+		return
 	
 	pass
 
