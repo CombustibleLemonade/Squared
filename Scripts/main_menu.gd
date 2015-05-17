@@ -70,6 +70,8 @@ func _on_menu_button_selected( button ):
 		add_child(game)
 		get_node("menu/main_menu").hide()
 		get_node("/root/global").is_playing = true
+	elif button == 2:
+		OS.shell_open ("https://combustiblelemonade.github.io/music.html")
 	elif button == 3:
 		# Quit the game
 		get_tree().quit()

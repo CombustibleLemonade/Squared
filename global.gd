@@ -1,4 +1,4 @@
-extends Node
+ extends Node
 
 var possible_colors = ["red", "green", "blue", "yellow", "empty"]
 var colors = {"red":Color(0.8,0.2,0.1),

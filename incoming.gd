@@ -32,7 +32,9 @@ func get_cell():
 
 func shift():
 	# Delete the last one
-	remove_and_delete_child(tiles[0])
+	var test = tiles[0]
+	remove_child(tiles[0])
+	test.free()
 	
 	# Shift all tiles
 	for i in range (1, tiles.size()):

@@ -45,7 +45,7 @@ func _ready():
 
 func _input(ev):
 	# To handle input
-	if ev.type == InputEvent.KEY and ev.is_pressed() and not ev.echo and not get_node("DropIndicator/Timer") == null:
+	if ev.type == InputEvent.KEY and ev.is_pressed() and not ev.echo and not get_node("DropIndicator/Timer") == null and global.is_playing:
 		# Shift rows when arrows are pressed
 		if ev.is_action("left"):
 			move_row_left(get_node("Sprite").target)
@@ -120,8 +120,6 @@ func check_physics():
 	
 	get_node("DropIndicator").check_physics()
 	
-	get_node("law").police()
-	
 	pass
 
 func compute_score():
@@ -129,16 +127,40 @@ func compute_score():
 	get_node("DropIndicator").queue_free()
 	get_node("Node2D").queue_free()
 	get_node("Sprite").queue_free()
-	get_node("law").queue_free()
-	global.is_playing = false
 	
 	var score = 0
-	for i in sprites:
-		if sprites[i].color == "red":
-			score+=1
 	
-	for i in range(width):
-		for j in range(height):
-			sprites[Vector2(i, j)].compute_score()
+	while not sprites.empty():
+		for i in sprites:
+			if sprites.has(i) and not sprites[i].color == "empty":
+				var group = find_group(i)
+				score += group.size()*(group.size()-1)/2
+			elif sprites.has(i):
+				sprites.erase(i)
+	
+	print(score)
+	
+	pass
+
+func find_group(var vec):
+	var color = sprites[vec].color
+	var counted = []
+	var left_to_do = {}
+	
+	left_to_do[vec] = sprites[vec]
+	
+	while true:
+		for i in left_to_do:
+			counted.push_back(left_to_do[i])
+			left_to_do.erase(i)
+			sprites.erase(i)
+			for j in [Vector2(0, 1), Vector2(0, -1), Vector2(1, 0), Vector2(-1,0)]:
+				if sprites.has(i+j) and sprites[i+j].color == color:
+					left_to_do[i+j] = sprites[i+j]
+		
+		if left_to_do.empty():
+			break
+	
+	return counted
 	
 	pass

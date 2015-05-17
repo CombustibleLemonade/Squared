@@ -32,15 +32,18 @@ func _process(delta):
 	pass
 
 func _on_Timer_timeout():
-	
-	parent.get_cell(target_cell).set_color(next_color)
-	next_color = parent.shift_incoming()
-	
-	var next_color_value = get_node("/root/global").colors[next_color]
-	set_color(next_color_value)
-	
-	target_cell.x = randi()%6
-	check_physics()
+	if global.is_playing:
+		parent.get_cell(target_cell).set_color(next_color)
+		next_color = parent.shift_incoming()
+		
+		var next_color_value = get_node("/root/global").colors[next_color]
+		set_color(next_color_value)
+		
+		target_cell.x = randi()%7
+		check_physics()
+		
+		if not get_node("/root/global").is_playing:
+			parent.compute_score()
 	
 	pass
 
@@ -54,9 +57,8 @@ func check_physics():
 	# Checks if the indicator is pointing to the right block
 	var cell = parent.get_cell(target_cell)
 	if cell == null:
-		get_parent().compute_score()
-		#get_node("/root/global").menu.game_over("You died from hitting the ceiling!")
-		#get_parent().queue_free()
+		global.is_playing = false
+		get_node("Timer").queue_free()
 		return
 	
 	if cell.color != "empty":
