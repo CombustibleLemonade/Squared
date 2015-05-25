@@ -20,21 +20,10 @@ func _ready():
 	
 	pass
 
-# Todo
-func _process():
-	
-	pass
-
-# Todo
-func get_cell():
-	
-	pass
-
 func shift():
 	# Delete the last one
-	var test = tiles[0]
+	var out = tiles[0]
 	remove_child(tiles[0])
-	test.free()
 	
 	# Shift all tiles
 	for i in range (1, tiles.size()):
@@ -49,5 +38,5 @@ func shift():
 	tiles[tiles.size()-1] = tile
 	tile.set_color(color)
 	
-	return tiles[0].color
+	return out
 	pass

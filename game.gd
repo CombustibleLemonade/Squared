@@ -40,6 +40,15 @@ func _ready():
 	check_physics()
 	
 	set_process_input(true)
+	set_process(true)
+	
+	pass
+
+func _process(delta):
+	
+	get_parent().set_pos(OS.get_video_mode_size()/2)
+	var scale = OS.get_video_mode_size().y/600
+	get_parent().set_scale(Vector2(scale, scale))
 	
 	pass
 
@@ -52,8 +61,18 @@ func _input(ev):
 		elif ev.is_action("right"):
 			move_row_right(get_node("Sprite").target)
 		elif ev.is_action("Next"):
-			get_node("DropIndicator/Timer").start()
 			get_node("DropIndicator")._on_Timer_timeout()
+			get_node("DropIndicator/Timer").start()
+	
+	if not global.is_playing and ev.is_action("Next"):
+		get_parent().game_over("You died! Your score was: " + str(global.score))
+		queue_free()
+	
+	if ev.is_action("ui_cancel"):
+		compute_score()
+		get_parent().game_over("You died! Your score was: " + str(global.score))
+		queue_free()
+	
 	pass
 
 func grid_to_screen(grid):
@@ -67,7 +86,6 @@ func get_cell(v):
 	pass
 
 func set_cell(v, cell):
-	
 	sprites[v] = cell
 	sprites[v].target_cell = v
 	
@@ -82,11 +100,6 @@ func shift(s):
 		set_cell(s[i], get_cell(s[i-1]))
 	
 	set_cell(s[0], out_buf)
-	
-	pass
-
-func shift_incoming():
-	return get_node("Node2D").shift()
 	
 	pass
 
@@ -125,7 +138,7 @@ func check_physics():
 func compute_score():
 	# Make sure only grid is shown
 	get_node("DropIndicator").queue_free()
-	get_node("Node2D").queue_free()
+	get_node("Incoming").queue_free()
 	get_node("Sprite").queue_free()
 	
 	var score = 0
@@ -134,11 +147,12 @@ func compute_score():
 		for i in sprites:
 			if sprites.has(i) and not sprites[i].color == "empty":
 				var group = find_group(i)
-				score += group.size()*(group.size()-1)/2
+				score += group.size()*(group.size()+1)/2
 			elif sprites.has(i):
 				sprites.erase(i)
 	
 	print(score)
+	global.score = score
 	
 	pass
 
@@ -164,3 +178,4 @@ func find_group(var vec):
 	return counted
 	
 	pass
+ 

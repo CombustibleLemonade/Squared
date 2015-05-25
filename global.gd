@@ -1,4 +1,7 @@
- extends Node
+extends Node
+
+var version_major
+var version_minor
 
 var possible_colors = ["red", "green", "blue", "yellow", "empty"]
 var colors = {"red":Color(0.8,0.2,0.1),
@@ -10,6 +13,8 @@ var forbidden_pos = [Vector2(1, -1), Vector2(1, 0), Vector2(1, 1),
 	Vector2(-1, -1), Vector2(-1, 0), Vector2(-1, 1), Vector2(0, -1), Vector2(0, 1)]
 var menu
 var is_playing
+
+var score
 
 func _ready():
 	is_playing = false

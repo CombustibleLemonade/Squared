@@ -5,6 +5,13 @@ var http
 var thread
 
 func _ready():
+	OS.set_window_fullscreen(true)
+	
+	var version_file = File.new()
+	version_file.open("res://version.txt", File.READ)
+	version_file.get_line()
+	var version = version_file.get_line()
+	
 	get_node("/root/global").menu = get_node(".")
 	set_process_input(true)
 	#thread = Thread.new()
@@ -66,14 +73,23 @@ func _on_menu_button_selected( button ):
 	
 	if button == 0:
 		# Start the game and hide the menu
+		get_node("menu/SamplePlayer").play("Join")
+		
+		get_node("menu/death_note").hide()
 		var game = preload("../Scenes/Game/game.scn").instance()
 		add_child(game)
 		get_node("menu/main_menu").hide()
 		get_node("/root/global").is_playing = true
+	elif button == 1:
+		get_node("menu/SamplePlayer").play("Open")
+		get_node("menu/main_menu").hide()
+		get_node("menu/VBoxContainer").show()
 	elif button == 2:
-		OS.shell_open ("https://combustiblelemonade.github.io/music.html")
+		get_node("menu/SamplePlayer").play("Open")
+		OS.shell_open ("https://www.freesound.org/people/unfa/sounds/244266/")
 	elif button == 3:
 		# Quit the game
+		get_node("menu/SamplePlayer").play("Close")
 		get_tree().quit()
 	
 	pass
