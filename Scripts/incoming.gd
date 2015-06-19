@@ -16,7 +16,6 @@ func _ready():
 		tiles.push_back(tile)
 		add_child(tile)
 		tile.target_cell = Vector2(0, i)
-		print(get_node("/root/global"))
 		tile.set_color(get_node("/root/global").possible_colors[randi()%4])
 	
 	pass

@@ -3,6 +3,7 @@ extends Node2D
 # member variables here, example:
 var http
 var thread
+var global
 
 func _ready():
 	OS.set_window_fullscreen(true)
@@ -12,7 +13,9 @@ func _ready():
 	version_file.get_line()
 	var version = version_file.get_line()
 	
-	get_node("/root/global").menu = get_node(".")
+	global = get_node("/root/global")
+	global.menu = get_node(".")
+	
 	set_process_input(true)
 	#thread = Thread.new()
 	

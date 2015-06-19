@@ -37,6 +37,9 @@ func _process(delta):
 	var d = get_pos() - target
 	set_pos(get_pos() - d*25*delta)
 	
+	if not global.is_playing:
+		return
+	
 	next.set_pos(Vector2(0, -get_node("Timer").get_time_left() * 50000)/(1000 - get_pos().y))
 	next.set_rot(get_node("Timer").get_time_left())
 	

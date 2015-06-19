@@ -25,7 +25,7 @@ func _ready():
 			var sprite = load("tile.scn").instance()
 			add_child(sprite)
 			
-			var rand_color = global.possible_colors[randi()%5]
+			var rand_color
 			if y < 4:
 				rand_color = "empty"
 			
@@ -137,9 +137,9 @@ func check_physics():
 
 func compute_score():
 	# Make sure only grid is shown
-	get_node("DropIndicator").queue_free()
-	get_node("Incoming").queue_free()
-	get_node("Sprite").queue_free()
+	#get_node("DropIndicator").queue_free()
+	#get_node("Incoming").queue_free()
+	#get_node("Sprite").queue_free()
 	
 	var score = 0
 	
