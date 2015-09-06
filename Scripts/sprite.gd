@@ -30,7 +30,7 @@ func _process(delta):
 	pass
 
 func compute_target():
-	return Vector2((target_cell.x-parent.width/2.0+0.5)*64, (target_cell.y-4)*64)
+	return Vector2((target_cell.x-parent.width/2.0+0.5)*64, (-target_cell.y+4)*64)
 	pass
 
 func set_color(c):
@@ -40,8 +40,8 @@ func set_color(c):
 
 func check_physics():
 	# Check if a tile is supported at all
-	if not parent == null and target_cell.y < parent.height - 1:
-		var support = parent.get_cell(target_cell + Vector2(0, 1))
+	if not parent == null and target_cell.y > 0:
+		var support = parent.get_cell(target_cell - Vector2(0, 1))
 		if support.color == "empty":
 			# Drop down if it's not
 			var top = parent.get_cell(target_cell - Vector2())
@@ -52,7 +52,7 @@ func check_physics():
 
 func drop():
 	# Drop a cell to its proper height
-	var s = [target_cell, target_cell + Vector2(0, 1)]
+	var s = [target_cell, target_cell - Vector2(0, 1)]
 	parent.shift(s)
 	
 	pass

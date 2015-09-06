@@ -4,8 +4,8 @@ var global
 
 var sprites = {}
 
-var width = 7 # Amount of columns
-var height = 9 # Amount of rows
+var width = 7 # Amount of columns 	-- x
+var height = 9 # Amount of rows   	-- y
 
 var scores = []
 
@@ -76,7 +76,7 @@ func _input(ev):
 	pass
 
 func grid_to_screen(grid):
-	return Vector2((grid.x-width/2.0+0.5)*64, (grid.y-4)*64)
+	return Vector2((grid.x-width/2.0+0.5)*64, -(grid.y-4)*64)
 	
 	pass
 
@@ -154,6 +154,13 @@ func compute_score():
 	print(score)
 	global.score = score
 	
+	pass
+
+func is_row_filled(var row):
+	#for i in range(0, width):
+	#	if get_cell(Vector2(i, row)).color == "empty" :
+	#		return false
+	return true
 	pass
 
 func find_group(var vec):

@@ -23,7 +23,6 @@ func _ready():
 	next = get_parent().get_node("Incoming").tiles[0].color
 	next = load("tile.scn").instance()
 	
-	
 	add_child(next)
 	next.set_process(false)
 	next.set_color(get_node("/root/global").possible_colors[randi()%4])
@@ -64,6 +63,8 @@ func _on_Timer_timeout():
 	target_cell.x = randi()%7
 	check_physics()
 	
+	print (parent.is_row_filled(8))
+	
 	pass
 
 func set_color(c):
@@ -75,6 +76,7 @@ func set_color(c):
 func check_physics():
 	# Checks if the indicator is pointing to the right block
 	var cell = parent.get_cell(target_cell)
+	# TODO uncomment this
 	if cell == null and global.is_playing:
 		get_node("Timer").queue_free()
 		global.is_playing = false
@@ -82,19 +84,19 @@ func check_physics():
 		return
 	
 	if cell.color != "empty":
-		target_cell -= Vector2(0, 1)
+		target_cell += Vector2(0, 1)
 		check_physics()
 	
 	if not global.is_playing:
 		return
 	
-	cell = parent.get_cell(target_cell+Vector2(0, 1))
+	cell = parent.get_cell(target_cell-Vector2(0, 1))
 	
 	if cell == null:
 		return
 	
 	if cell.color == "empty":
-		target_cell += Vector2(0, 1)
+		target_cell -= Vector2(0, 1)
 		check_physics()
 	
 	pass

@@ -2,11 +2,11 @@ extends Sprite
 
 # member variables here, example:
 
-var target = 8
+var target = 0
 
 func move(dx):
 	# Will move (Positive is up, negative is down)
-	target -= dx
+	target += dx
 	
 	if target < 0:
 		target = 0
@@ -33,7 +33,7 @@ func _input(ev):
 
 func _process(delta):
 	# Will make the selector move to the target position
-	var deltavector = Vector2(0, 64*(target-4)) - get_pos()
+	var deltavector = Vector2(0, -64*(target-4)) - get_pos()
 	
 	set_pos(get_pos() + deltavector*25*delta)
 	
