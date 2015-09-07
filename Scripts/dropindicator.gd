@@ -2,7 +2,7 @@
 extends Node2D
 
 # member variables here, example:
-var target_cell = Vector2(3, 4)
+var target_cell = Vector2(3, 0)
 var next
 
 var parent
@@ -60,7 +60,7 @@ func _on_Timer_timeout():
 	var next_color_value = get_node("/root/global").colors[next.color]
 	set_color(next_color_value)
 	
-	target_cell.x = randi()%7
+	target_cell.x = randi()%parent.width
 	check_physics()
 	
 	print (parent.is_row_filled(8))

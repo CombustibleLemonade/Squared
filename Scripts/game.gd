@@ -5,7 +5,7 @@ var global
 var sprites = {}
 
 var width = 7 # Amount of columns 	-- x
-var height = 9 # Amount of rows   	-- y
+var height = 9 # Amount of rows 	-- y
 
 var scores = []
 
@@ -22,7 +22,7 @@ func _ready():
 	
 	for x in range (width):
 		for y in range (height):
-			var sprite = load("tile.scn").instance()
+			var sprite = global.tile.instance()
 			add_child(sprite)
 			
 			var rand_color
@@ -77,7 +77,6 @@ func _input(ev):
 
 func grid_to_screen(grid):
 	return Vector2((grid.x-width/2.0+0.5)*64, -(grid.y-4)*64)
-	
 	pass
 
 func get_cell(v):

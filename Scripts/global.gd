@@ -4,6 +4,13 @@ var version_major
 var version_minor
 
 var possible_colors = ["red", "green", "blue", "yellow", "empty"]
+var tile = load("tile.scn")
+
+var deltaMax = 0
+var a = Vector2()
+var b = Vector2()
+
+var i = 0
 
 var colors = {
 	"empty":Color(0.0, 0.0, 0.0, 0.0),
@@ -22,4 +29,13 @@ var score
 
 func _ready():
 	is_playing = false
+	set_process(true)
+	pass
+
+func _process(delta):
+	if Input.is_action_pressed("ui_accept"):
+		deltaMax = 0
+	i += 1
+	if (i % 60 == 0):
+		print(deltaMax, " -- a --  ", a, " -- b -- ", b)
 	pass
