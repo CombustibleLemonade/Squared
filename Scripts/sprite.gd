@@ -23,10 +23,6 @@ func _process(delta):
 	var target = compute_target()
 	
 	var d = get_pos() - target
-	if (global.deltaMax < d.distance_to(Vector2())):
-		global.deltaMax = max(d.distance_to(Vector2()), global.deltaMax)
-		global.a = target
-		global.b = get_pos()
 	
 	set_pos(get_pos() - d*25*delta)
 	

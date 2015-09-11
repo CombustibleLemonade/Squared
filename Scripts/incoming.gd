@@ -1,5 +1,7 @@
 extends Node2D
 
+# Will store and show a list of what blocks fall next
+
 var width = 1
 var height = 9
 
@@ -11,6 +13,7 @@ func _ready():
 	
 	set_process(true)
 	
+	# Add the initial random tiles to the incoming list
 	for i in range (0, height):
 		var tile = load("tile.scn").instance()
 		tiles.push_back(tile)

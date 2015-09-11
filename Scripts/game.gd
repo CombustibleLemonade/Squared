@@ -125,10 +125,12 @@ func move_row_right(row):
 	
 	pass
 
+var test = true
 func check_physics():
-	# checks physics of all sprites
-	for i in sprites:
-		sprites[i].check_physics()
+	# checks physics of all sprites, from top to bottom
+	for x in range(0, width):
+		for y in range (0, height):
+			sprites[Vector2(x, y)].check_physics()
 	
 	get_node("DropIndicator").check_physics()
 	

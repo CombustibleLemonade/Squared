@@ -1,7 +1,8 @@
 
 extends Node2D
 
-# member variables here, example:
+# Indicates where the next block is going to fall, and what color it will have
+
 var target_cell = Vector2(3, 0)
 var next
 
@@ -45,15 +46,19 @@ func _process(delta):
 	pass
 
 func _on_Timer_timeout():
+	# Send the next block to the right location
 	var target = parent.get_cell(target_cell)
 	target.set_color(next.color)
 	target.set_pos(next.get_pos()+target.compute_target())
 	target.set_rot(fposmod(next.get_rot(), PI/2))
 	
+	# Then delete it from ourselves
 	remove_child(next)
 	next.queue_free()
 	
+	# Now load the next next block from the incoming list
 	next = get_node("../Incoming").shift()
+	# And add it to ourselves
 	add_child(next)
 	next.set_process(false)
 	
@@ -62,8 +67,6 @@ func _on_Timer_timeout():
 	
 	target_cell.x = randi()%parent.width
 	check_physics()
-	
-	print (parent.is_row_filled(8))
 	
 	pass
 
