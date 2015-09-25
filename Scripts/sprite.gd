@@ -1,4 +1,4 @@
-extends Sprite
+extends Node2D
 
 var global
 
@@ -7,6 +7,7 @@ var target_cell = Vector2(0, 0)
 var parent
 var is_falling
 var index # Index in the score-computing hash table
+var check = false
 
 func _ready():
 	# Initalization here
@@ -37,7 +38,7 @@ func compute_target():
 
 func set_color(c):
 	color = c
-	set_modulate(global.colors[c])
+	get_node("Sprite").set_modulate(global.colors[c])
 	pass
 
 func check_physics():
@@ -52,6 +53,8 @@ func check_physics():
 			var top = parent.get_cell(target_cell)
 			drop()
 			check_physics()
+	
+	get_node("Label").set_text(str(target_cell.x))
 	
 	pass
 
