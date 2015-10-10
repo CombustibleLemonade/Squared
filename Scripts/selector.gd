@@ -22,7 +22,7 @@ func _ready():
 	pass
 
 func _input(ev):
-	# To handle input
+	# To move up and down
 	if ev.type == InputEvent.KEY and ev.is_pressed() and not ev.echo:
 		if ev.is_action("up"):
 			move(1)

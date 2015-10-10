@@ -17,8 +17,6 @@ var colors = {
 	"blue":Color(0.0,0.4,0.8),
 	"yellow":Color(0.7, 0.7, 0.0)}
 
-var forbidden_pos = [Vector2(1, -1), Vector2(1, 0), Vector2(1, 1), 
-	Vector2(-1, -1), Vector2(-1, 0), Vector2(-1, 1), Vector2(0, -1), Vector2(0, 1)]
 var menu
 var is_playing
 var drop_time = 4 #amount of time it takes for one sprite to be dropped

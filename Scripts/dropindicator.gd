@@ -1,4 +1,3 @@
-
 extends Node2D
 
 # Indicates where the next block is going to fall, and what color it will have
@@ -45,7 +44,13 @@ func _process(delta):
 	
 	pass
 
+# Places a block at the indicated location
 func _on_Timer_timeout():
+	if target_cell.y == parent.height - 1:
+		parent.die()
+		print("game_over")
+		return
+	
 	# Send the next block to the right location
 	var target = parent.get_cell(target_cell)
 	target.set_color(next.color)
@@ -68,23 +73,29 @@ func _on_Timer_timeout():
 	target_cell.x = randi()%parent.width
 	check_physics()
 	
+	
+	var grouped = false # Has this square been placed in a group yet
+	for i in target.neighbors():
+		target.group = parent.get_cell(i).group
+		target.check = parent.get_cell(i).check
+		target.group.expand()
+		grouped = true
+		break
+	
+	if not grouped:
+		target.group = parent.new_group(target)
+		target.label.set_text("new")
+	
 	pass
 
 func set_color(c):
 	c[3] = 0.3
 	get_node("Arrow").set_modulate(c)
-	
 	pass
 
 func check_physics():
 	# Checks if the indicator is pointing to the right block
 	var cell = parent.get_cell(target_cell)
-	# TODO uncomment this
-	if cell == null and global.is_playing:
-		get_node("Timer").queue_free()
-		global.is_playing = false
-		get_parent().compute_score()
-		return
 	
 	if cell.color != "empty":
 		target_cell += Vector2(0, 1)

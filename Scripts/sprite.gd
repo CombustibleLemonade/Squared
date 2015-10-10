@@ -6,16 +6,15 @@ var color
 var target_cell = Vector2(0, 0)
 var parent
 var is_falling
-var index # Index in the score-computing hash table
 var check = false
+var group
+var label
 
 func _ready():
 	# Initalization here
 	global = get_node("/root/global")
-	
-	index = -1 # We're not in the hash table yet.
-	
 	parent = get_parent()
+	label = get_node("Node2D/Label")
 	
 	set_process(true)
 	pass
@@ -45,6 +44,8 @@ func check_physics():
 	if color == "empty":
 		return
 	
+	var physics_change = false # If the sprite has changed
+	
 	# Check if a tile is supported at all
 	if not parent == null and target_cell.y > 0:
 		var support = parent.get_cell(target_cell - Vector2(0, 1))
@@ -53,9 +54,9 @@ func check_physics():
 			var top = parent.get_cell(target_cell)
 			drop()
 			check_physics()
+			physics_change = true
 	
-	get_node("Label").set_text(str(target_cell.x))
-	
+	return physics_change
 	pass
 
 func drop():
@@ -64,3 +65,32 @@ func drop():
 	parent.shift(s)
 	
 	pass
+
+# Gives all neighbors of the same color
+func neighbors():
+	# TODO
+	var f_group = {}
+	var sprites = get_parent().sprites
+	
+	for i in [Vector2(0, 1), Vector2(0, -1), Vector2(1, 0), Vector2(-1,0)]:
+		if sprites.has(target_cell + i) and sprites[target_cell + i].color == color:
+			f_group[i+target_cell] = sprites[i+target_cell]
+	
+	return f_group
+	pass
+
+# Same, but with checks. Might be deleted in future
+func neighbors_check(var check_arg):
+	# TODO
+	var f_group = {}
+	var sprites = get_parent().sprites
+	
+	for i in [Vector2(0, 1), Vector2(0, -1), Vector2(1, 0), Vector2(-1,0)]:
+		if sprites.has(target_cell + i) and sprites[target_cell + i].color == color and sprites[target_cell + i].check == check_arg:
+			f_group[i+target_cell] = sprites[i+target_cell]
+	
+	return f_group
+	pass
+
+func regroup():
+	group = get_parent().new_group(self)
