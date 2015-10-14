@@ -92,5 +92,6 @@ func neighbors_check(var check_arg):
 	return f_group
 	pass
 
+# Make a new group for this node
 func regroup():
 	group = get_parent().new_group(self)

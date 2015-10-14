@@ -48,7 +48,6 @@ func _process(delta):
 func _on_Timer_timeout():
 	if target_cell.y == parent.height - 1:
 		parent.die()
-		print("game_over")
 		return
 	
 	# Send the next block to the right location
@@ -73,7 +72,6 @@ func _on_Timer_timeout():
 	target_cell.x = randi()%parent.width
 	check_physics()
 	
-	
 	var grouped = false # Has this square been placed in a group yet
 	for i in target.neighbors():
 		target.group = parent.get_cell(i).group
@@ -83,8 +81,7 @@ func _on_Timer_timeout():
 		break
 	
 	if not grouped:
-		target.group = parent.new_group(target)
-		target.label.set_text("new")
+		target.regroup()
 	
 	pass
 

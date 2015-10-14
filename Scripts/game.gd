@@ -25,8 +25,10 @@ class Group:
 		var all_members = {base_member.target_cell:base_member} # All members
 		base_member.check = true # The base member is already checked, and is already in the unchecked members
 		
+		var k = 0
 		while not unchecked_members.empty():
 			for i in unchecked_members:
+				k += 1
 				var member = unchecked_members[i]
 				unchecked_members.erase(i)
 				if not member.group == self and not member.group == null:
@@ -46,12 +48,25 @@ class Group:
 		if members.size() > 0:
 			members[0].regroup()
 		
+		
 		member_count = all_members.size()
 		members = []
 		
 		for i in all_members:
 			all_members[i].check = false
 			members.push_back(all_members[i])
+		
+		members.sort_custom(self, "sort_vertical")
+		for i in range(members.size()):
+			members[i].label.set_text(str(i+1))
+		pass
+	
+	func sort_vertical(var a, var b):
+		if a.target_cell.y < b.target_cell.y:
+			return true
+		if a.target_cell.y == b.target_cell.y and a.target_cell.x < b.target_cell.x:
+			return true
+		return false
 		pass
 	
 	func _init(var base):
@@ -61,6 +76,9 @@ class Group:
 		color = base_member.color
 		expand()
 		pass
+	
+	func _sort(var a, var b):
+		return false
 
 func new_group(var base):
 	return Group.new(base)
@@ -109,12 +127,13 @@ func _process(delta):
 		else:
 			groups.remove(i)
 	
-	get_node("Score/Label").set_text(scores)
+	compute_score()
+	get_node("Score/Label").set_text(str(global.score))
 	
 	for i in sprites:
 		var s = sprites[i]
-		if not s.group == null:
-			s.label.set_text(str(s.group.member_count))
+		#if not s.group == null:
+		#	s.label.set_text(str(s.group.member_count))
 	
 	get_parent().set_pos(OS.get_video_mode_size()/2)
 	var scale = OS.get_video_mode_size().y/600
@@ -219,8 +238,7 @@ func compute_score():
 	var score = 0
 	for i in groups:
 		score += i.member_count*(i.member_count+1)/2
-	print(score)
 	global.score = score
-	
+	return score
 	pass
  
