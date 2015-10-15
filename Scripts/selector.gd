@@ -1,8 +1,9 @@
-extends Sprite
+extends Node2D
 
 # member variables here, example:
 
 var target = 0
+
 
 func move(dx):
 	# Will move (Positive is up, negative is down)
@@ -19,6 +20,7 @@ func _ready():
 	# Initalization here
 	set_process(true)
 	set_process_input(true)
+	set_size(Vector2(512-64, 64))
 	pass
 
 func _input(ev):
@@ -37,4 +39,8 @@ func _process(delta):
 	
 	set_pos(get_pos() + deltavector*25*delta)
 	
+	pass
+
+func set_size(var size):
+	get_node("Polygon").set_size(size)
 	pass

@@ -19,7 +19,6 @@ class Group:
 	var base_member
 	var game
 	
-	# TODO: Members uses old coordinate system and all_members uses new coordinate system.
 	func expand():
 		var unchecked_members = {base_member.target_cell:base_member} # Members that are queued but have not yet been checked
 		var all_members = {base_member.target_cell:base_member} # All members
@@ -155,6 +154,7 @@ func _input(ev):
 	
 	if ev.is_action("ui_page_down"):
 		get_tree().set_pause(true)
+		#get_node("Sprite").set_size(Vector2(100, 100))
 	
 	if ev.is_action("ui_cancel"):
 		compute_score()

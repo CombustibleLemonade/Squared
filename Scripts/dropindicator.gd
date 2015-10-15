@@ -13,7 +13,7 @@ func _ready():
 	global = get_node("/root/global")
 	parent = get_parent()
 	
-	set_process(true)
+	set_process(true) 
 	
 	global.is_playing = true
 	
