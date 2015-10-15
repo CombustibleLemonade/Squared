@@ -33,8 +33,7 @@ func _ready():
 func _process(delta):
 	var target = parent.grid_to_screen(target_cell)
 	
-	var d = get_pos() - target
-	set_pos(get_pos() - d*25*delta)
+	set_pos(global.go_to(target, get_pos(), delta))
 	
 	if not global.is_playing:
 		return

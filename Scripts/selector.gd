@@ -35,9 +35,8 @@ func _input(ev):
 
 func _process(delta):
 	# Will make the selector move to the target position
-	var deltavector = Vector2(0, -64*(target-4)) - get_pos()
-	
-	set_pos(get_pos() + deltavector*25*delta)
+	var target_vec = Vector2(0, -64*(target-4))
+	set_pos(get_node("/root/global").go_to(target_vec, get_pos(), delta))
 	
 	pass
 

@@ -26,3 +26,6 @@ var score
 func _ready():
 	is_playing = false
 	pass
+
+func go_to(var from, var to, var delta):
+	return from + (to-from) * pow(0.5, delta*60)

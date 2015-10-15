@@ -20,13 +20,10 @@ func _ready():
 	pass
 
 func _process(delta):
+	# Smoothly glide to our target transform
 	var target = compute_target()
-	
-	var d = get_pos() - target
-	
-	set_pos(get_pos() - d*25*delta)
-	
-	set_rot(get_rot()*0.5)
+	set_pos(global.go_to(target, get_pos(), delta))
+	set_rot(global.go_to(0, get_rot(), delta))
 	
 	pass
 
