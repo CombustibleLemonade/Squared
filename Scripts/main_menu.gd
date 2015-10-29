@@ -71,32 +71,6 @@ func _input(ev):
 	
 	pass
 
-func _on_menu_button_selected( button ):
-	# We pressed a button. What to do?!
-	
-	if button == 0:
-		# Start the game and hide the menu
-		get_node("menu/SamplePlayer").play("Join")
-		
-		get_node("menu/death_note").hide()
-		var game = preload("../Scenes/Game/game.scn").instance()
-		add_child(game)
-		get_node("menu/main_menu").hide()
-		get_node("/root/global").is_playing = true
-	elif button == 1:
-		get_node("menu/SamplePlayer").play("Open")
-		get_node("menu/main_menu").hide()
-		get_node("menu/VBoxContainer").show()
-	elif button == 2:
-		get_node("menu/SamplePlayer").play("Open")
-		OS.shell_open ("https://www.freesound.org/people/unfa/sounds/244266/")
-	elif button == 3:
-		# Quit the game
-		get_node("menu/SamplePlayer").play("Close")
-		get_tree().quit()
-	
-	pass
-
 func game_over(death_note):
 	get_node("menu/main_menu").show()
 	get_node("menu/death_note").show()

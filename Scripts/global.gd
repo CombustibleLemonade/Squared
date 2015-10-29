@@ -20,12 +20,16 @@ var colors = {
 var menu
 var is_playing
 var drop_time = 4 #amount of time it takes for one sprite to be dropped
+var menu_change = false # Has the menu changed before? (used to prevent double presses)
 
 var score
+
+var width = 7
+var height = 9
 
 func _ready():
 	is_playing = false
 	pass
 
 func go_to(var from, var to, var delta):
-	return from + (to-from) * pow(0.5, delta*60)
+	return from + (to-from) * pow(0.3, delta*50)

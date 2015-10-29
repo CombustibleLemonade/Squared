@@ -3,7 +3,10 @@ extends Node2D
 var global
 
 var color
+
 var target_cell = Vector2(0, 0)
+var target_rotation = 0
+
 var parent
 var is_falling
 var check = false
@@ -23,13 +26,14 @@ func _process(delta):
 	# Smoothly glide to our target transform
 	var target = compute_target()
 	set_pos(global.go_to(target, get_pos(), delta))
-	set_rot(global.go_to(0, get_rot(), delta))
-	
+	set_rot(global.go_to(target_rotation, get_rot(), delta))
 	pass
 
 # Compute the target position to slide towards
 func compute_target():
-	return Vector2((target_cell.x-parent.width/2.0+0.5)*64, (-target_cell.y+4)*64)
+	if not target_cell == null:
+		return Vector2((target_cell.x-parent.width/2.0+0.5)*64, (-target_cell.y+4)*64)
+	return get_pos()
 	pass
 
 func set_color(c):

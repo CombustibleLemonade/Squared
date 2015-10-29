@@ -2,12 +2,11 @@ extends Node2D
 
 var global
 
-var sprites = {}
+var sprites = {} # Sprite location : Sprite object
 
 export(int) var width # Amount of columns 	-- x
 export(int) var height # Amount of rows 	-- y
 
-var scores = []
 var groups = [] # All groups currently in the game
 
 class Group:
@@ -84,7 +83,6 @@ func new_group(var base):
 	pass
 
 func _ready():
-	
 	# Initialization
 	global = get_node("/root/global")
 	
@@ -131,12 +129,6 @@ func _process(delta):
 	
 	for i in sprites:
 		var s = sprites[i]
-		#if not s.group == null:
-		#	s.label.set_text(str(s.group.member_count))
-	
-	get_parent().set_pos(OS.get_video_mode_size()/2)
-	var scale = OS.get_video_mode_size().y/600
-	get_parent().set_scale(Vector2(scale, scale))
 	
 	pass
 
