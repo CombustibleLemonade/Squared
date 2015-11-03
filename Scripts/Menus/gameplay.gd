@@ -4,6 +4,11 @@ extends VBoxContainer
 var global
 var parent
 
+class gameplay_config:
+	var width
+	var height
+	
+
 func _ready():
 	global = get_node("/root/global")
 	parent = get_parent()

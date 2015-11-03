@@ -16,6 +16,9 @@ func _ready():
 	selector.set_process_input(false)
 	set_active_menu(get_node("main_menu"))
 	
+	get_node("background").set_process_input(false)
+	get_node("background").offset = 0
+	get_node("background/Polygon").set_color(Color(0.4, 0.4, 0.4))
 	pass
 
 func _process(delta):
@@ -32,10 +35,11 @@ func _input(event):
 		return
 	
 	if event.is_action_pressed("ui_cancel") and not event.is_echo():
-		if active_menu == get_node("main_menu"):
-			get_tree().quit()
+		var game = get_node("grid")
+		if active_menu == get_node("main_menu") and not game == null and not game.died:
+			unpause()
 			return
-		if active_menu == get_node("options_menu"):
+		if active_menu == get_node("options_menu"): 
 			options_menu_back()
 	
 	# Code to do things according to button pressed
@@ -56,6 +60,15 @@ func _input(event):
 				activate_gameplay_menu()
 			if get_selected() == "back":
 				options_menu_back()
+		elif active_menu == get_node("credits_menu"):
+			if get_selected() == "store page":
+				OS.shell_open("http://combustible-lemonade.itch.io/squared")
+			if get_selected() == "artist":
+				OS.shell_open("https://soundcloud.com/unfa")
+			if get_selected() == "font":
+				OS.shell_open("http://www.dafont.com/accuratist.font")
+			if get_selected() == "back":
+				credits_menu_back()
 	
 	# Moving up and down
 	if event.is_action_pressed("ui_up"):
@@ -67,14 +80,17 @@ func _input(event):
 
 # Will hide the menu and start the game
 func start_game():
+	if has_node("grid"): # remove the grid
+		get_node("grid").free()
+	
+	get_tree().set_pause(false) # unpause the game
+	
 	var game = preload("../Scenes/Game/game.scn").instance()
 	game.width = global.width
 	game.height = global.height
 	add_child(game)
-	get_node("main_menu").hide()
-	selector.hide()
-	set_process_input(false)
-	global.is_playing = true
+	
+	unpause()
 	pass
 
 func activate_options_menu():
@@ -87,6 +103,7 @@ func options_menu_back():
 	pass
 
 func activate_credits_menu():
+	set_active_menu(get_node("credits_menu"))
 	pass
 
 func activate_graphics_menu():
@@ -99,8 +116,28 @@ func activate_gameplay_menu():
 	global.menu_change = true # The script to handle input changes
 	pass
 
+func credits_menu_back():
+	set_active_menu(get_node("main_menu"))
+	selector.set_target(-get_node("main_menu/credits").get_position_in_parent())
+	pass
+
+func pause():
+	pass
+
+func unpause():
+	get_tree().set_pause(false)
+	active_menu.hide()
+	selector.hide()
+	get_node("background").hide()
+	
+	set_process_input(false)
+	global.is_playing = true
+	pass
+
 # Sets the active menu
 func set_active_menu(var menu):
+	get_node("background").show()
+	
 	if not active_menu == null:
 		active_menu.hide()
 		active_menu.set_process_input(false)
@@ -119,6 +156,8 @@ func set_options():
 	selector.max_y = 0
 	selector.min_y = -amount_of_options + 1
 	selector.offset = (amount_of_options - 1)/2.0
+	
+	get_node("background").set_size(Vector2(512-32, (amount_of_options+0.5)*64))
 	pass
 
 func get_selected():

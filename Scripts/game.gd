@@ -9,6 +9,8 @@ export(int) var height # Amount of rows 	-- y
 
 var groups = [] # All groups currently in the game
 
+var died = false
+
 class Group:
 	#extends Node
 	
@@ -148,10 +150,10 @@ func _input(ev):
 		get_tree().set_pause(true)
 		#get_node("Sprite").set_size(Vector2(100, 100))
 	
-	if ev.is_action("ui_cancel"):
+	if ev.is_action_pressed("ui_cancel"):
 		compute_score()
-		get_parent().game_over("You died! Your score was: " + str(global.score))
-		queue_free()
+		get_parent().game_over("Your score was: " + str(global.score))
+		deactivate()
 	
 	pass
 
@@ -219,13 +221,21 @@ func check_physics():
 	
 	pass
 
+# Computes the score and triggers game over
 func die():
-	# Computes the score and triggers game over
 	compute_score()
 	get_parent().game_over("You died! Your score was: " + str(global.score))
-	queue_free()
+	died = true
+	deactivate()
 	pass
 
+# Will pause the game in the background, and display the main menu in the foreground
+func deactivate():
+	get_tree().set_pause(true)
+	set_pause_mode(1)
+	pass
+
+# Computes the score
 func compute_score():
 	var score = 0
 	for i in groups:

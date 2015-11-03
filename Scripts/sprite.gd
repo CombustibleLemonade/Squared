@@ -19,6 +19,9 @@ func _ready():
 	parent = get_parent()
 	label = get_node("Node2D/Label")
 	
+	if get_z() > 0:
+		print(get_z())
+	
 	set_process(true)
 	pass
 

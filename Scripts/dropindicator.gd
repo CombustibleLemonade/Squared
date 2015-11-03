@@ -2,7 +2,7 @@ extends Node2D
 
 # Indicates where the next block is going to fall, and what color it will have
 
-var target_cell = Vector2(3, 0)
+var target_cell = Vector2(0, 0)
 var next
 
 var parent
@@ -108,5 +108,4 @@ func check_physics():
 	if cell.color == "empty":
 		target_cell -= Vector2(0, 1)
 		check_physics()
-	
 	pass
