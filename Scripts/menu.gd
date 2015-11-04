@@ -5,9 +5,13 @@ var selector
 var global
 var active_menu # Changes according to which (sub)menu is displayed
 
+var background_offset = 16
+
 func _ready():
 	set_process_input(true)
 	set_process(true)
+	
+	OS.set_window_fullscreen(true)
 	
 	# Define nodes
 	selector = get_node("selector")
@@ -18,7 +22,7 @@ func _ready():
 	
 	get_node("background").set_process_input(false)
 	get_node("background").offset = 0
-	get_node("background/Polygon").set_color(Color(0.4, 0.4, 0.4))
+	get_node("background/Polygon").set_color(Color(0.6, 0.6, 0.6, 0.6))
 	pass
 
 func _process(delta):
@@ -157,7 +161,7 @@ func set_options():
 	selector.min_y = -amount_of_options + 1
 	selector.offset = (amount_of_options - 1)/2.0
 	
-	get_node("background").set_size(Vector2(512-32, (amount_of_options+0.5)*64))
+	get_node("background").set_size(Vector2(64*7 + background_offset, amount_of_options*64 + background_offset))
 	pass
 
 func get_selected():

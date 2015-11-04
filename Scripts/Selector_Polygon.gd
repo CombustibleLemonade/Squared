@@ -1,12 +1,46 @@
 extends Polygon2D
 
 var offset = 9
+var resolution = 20 # amount of edges in the rounded corners
 var rectangle_size
 
-var left_top = [Vector2(0, -offset), Vector2(offset, 0)]
-var right_top = [Vector2(-offset, 0), Vector2(0, -offset)]
-var right_bottom = [Vector2(0, offset), Vector2(-offset, 0)]
-var left_bottom = [Vector2(offset, 0), Vector2(0, offset)]
+# Define polygon for the selector
+var left_top = left_top()
+var right_top = right_top()
+var right_bottom = right_bottom()
+var left_bottom = left_bottom()
+
+func left_top():
+	var return_val = []
+	for i in range(0, resolution):
+		var s = (PI/2)*i/resolution
+		return_val.push_back(Vector2(offset*(-cos(s)+1), -offset*(-sin(s)+1)))
+	return_val.push_back(Vector2(offset, 0))
+	return return_val
+
+func right_top():
+	var return_val = []
+	for i in range(0, resolution):
+		var s = (PI/2)*i/resolution
+		return_val.push_back(Vector2(offset*(sin(s)-1), offset*(cos(s)-1)))
+	return_val.push_back(Vector2(0, -offset))
+	return return_val
+
+func right_bottom():
+	var return_val = []
+	for i in range(0, resolution):
+		var s = (PI/2)*i/resolution
+		return_val.push_back(Vector2(-offset*(-cos(s)+1), offset*(-sin(s)+1)))
+	return_val.push_back(Vector2(-offset, 0))
+	return return_val
+
+func left_bottom():
+	var return_val = []
+	for i in range(0, resolution):
+		var s = (PI/2)*i/resolution
+		return_val.push_back(Vector2(-offset*(sin(s)-1), -offset*(cos(s)-1)))
+	return_val.push_back(Vector2(0, offset))
+	return return_val
 
 func set_size(var size):
 	var polygon = []
@@ -27,17 +61,4 @@ func set_size(var size):
 	
 	rectangle_size = size
 	update()
-	pass
-
-func _draw():
-	draw_circle(Vector2(rectangle_size.x, rectangle_size.y)/2 + Vector2(-offset, -offset), offset, get_color())
-	draw_circle(Vector2(-rectangle_size.x, rectangle_size.y)/2 + Vector2(offset, -offset), offset, get_color())
-	draw_circle(Vector2(rectangle_size.x, -rectangle_size.y)/2 + Vector2(-offset, offset), offset, get_color())
-	draw_circle(Vector2(-rectangle_size.x, -rectangle_size.y)/2 + Vector2(offset, offset), offset, get_color())
-	pass
-
-func _ready():
-	var x = self
-	while (x.has_method("get_opacity()")):
-		print(x.get_opacity())
 	pass

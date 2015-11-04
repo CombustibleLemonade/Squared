@@ -81,8 +81,8 @@ class Group:
 		return false
 
 func new_group(var base):
-	return Group.new(base)
-	pass
+	var group = Group.new(base)
+	return group
 
 func _ready():
 	# Initialization
@@ -112,6 +112,10 @@ func _ready():
 	
 	set_process_input(true)
 	set_process(true)
+	
+	get_node("Incoming").set_pos(Vector2(width*32 + 64, 0))
+	get_node("Score").set_margin(MARGIN_LEFT, width*32+200)
+	get_node("Score").set_margin(MARGIN_RIGHT, width*32+100)
 	
 	pass
 
