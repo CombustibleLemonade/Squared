@@ -84,8 +84,8 @@ func _input(event):
 
 # Will hide the menu and start the game
 func start_game():
-	if has_node("grid"): # remove the grid
-		get_node("grid").free()
+	if has_node("game"): # remove the previous game
+		get_node("game").free()
 	
 	get_tree().set_pause(false) # unpause the game
 	
@@ -129,8 +129,10 @@ func credits_menu_back():
 func pause(var message = "paused"):
 	set_active_menu(get_node("main_menu"))
 	selector.show()
+	global.is_playing = false # We're not playing anymore
 	pass
 
+# Will hide all main menu items and resume playing
 func unpause():
 	get_tree().set_pause(false)
 	active_menu.hide()

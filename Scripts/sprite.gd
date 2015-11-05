@@ -1,22 +1,24 @@
 extends Node2D
-
 var global
+var game
+var parent
+var label
 
 var color
 
 var target_cell = Vector2(0, 0)
 var target_rotation = 0
 
-var parent
 var is_falling
 var check = false
 var group
-var label
+
 
 func _ready():
 	# Initalization here
 	global = get_node("/root/global")
-	parent = get_parent().get_parent()
+	parent = get_parent()
+	game = get_parent().get_parent()
 	label = get_node("Node2D/Label")
 	
 	if get_z() > 0:
@@ -35,7 +37,7 @@ func _process(delta):
 # Compute the target position to slide towards
 func compute_target():
 	if not target_cell == null:
-		return Vector2((target_cell.x-parent.width/2.0+0.5)*64, -target_cell.y*64)
+		return Vector2((target_cell.x-game.width/2.0+0.5)*64, -target_cell.y*64)
 	return get_pos()
 	pass
 

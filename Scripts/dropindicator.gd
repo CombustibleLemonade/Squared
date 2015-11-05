@@ -6,12 +6,14 @@ var target_cell = Vector2(0, 0)
 var next
 
 var parent
+var game
 var global
 
 func _ready():
 	# Initalization here
+	parent = get_parent()
+	game = get_parent().get_parent()
 	global = get_node("/root/global")
-	parent = get_parent().get_parent()
 	
 	set_process(true) 
 	
@@ -20,7 +22,7 @@ func _ready():
 	get_node("Timer").set_wait_time(global.drop_time)
 	get_node("Timer").start()
 	
-	next = parent.get_node("Incoming").tiles[0].color
+	next = game.get_node("incoming").tiles[0].color
 	next = load("tile.scn").instance()
 	
 	add_child(next)
@@ -43,8 +45,8 @@ func _process(delta):
 
 # Places a block at the indicated location
 func _on_Timer_timeout():
-	if target_cell.y == parent.height - 1:
-		parent.die()
+	if target_cell.y == game.height - 1:
+		game.die()
 		return
 	
 	# Send the next block to the right location
@@ -55,10 +57,10 @@ func _on_Timer_timeout():
 	
 	# Then delete it from ourselves
 	remove_child(next)
-	next.queue_free()
+	next.free()
 	
 	# Now load the next next block from the incoming list
-	next = get_node("../../Incoming").shift()
+	next = get_node("../../incoming").shift()
 	# And add it to ourselves
 	add_child(next)
 	next.set_process(false)
@@ -66,7 +68,7 @@ func _on_Timer_timeout():
 	var next_color_value = get_node("/root/global").colors[next.color]
 	set_color(next_color_value)
 	
-	target_cell.x = randi()%parent.width
+	target_cell.x = randi()%game.width
 	check_physics()
 	
 	var grouped = false # Has this square been placed in a group yet
@@ -89,7 +91,7 @@ func set_color(c):
 
 func check_physics():
 	# Checks if the indicator is pointing to the right block
-	var cell = parent.get_cell(target_cell)
+	var cell = get_parent().get_cell(target_cell)
 	
 	if cell.color != "empty":
 		target_cell += Vector2(0, 1)
