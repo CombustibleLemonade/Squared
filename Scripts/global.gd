@@ -32,4 +32,4 @@ func _ready():
 	pass
 
 func go_to(var from, var to, var delta):
-	return from + (to-from) * pow(0.3, delta*50)
+	return from + (to-from) * pow(0.5, delta*50)

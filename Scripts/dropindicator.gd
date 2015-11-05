@@ -11,7 +11,7 @@ var global
 func _ready():
 	# Initalization here
 	global = get_node("/root/global")
-	parent = get_parent()
+	parent = get_parent().get_parent()
 	
 	set_process(true) 
 	
@@ -20,14 +20,13 @@ func _ready():
 	get_node("Timer").set_wait_time(global.drop_time)
 	get_node("Timer").start()
 	
-	next = get_parent().get_node("Incoming").tiles[0].color
+	next = parent.get_node("Incoming").tiles[0].color
 	next = load("tile.scn").instance()
 	
 	add_child(next)
 	next.set_process(false)
 	next.set_color(get_node("/root/global").possible_colors[randi()%4])
 	set_color(global.colors[next.color])
-	
 	pass
 
 func _process(delta):
@@ -40,7 +39,6 @@ func _process(delta):
 	
 	next.set_pos(Vector2(0, -get_node("Timer").get_time_left() * 50000)/(1000 - get_pos().y))
 	next.set_rot(get_node("Timer").get_time_left())
-	
 	pass
 
 # Places a block at the indicated location
@@ -60,7 +58,7 @@ func _on_Timer_timeout():
 	next.queue_free()
 	
 	# Now load the next next block from the incoming list
-	next = get_node("../Incoming").shift()
+	next = get_node("../../Incoming").shift()
 	# And add it to ourselves
 	add_child(next)
 	next.set_process(false)

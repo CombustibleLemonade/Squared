@@ -24,11 +24,13 @@ func change_on(newvalue):
 
 func toggle():
 	if is_on:
-		get_node("CenterContainer/Tile").target_rotation = 0
-		get_node("CenterContainer/Tile").set_color("red")
-	else:
 		get_node("CenterContainer/Tile").target_rotation = PI/2
+		get_node("CenterContainer/Tile").set_color("red")
+		get_node("CenterContainer/Tile/Sprite").set_texture(load("res://Sprites/cross.png"))
+	else:
+		get_node("CenterContainer/Tile").target_rotation = 0
 		get_node("CenterContainer/Tile").set_color("green")
+		get_node("CenterContainer/Tile/Sprite").set_texture(load("res://Sprites/tick.png"))
 	is_on = !is_on
 	emit_signal("toggled", is_on)
 	pass

@@ -19,6 +19,7 @@ func _ready():
 		tiles.push_back(tile)
 		add_child(tile)
 		tile.target_cell = Vector2(0, height-i-1)
+		tile.set_pos(tile.compute_target())
 		tile.set_color(get_node("/root/global").possible_colors[randi()%4])
 	
 	pass
@@ -37,9 +38,10 @@ func shift():
 	var color = get_node("/root/global").possible_colors[randi()%4]
 	var tile = load("tile.scn").instance()
 	tile.target_cell = Vector2(0, 0)
+	
 	add_child(tile)
 	tiles[tiles.size()-1] = tile
 	tile.set_color(color)
+	tile.set_pos(tile.compute_target())
 	
 	return out
-	pass

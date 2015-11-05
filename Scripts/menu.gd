@@ -22,7 +22,7 @@ func _ready():
 	
 	get_node("background").set_process_input(false)
 	get_node("background").offset = 0
-	get_node("background/Polygon").set_color(Color(0.6, 0.6, 0.6, 0.6))
+	get_node("background/Polygon").set_color(Color(0.3, 0.3, 0.3, 0.8))
 	pass
 
 func _process(delta):
@@ -39,7 +39,7 @@ func _input(event):
 		return
 	
 	if event.is_action_pressed("ui_cancel") and not event.is_echo():
-		var game = get_node("grid")
+		var game = get_node("game")
 		if active_menu == get_node("main_menu") and not game == null and not game.died:
 			unpause()
 			return
@@ -125,7 +125,10 @@ func credits_menu_back():
 	selector.set_target(-get_node("main_menu/credits").get_position_in_parent())
 	pass
 
-func pause():
+# Will un-hide all main menu items
+func pause(var message = "paused"):
+	set_active_menu(get_node("main_menu"))
+	selector.show()
 	pass
 
 func unpause():
@@ -167,9 +170,3 @@ func set_options():
 func get_selected():
 	var object = active_menu.get_child(-selector.target)
 	return object.get_text()
-
-# Will un-hide all main menu items
-func game_over(var message):
-	set_active_menu(get_node("main_menu"))
-	selector.show()
-	pass

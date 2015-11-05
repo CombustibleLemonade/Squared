@@ -1,6 +1,7 @@
 extends Node2D
 
 var global
+var selector
 
 var sprites = {} # Sprite location : Sprite object
 
@@ -12,14 +13,14 @@ var groups = [] # All groups currently in the game
 var died = false
 
 class Group:
-	#extends Node
-	
 	var color = ""
 	var member_count = 1
 	var members = []
 	var base_member
 	var game
 	
+	# Make all members that should be in this group be part of this group
+	# Furthermore, create new groups for split off parts
 	func expand():
 		var unchecked_members = {base_member.target_cell:base_member} # Members that are queued but have not yet been checked
 		var all_members = {base_member.target_cell:base_member} # All members
@@ -76,9 +77,6 @@ class Group:
 		color = base_member.color
 		expand()
 		pass
-	
-	func _sort(var a, var b):
-		return false
 
 func new_group(var base):
 	var group = Group.new(base)
@@ -87,22 +85,17 @@ func new_group(var base):
 func _ready():
 	# Initialization
 	global = get_node("/root/global")
+	selector = get_node("squares/selector")
 	
-	# Place tiles upon initialization
+	# Place tiles
 	randomize()
 	
 	for x in range (width):
 		for y in range (height):
 			var sprite = global.tile.instance()
-			add_child(sprite)
+			get_node("squares").add_child(sprite)
 			
-			var rand_color
-			if y < 4:
-				rand_color = "empty"
-			
-			rand_color = "empty"
-			
-			sprite.set_color(rand_color)
+			sprite.set_color("empty")
 			sprite.target_cell = Vector2(x, y)
 			
 			sprites[Vector2(x, y)] = sprite
@@ -113,15 +106,15 @@ func _ready():
 	set_process_input(true)
 	set_process(true)
 	
-	get_node("Incoming").set_pos(Vector2(width*32 + 64, 0))
+	get_node("Incoming").set_pos(Vector2(width*64 + 64, 8*32))
 	get_node("Score").set_margin(MARGIN_LEFT, width*32+200)
 	get_node("Score").set_margin(MARGIN_RIGHT, width*32+100)
-	
+	get_node("squares").set_focus(0)
+	get_node("squares/selector").max_y = height - 1
 	pass
 
 func _process(delta):
 	var scores = ""
-	
 	var i = 0
 	while i < groups.size():
 		if groups[i].member_count > 0:
@@ -132,37 +125,28 @@ func _process(delta):
 	
 	compute_score()
 	get_node("Score/Label").set_text(str(global.score))
-	
-	for i in sprites:
-		var s = sprites[i]
-	
 	pass
 
 func _input(ev):
 	# To handle input
-	if ev.type == InputEvent.KEY and ev.is_pressed() and not ev.echo and not get_node("DropIndicator/Timer") == null and global.is_playing:
+	if ev.type == InputEvent.KEY and ev.is_pressed() and not ev.echo and not get_node("squares/dropindicator/Timer") == null and global.is_playing:
 		# Shift rows when arrows are pressed
 		if ev.is_action("left"):
-			move_row_left(get_node("Sprite").target)
+			move_row_left(selector.target)
 		elif ev.is_action("right"):
-			move_row_right(get_node("Sprite").target)
+			move_row_right(selector.target)
 		elif ev.is_action("Next"):
-			get_node("DropIndicator")._on_Timer_timeout()
-			get_node("DropIndicator/Timer").start()
-	
-	if ev.is_action("ui_page_down"):
-		get_tree().set_pause(true)
-		#get_node("Sprite").set_size(Vector2(100, 100))
+			get_node("squares/dropindicator")._on_Timer_timeout()
+			get_node("squares/dropindicator/Timer").start()
 	
 	if ev.is_action_pressed("ui_cancel"):
 		compute_score()
-		get_parent().game_over("Your score was: " + str(global.score))
+		get_parent().pause("paused")
 		deactivate()
-	
 	pass
 
 func grid_to_screen(grid):
-	return Vector2((grid.x-width/2.0+0.5)*64, -(grid.y-4)*64)
+	return Vector2((grid.x-width/2.0+0.5)*64, -(grid.y)*64)
 	pass
 
 func get_cell(v):
@@ -173,7 +157,6 @@ func get_cell(v):
 func set_cell(v, cell):
 	sprites[v] = cell
 	sprites[v].target_cell = v
-	
 	pass
 
 func shift(s):
@@ -212,7 +195,6 @@ func move_row_right(row):
 	
 	shift(shift)
 	check_physics()
-	
 	pass
 
 func check_physics():
@@ -221,14 +203,13 @@ func check_physics():
 		for y in range (0, height):
 			sprites[Vector2(x, y)].check_physics()
 	
-	get_node("DropIndicator").check_physics()
-	
+	get_node("squares/dropindicator").check_physics()
 	pass
 
 # Computes the score and triggers game over
 func die():
 	compute_score()
-	get_parent().game_over("You died! Your score was: " + str(global.score))
+	get_parent().pause("You died! Your score was: " + str(global.score))
 	died = true
 	deactivate()
 	pass

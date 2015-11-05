@@ -16,7 +16,7 @@ var label
 func _ready():
 	# Initalization here
 	global = get_node("/root/global")
-	parent = get_parent()
+	parent = get_parent().get_parent()
 	label = get_node("Node2D/Label")
 	
 	if get_z() > 0:
@@ -35,7 +35,7 @@ func _process(delta):
 # Compute the target position to slide towards
 func compute_target():
 	if not target_cell == null:
-		return Vector2((target_cell.x-parent.width/2.0+0.5)*64, (-target_cell.y+4)*64)
+		return Vector2((target_cell.x-parent.width/2.0+0.5)*64, -target_cell.y*64)
 	return get_pos()
 	pass
 
@@ -74,20 +74,19 @@ func drop():
 func neighbors():
 	# TODO
 	var f_group = {}
-	var sprites = get_parent().sprites
+	var sprites = parent.sprites
 	
 	for i in [Vector2(0, 1), Vector2(0, -1), Vector2(1, 0), Vector2(-1,0)]:
 		if sprites.has(target_cell + i) and sprites[target_cell + i].color == color:
 			f_group[i+target_cell] = sprites[i+target_cell]
 	
 	return f_group
-	pass
 
 # Same, but with checks. Might be deleted in future
 func neighbors_check(var check_arg):
 	# TODO
 	var f_group = {}
-	var sprites = get_parent().sprites
+	var sprites = parent.sprites
 	
 	for i in [Vector2(0, 1), Vector2(0, -1), Vector2(1, 0), Vector2(-1,0)]:
 		if sprites.has(target_cell + i) and sprites[target_cell + i].color == color and sprites[target_cell + i].check == check_arg:
@@ -98,4 +97,4 @@ func neighbors_check(var check_arg):
 
 # Make a new group for this node
 func regroup():
-	group = get_parent().new_group(self)
+	group = parent.new_group(self)
