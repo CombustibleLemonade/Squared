@@ -17,6 +17,8 @@ func _ready():
 	pass
 
 func _input(event):
+	var selected = parent.get_selected()
+	
 	if global.menu_change:
 		reset_values()
 		global.menu_change = false
@@ -31,7 +33,6 @@ func _input(event):
 	if event.is_action_pressed("ui_accept"):
 		if parent.get_selected() == "accept":
 			accept()
-			exit()
 		if parent.get_selected() == "cancel":
 			exit()
 			return
@@ -44,7 +45,6 @@ func _input(event):
 		get_node("height").value -= 1
 	if event.is_action_pressed("ui_right") and parent.get_selected() == "height":
 		get_node("height").value += 1
-	
 	pass
 
 func reset_values():
@@ -55,6 +55,7 @@ func reset_values():
 func accept():
 	global.width = get_node("width").value
 	global.height = get_node("height").value
+	exit()
 	pass
 
 func exit():

@@ -5,6 +5,15 @@ export(String) var text = "" setget change_text
 export(bool) var is_on setget change_on
 
 signal toggled(is_on)
+signal focus(entry)
+
+func _input_event(event):
+	if event.type == InputEvent.MOUSE_MOTION:
+		emit_signal("focus", self)
+	
+	if event.type == InputEvent.MOUSE_BUTTON and event.pressed:
+		press()
+	pass
 
 func _ready():
 	get_node("label").set_text(text)
@@ -33,6 +42,10 @@ func toggle():
 		get_node("CenterContainer/Tile/Sprite").set_texture(load("res://Sprites/tick.png"))
 	is_on = !is_on
 	emit_signal("toggled", is_on)
+	pass
+
+func press():
+	toggle()
 	pass
 
 func get_text():

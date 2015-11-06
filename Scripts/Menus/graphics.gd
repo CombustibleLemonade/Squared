@@ -28,22 +28,15 @@ func _input(event):
 		return
 	
 	if event.is_action("ui_accept") and not event.is_echo():
-		if selected == "fullscreen":
-			get_node("fullscreen").toggle()
-		if selected == "accept":
-			accept()
-			exit()
-			return
-		if selected == "cancel":
-			exit()
-			return
-		
+		selected.press()
+	
 	pass
 
 # Will activate settings changes and exit
 func accept():
 	if not get_node("fullscreen").is_on == OS.is_window_fullscreen():
 		OS.set_window_fullscreen(get_node("fullscreen").is_on)
+	exit()
 	pass
 
 # Will exit

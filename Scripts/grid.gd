@@ -88,7 +88,6 @@ func _ready():
 	
 	# Place tiles
 	randomize()
-	
 	for x in range (game.width):
 		for y in range (game.height):
 			var sprite = global.tile.instance()
@@ -119,6 +118,7 @@ func _input(ev):
 			move_row_left(selector.target)
 		elif ev.is_action("right"):
 			move_row_right(selector.target)
+		
 		elif ev.is_action("Next"):
 			get_node("dropindicator")._on_Timer_timeout()
 			get_node("dropindicator/Timer").start()
@@ -175,6 +175,7 @@ func check_physics():
 	get_node("dropindicator").check_physics()
 	pass
 
+# Convert grid coordinates to screen coordinates
 func grid_to_screen(grid):
 	return Vector2((grid.x-game.width/2.0+0.5)*64, -(grid.y)*64)
 	pass
