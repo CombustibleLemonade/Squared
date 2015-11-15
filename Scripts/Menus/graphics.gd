@@ -21,15 +21,11 @@ func _input(event):
 	if not event.is_pressed():
 		return
 	
-	var selected = get_parent().get_selected()
+	var selected = get_parent().get_active_entry()
 	
 	if event.is_action("ui_cancel"):
 		exit()
 		return
-	
-	if event.is_action("ui_accept") and not event.is_echo():
-		selected.press()
-	
 	pass
 
 # Will activate settings changes and exit

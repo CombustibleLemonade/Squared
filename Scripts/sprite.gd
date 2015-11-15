@@ -13,7 +13,6 @@ var is_falling
 var check = false
 var group
 
-
 func _ready():
 	# Initalization here
 	global = get_node("/root/global")
@@ -23,8 +22,6 @@ func _ready():
 	
 	if get_z() > 0:
 		print(get_z())
-	
-	set_process(true)
 	pass
 
 func _process(delta):
@@ -44,6 +41,9 @@ func compute_target():
 func set_color(c):
 	color = c
 	get_node("Sprite").set_modulate(global.colors[c])
+	pass
+
+func set_mutation(m):
 	pass
 
 func check_physics():

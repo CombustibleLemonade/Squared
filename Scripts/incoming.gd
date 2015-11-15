@@ -16,12 +16,14 @@ func _ready():
 	# Add the initial random tiles to the incoming list
 	for i in range (0, height):
 		var tile = load("tile.scn").instance()
+		
 		tiles.push_back(tile)
 		add_child(tile)
+		
+		tile.set_process(true)
 		tile.target_cell = Vector2(0, height-i-1)
 		tile.set_pos(tile.compute_target())
 		tile.set_color(get_node("/root/global").possible_colors[randi()%4])
-	
 	pass
 
 func shift():
@@ -40,8 +42,9 @@ func shift():
 	tile.target_cell = Vector2(0, 0)
 	
 	add_child(tile)
+	
+	tile.set_process(true)
 	tiles[tiles.size()-1] = tile
 	tile.set_color(color)
 	tile.set_pos(tile.compute_target())
-	
 	return out

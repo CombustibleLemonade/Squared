@@ -17,7 +17,7 @@ func _ready():
 	pass
 
 func _input(event):
-	var selected = parent.get_selected()
+	var selected = parent.get_active_entry()
 	
 	if global.menu_change:
 		reset_values()

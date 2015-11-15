@@ -35,8 +35,7 @@ func _process(delta):
 		else:
 			grid.groups.remove(i)
 	
-	compute_score()
-	get_node("Score/Label").set_text(str(global.score))
+	get_node("Score/Label").set_text(str(compute_score()))
 	pass
 
 # Computes the score and triggers game over
@@ -58,6 +57,5 @@ func compute_score():
 	var score = 0
 	for i in get_node("grid").groups:
 		score += i.member_count*(i.member_count+1)/2
-	global.score = score
 	return score
  

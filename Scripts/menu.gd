@@ -62,6 +62,9 @@ func start_game():
 	if has_node("game"): # remove the previous game
 		get_node("game").free()
 	
+	if has_node("squares"):
+		get_node("squares").free()
+	
 	get_tree().set_pause(false) # unpause the game
 	
 	var game = preload("../Scenes/Game/game.scn").instance()
@@ -154,6 +157,11 @@ func set_active_entry(var entry):
 	get_node("selector").set_target(-entry.get_position_in_parent())
 	pass
 
+func get_active_entry():
+	var object = active_menu.get_child(-selector.target)
+	return object
+	pass
+
 # Will position the selector to the right location for the amount of options
 func set_options():
 	var amount_of_options = active_menu.get_child_count() - 2 # Correct for 3 nodes added because it's the main node
@@ -162,11 +170,4 @@ func set_options():
 	selector.offset = (amount_of_options - 1)/2.0
 	
 	get_node("background").set_size(Vector2(64*7 + background_offset, amount_of_options*64 + background_offset))
-	pass
-
-func get_selected(ev = null):
-	if ev == null:
-		var object = active_menu.get_child(-selector.target)
-		return object.get_text()
-	
 	pass

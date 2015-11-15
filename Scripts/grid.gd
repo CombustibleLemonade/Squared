@@ -95,6 +95,7 @@ func _ready():
 			
 			sprite.set_color("empty")
 			sprite.target_cell = Vector2(x, y)
+			sprite.set_process(true)
 			
 			sprites[Vector2(x, y)] = sprite
 	
