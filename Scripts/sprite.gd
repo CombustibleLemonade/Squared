@@ -13,15 +13,16 @@ var is_falling
 var check = false
 var group
 
-func _ready():
+func _ready(var mutation = null):
 	# Initalization here
 	global = get_node("/root/global")
 	parent = get_parent()
 	game = get_parent().get_parent()
 	label = get_node("Node2D/Label")
 	
-	if get_z() > 0:
-		print(get_z())
+	if not mutation == null:
+		set_mutation(mutation)
+	
 	pass
 
 func _process(delta):
@@ -44,6 +45,7 @@ func set_color(c):
 	pass
 
 func set_mutation(m):
+	set_color(m.color)
 	pass
 
 func check_physics():

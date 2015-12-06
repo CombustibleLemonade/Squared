@@ -10,17 +10,19 @@ var shapes = []
 var colors = {
 	"empty":Color(0.0, 0.0, 0.0, 0.0),
 	"red":Color(0.8,0.2,0.1),
-	"green":Color(0,0.8,0.1), 
+	"green":Color(0,0.7,0.2), 
 	"blue":Color(0.0,0.4,0.8),
-	"yellow":Color(0.7, 0.7, 0.0),
+	"yellow":Color(0.8, 0.7, 0.0),
 	"custom":null}
 
 class mutation:
-	var color_name = ""
-	var color = Color()
+	var color = "" # Name of the color
 	var shape = preload("res://Sprites/Squares/circle.png")
+	func _ready():
+		pass
 
-var color_sets = []
+var mutation_sets = []
+var default_mutation_set = []
 
 var menu
 var is_playing = false # Variable that tracks if we are playing a game
@@ -54,13 +56,13 @@ func _ready():
 	pass
 
 func create_default_color_set():
-	var default = [
+	default_mutation_set = [
 		Color(0.8,0.2,0.1),
 		Color(0,0.8,0.1), 
 		Color(0.0,0.4,0.8),
 		Color(0.7, 0.7, 0.0)]
 	
-	color_sets.push_back(default)
+	mutation_sets.push_back(default_mutation_set)
 	pass
 
 func go_to(var from, var to, var delta):

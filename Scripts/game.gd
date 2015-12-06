@@ -9,6 +9,7 @@ export(int) var width # Amount of columns 	-- x
 export(int) var height # Amount of rows 	-- y
 
 var died = false # Have we died yet?
+var mutation_set
 
 func _ready():
 	# Initialization

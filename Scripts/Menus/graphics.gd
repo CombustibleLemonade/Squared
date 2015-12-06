@@ -21,8 +21,6 @@ func _input(event):
 	if not event.is_pressed():
 		return
 	
-	var selected = get_parent().get_active_entry()
-	
 	if event.is_action("ui_cancel"):
 		exit()
 		return

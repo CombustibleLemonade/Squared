@@ -31,19 +31,19 @@ func _input(event):
 		return
 	
 	if event.is_action_pressed("ui_accept"):
-		if parent.get_selected() == "accept":
+		if parent.get_active_entry().get_name() == "accept":
 			accept()
-		if parent.get_selected() == "cancel":
+		if parent.get_active_entry().get_name() == "cancel":
 			exit()
 			return
 	
-	if event.is_action_pressed("ui_left") and parent.get_selected() == "width":
+	if event.is_action_pressed("ui_left") and parent.get_active_entry().get_name() == "width":
 		get_node("width").value -= 1
-	if event.is_action_pressed("ui_right") and parent.get_selected() == "width":
+	if event.is_action_pressed("ui_right") and parent.get_active_entry().get_name() == "width":
 		get_node("width").value += 1
-	if event.is_action_pressed("ui_left") and parent.get_selected() == "height":
+	if event.is_action_pressed("ui_left") and parent.get_active_entry().get_name() == "height":
 		get_node("height").value -= 1
-	if event.is_action_pressed("ui_right") and parent.get_selected() == "height":
+	if event.is_action_pressed("ui_right") and parent.get_active_entry().get_name() == "height":
 		get_node("height").value += 1
 	pass
 
