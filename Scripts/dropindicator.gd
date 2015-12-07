@@ -85,7 +85,7 @@ func _on_Timer_timeout():
 	pass
 
 func set_color(c):
-	c[3] = 0.3
+	c[3] = 0.5
 	get_node("Arrow").set_modulate(c)
 	pass
 

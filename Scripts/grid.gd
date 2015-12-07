@@ -66,7 +66,6 @@ class Group:
 		if a.target_cell.y == b.target_cell.y and a.target_cell.x < b.target_cell.x:
 			return true
 		return false
-		pass
 	
 	func _init(var base):
 		base_member = base
@@ -74,7 +73,6 @@ class Group:
 		game.groups.push_back(self) # Add ourselves to the groups
 		color = base_member.color
 		expand()
-		pass
 
 func new_group(var base):
 	var group = Group.new(base)
@@ -104,12 +102,15 @@ func _ready():
 	
 	set_process(true)
 	set_process_input(true)
-	pass
+	
+	# Set the size indicator
+	get_node("size_indicator").set_size(Vector2(game.width, game.height - 1) * 64 + Vector2(8, 8))
+	get_node("size_indicator").set_process(false)
+	get_node("size_indicator").set_pos(Vector2(0, -32 * (game.height - 2)))
 
 func _process(delta):
 	var target_pos = compute_target_pos()
 	set_pos(global.go_to(target_pos, get_pos(), delta))
-	pass
 
 func _input(ev):
 	# To handle input
@@ -127,7 +128,6 @@ func _input(ev):
 	if ev.is_action_pressed("ui_cancel"):
 		game.compute_score()
 		game.deactivate()
-	pass
 
 func move_row_left(row):
 	# Will move selected row one element to the left
@@ -137,8 +137,6 @@ func move_row_left(row):
 	
 	shift(shift)
 	check_physics()
-	
-	pass
 
 func move_row_right(row):
 	# Will move selected row one element to the right 
@@ -149,7 +147,6 @@ func move_row_right(row):
 	
 	shift(shift)
 	check_physics()
-	pass
 
 # Will shift all tiles in s to the next, and the last to the first.
 func shift(s):
@@ -164,8 +161,6 @@ func shift(s):
 	for i in s:
 		if not sprites[i].group == null:
 			sprites[i].group.expand()
-	
-	pass
 
 func check_physics():
 	# checks physics of all sprites, from top to bottom
@@ -174,26 +169,21 @@ func check_physics():
 			sprites[Vector2(x, y)].check_physics()
 	
 	get_node("dropindicator").check_physics()
-	pass
 
 # Convert grid coordinates to screen coordinates
 func grid_to_screen(grid):
 	return Vector2((grid.x-game.width/2.0+0.5)*64, -(grid.y)*64)
-	pass
 
 func get_cell(v):
 	if v.x < game.width and v.y < game.height and v.x >= 0 and v.y >= 0:
 		return sprites[v]
-	pass
 
 func set_cell(v, cell):
 	sprites[v] = cell
 	sprites[v].target_cell = v
-	pass
 
 func set_target_y(y):
 	target_y = y
-	pass
 
 # Gives the target position to move to
 func compute_target_pos():
@@ -201,7 +191,6 @@ func compute_target_pos():
 
 func set_focus(height):
 	set_target_y(height+4)
-	pass
 
 func get_focus():
 	return target_y-4

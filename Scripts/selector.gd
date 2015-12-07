@@ -3,7 +3,7 @@ extends Node2D
 var target = 0
 
 var min_y = 0
-var max_y = 8
+var max_y = 7
 
 var offset = 0
 

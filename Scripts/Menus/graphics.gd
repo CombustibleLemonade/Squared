@@ -6,7 +6,6 @@ func _ready():
 	global = get_node("/root/global")
 	
 	get_node("fullscreen").is_on = OS.is_video_mode_fullscreen()
-	pass
 
 func _input(event):
 	# prevent double presses
@@ -24,7 +23,6 @@ func _input(event):
 	if event.is_action("ui_cancel"):
 		exit()
 		return
-	pass
 
 # Will activate settings changes and exit
 func accept():
@@ -37,4 +35,3 @@ func accept():
 func exit():
 	get_parent().set_active_menu(get_parent().get_node("options_menu"))
 	global.menu_change = true
-	pass

@@ -10,6 +10,12 @@ var right_top = right_top()
 var right_bottom = right_bottom()
 var left_bottom = left_bottom()
 
+func set_arrays():
+	left_top = left_top()
+	right_top = right_top()
+	right_bottom = right_bottom()
+	left_bottom = left_bottom()
+
 func left_top():
 	var return_val = []
 	for i in range(0, resolution):

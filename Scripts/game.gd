@@ -23,7 +23,7 @@ func _ready():
 	get_node("Score").set_margin(MARGIN_LEFT, width*32+200)
 	get_node("Score").set_margin(MARGIN_RIGHT, width*32+100)
 	grid.set_focus(0)
-	grid.get_node("selector").max_y = height - 1
+	grid.get_node("selector").max_y = height - 2
 	pass
 
 func _process(delta):
