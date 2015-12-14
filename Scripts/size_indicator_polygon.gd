@@ -54,4 +54,5 @@ func set_size(var size):
 	
 	rectangle_size = size
 	update()
-	pass
+	
+	get_parent().set_active(false)

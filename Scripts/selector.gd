@@ -16,20 +16,15 @@ func move(dy):
 		target = min_y
 	elif target > max_y:
 		target = max_y
-	
-	pass
 
 # Will move to an absolute position
 func set_target(var y):
 	target = y
 	move(0)
-	pass
  
 func _ready():
-	set_process(true)
-	set_process_input(true)
+	set_active(true)
 	set_size(Vector2(64*get_node("/root/global").width, 64))
-	pass
 
 func _input(ev):
 	# Move up and down
@@ -37,21 +32,22 @@ func _input(ev):
 	if ev.type == InputEvent.KEY and ev.is_pressed() and not ev.echo:
 		if ev.is_action("up"):
 			move(1)
-			if target - parent.get_focus() > 8:
-				parent.set_focus(target-8)
+			if target - parent.get_focus() > 6:
+				parent.set_focus(target-6)
 		elif ev.is_action("down"):
 			move(-1)
 			if target - parent.get_focus() < 0:
 				parent.set_focus(target)
-	pass
 
 func _process(delta):
 	# Will make the selector move to the target position
 	var target_vec = Vector2(0, -64*(target + offset))
 	set_pos(get_node("/root/global").go_to(target_vec, get_pos(), delta))
-	pass
 
 # Will set the size of the polygon, with rounded corners
 func set_size(var size):
 	get_node("Polygon").set_size(size)
-	pass
+
+func set_active(var is_active):
+	set_process(is_active)
+	set_process_input(is_active)
