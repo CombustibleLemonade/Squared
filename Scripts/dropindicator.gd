@@ -27,7 +27,7 @@ func _ready():
 	
 	add_child(next)
 	next.set_process(false)
-	next.set_color(get_node("/root/global").possible_colors[randi()%4])
+	next.set_mutation(get_node("/root/global").default_mutation_set[randi()%4])
 	set_color(global.colors[next.color])
 	pass
 
@@ -51,7 +51,7 @@ func _on_Timer_timeout():
 	
 	# Send the next block to the right location
 	var target = parent.get_cell(target_cell)
-	target.set_color(next.color)
+	target.set_mutation(next.mutation)
 	target.set_pos(next.get_pos()+target.compute_target())
 	target.set_rot(fposmod(next.get_rot(), PI/2))
 	
@@ -61,6 +61,7 @@ func _on_Timer_timeout():
 	
 	# Now load the next next block from the incoming list
 	next = get_node("../../incoming").shift()
+	
 	# And add it to ourselves
 	add_child(next)
 	next.set_process(false)
@@ -81,8 +82,6 @@ func _on_Timer_timeout():
 	
 	if not grouped:
 		target.regroup()
-	
-	pass
 
 func set_color(c):
 	c[3] = 0.5

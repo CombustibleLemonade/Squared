@@ -5,6 +5,7 @@ var parent
 var label
 
 var color
+var mutation
 
 var target_cell = Vector2(0, 0)
 var target_rotation = 0
@@ -13,17 +14,15 @@ var is_falling
 var check = false
 var group
 
-func _ready(var mutation = null):
+func _ready(var m = null):
 	# Initalization here
 	global = get_node("/root/global")
 	parent = get_parent()
 	game = get_parent().get_parent()
 	label = get_node("Node2D/Label")
 	
-	if not mutation == null:
+	if not m == null:
 		set_mutation(mutation)
-	
-	pass
 
 func _process(delta):
 	# Smoothly glide to our target transform
@@ -44,9 +43,14 @@ func set_color(c):
 	get_node("Sprite").set_modulate(global.colors[c])
 	pass
 
+func set_shape(sprite):
+	get_node("Sprite").set_texture(sprite)
+
 func set_mutation(m):
-	set_color(m.color)
-	pass
+	mutation = m
+	
+	set_color(m.color_name)
+	set_shape(m.shape)
 
 func check_physics():
 	if color == "empty":
@@ -71,8 +75,6 @@ func drop():
 	# Drop a cell to its proper height
 	var s = [target_cell, target_cell - Vector2(0, 1)]
 	parent.shift(s)
-	
-	pass
 
 # Gives all neighbors of the same color
 func neighbors():
@@ -97,7 +99,6 @@ func neighbors_check(var check_arg):
 			f_group[i+target_cell] = sprites[i+target_cell]
 	
 	return f_group
-	pass
 
 # Make a new group for this node
 func regroup():

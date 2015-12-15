@@ -23,7 +23,7 @@ func set_size(var size):
 		polygon.push_back(i - size/2)
 	
 	# Adding final connection: keep in mind set_polygon goes crazy when two points have the same coordinates
-	var point1 = Vector2(-size.x, size.y)/2.0 - Vector2(0,  offset + 0.1)
+	var point1 = Vector2(-size.x, size.y)/2.0 - Vector2(0,  offset + 0.01)
 	
 	offset -= thickness
 	size -= Vector2(thickness, thickness) * 2
@@ -34,7 +34,7 @@ func set_size(var size):
 	left_bottom.invert()
 	right_bottom.invert()
 	
-	var point2 = Vector2(-size.x, size.y)/2.0 - Vector2(0,  offset + 0.1)
+	var point2 = Vector2(-size.x, size.y)/2.0 - Vector2(0,  offset + 0.01)
 	polygon.push_back(point1)
 	polygon.push_back(point2)
 	

@@ -16,10 +16,9 @@ var colors = {
 	"custom":null}
 
 class mutation:
-	var color = "" # Name of the color
+	var color_name = "" # Name of the color
 	var shape = preload("res://Sprites/Squares/circle.png")
-	func _ready():
-		pass
+
 
 var mutation_sets = []
 var default_mutation_set = []
@@ -53,17 +52,25 @@ func _ready():
 		shapes.push_back(load("Sprites/Squares/" + s))
 	
 	create_default_color_set()
-	pass
 
 func create_default_color_set():
 	default_mutation_set = [
-		Color(0.8,0.2,0.1),
-		Color(0,0.8,0.1), 
-		Color(0.0,0.4,0.8),
-		Color(0.7, 0.7, 0.0)]
+		mutation.new(), 
+		mutation.new(), 
+		mutation.new(),
+		mutation.new()]
+	
+	default_mutation_set[0].color_name = "red"
+	default_mutation_set[1].color_name = "green"
+	default_mutation_set[2].color_name = "blue"
+	default_mutation_set[3].color_name = "yellow"
+	
+	default_mutation_set[0].shape = preload("res://Sprites/Squares/square.png")
+	default_mutation_set[1].shape = preload("res://Sprites/Squares/circle.png")
+	default_mutation_set[2].shape = preload("res://Sprites/Squares/star.png")
+	default_mutation_set[3].shape = preload("res://Sprites/Squares/triangle.png")
 	
 	mutation_sets.push_back(default_mutation_set)
-	pass
 
 func go_to(var from, var to, var delta):
 	return from + (to - from) * pow(0.5, delta*50)

@@ -23,7 +23,7 @@ func _ready():
 		tile.set_process(true)
 		tile.target_cell = Vector2(0, height-i-1)
 		tile.set_pos(tile.compute_target())
-		tile.set_color(get_node("/root/global").possible_colors[randi()%4])
+		tile.set_mutation(get_node("/root/global").default_mutation_set[randi()%4])
 	pass
 
 func shift():
@@ -45,6 +45,6 @@ func shift():
 	
 	tile.set_process(true)
 	tiles[tiles.size()-1] = tile
-	tile.set_color(color)
+	tile.set_mutation(get_node("/root/global").default_mutation_set[randi()%4])
 	tile.set_pos(tile.compute_target())
 	return out

@@ -23,16 +23,16 @@ func _ready():
 	get_node("background").set_process_input(false)
 	get_node("background").offset = 0
 	get_node("background/Polygon").set_color(Color(0.3, 0.3, 0.3, 0.8))
-	pass
 
 func _process(delta):
 	set_pos(OS.get_video_mode_size()/2)
 	var scale = OS.get_video_mode_size().y/600
 	set_scale(Vector2(scale, scale))
-	pass
 
 # Handles input events
 func _input(event):
+	get_active_entry()._input_event(event)
+	
 	# Prevent double-pressing buttons
 	if global.menu_change:
 		global.menu_change = false
@@ -55,7 +55,6 @@ func _input(event):
 		selector.move(1)
 	if event.is_action_pressed("ui_down"):
 		selector.move(-1)
-	pass
 
 # Will hide the menu and start the game
 func start_game():
@@ -73,16 +72,16 @@ func start_game():
 	add_child(game)
 	
 	unpause()
-	pass
+
+func activate_game_menu():
+	set_active_menu(get_node("game_menu"))
 
 func activate_options_menu():
 	set_active_menu(get_node("options_menu"))
-	pass
 
 func options_menu_back():
 	set_active_menu(get_node("main_menu"))
 	selector.set_target(-get_node("main_menu/options").get_position_in_parent())
-	pass
 
 func activate_credits_menu():
 	set_active_menu(get_node("credits_menu"))
@@ -90,30 +89,24 @@ func activate_credits_menu():
 
 func store_page():
 	OS.shell_open("http://combustible-lemonade.itch.io/squared")
-	pass
 
 func artist():
 	OS.shell_open("https://soundcloud.com/unfa")
-	pass
 
 func font():
 	OS.shell_open("http://www.dafont.com/accuratist.font")
-	pass
 
 func credits_menu_back():
 	set_active_menu(get_node("main_menu"))
 	selector.set_target(-get_node("main_menu/credits").get_position_in_parent())
-	pass
 
 func activate_graphics_menu():
 	set_active_menu(get_node("graphics_menu"))
 	global.menu_change = true # The script to handle input changes
-	pass
 
 func activate_gameplay_menu():
 	set_active_menu(get_node("gameplay_menu"))
 	global.menu_change = true # The script to handle input changes
-	pass
 
 func quit():
 	get_tree().quit()
@@ -123,7 +116,6 @@ func pause(var message = "paused"):
 	set_active_menu(get_node("main_menu"))
 	selector.show()
 	global.is_playing = false # We're not playing anymore
-	pass
 
 # Will hide all main menu items and resume playing
 func unpause():
@@ -134,7 +126,6 @@ func unpause():
 	
 	set_process_input(false)
 	global.is_playing = true
-	pass
 
 # Sets the active menu
 func set_active_menu(var menu):
@@ -151,16 +142,13 @@ func set_active_menu(var menu):
 	set_options()
 	selector.set_target(0)
 	set_process_input(true)
-	pass
 
 func set_active_entry(var entry):
 	get_node("selector").set_target(-entry.get_position_in_parent())
-	pass
 
 func get_active_entry():
 	var object = active_menu.get_child(-selector.target)
 	return object
-	pass
 
 # Will position the selector to the right location for the amount of options
 func set_options():
@@ -170,4 +158,3 @@ func set_options():
 	selector.offset = (amount_of_options - 1)/2.0
 	
 	get_node("background").set_size(Vector2(64*7 + background_offset, amount_of_options*64 + background_offset))
-	pass

@@ -9,7 +9,6 @@ var offset = 0
 
 # Will move (Positive is up, negative is down)
 func move(dy):
-
 	target += dy
 	
 	if target < min_y:

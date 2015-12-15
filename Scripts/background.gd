@@ -21,8 +21,7 @@ func add_row(range_arg, y):
 		
 		add_child(s)
 		
-		s.set_color(global.possible_colors[randi() % global.possible_colors.size()])
-		s.get_node("Sprite").set_texture(global.shapes[randi() % global.shapes.size()])
+		s.set_mutation(global.default_mutation_set[randi() % global.default_mutation_set.size()])
 		
 		set_square(s)
 		s.set_process(false)
