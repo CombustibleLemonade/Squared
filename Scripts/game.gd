@@ -24,7 +24,6 @@ func _ready():
 	get_node("Score").set_margin(MARGIN_RIGHT, width*32+100)
 	grid.set_focus(0)
 	grid.get_node("selector").max_y = height - 2
-	pass
 
 func _process(delta):
 	var scores = ""
@@ -37,21 +36,19 @@ func _process(delta):
 			grid.groups.remove(i)
 	
 	get_node("Score/Label").set_text(str(compute_score()))
-	pass
 
 # Computes the score and triggers game over
 func die():
-	compute_score()
+	var score = compute_score()
+	save_score(score, 0)
 	died = true
 	deactivate()
-	pass
 
 # Will pause the game in the background, and display the main menu in the foreground
 func deactivate():
 	get_tree().set_pause(true)
 	set_pause_mode(1)
 	get_parent().pause()
-	pass
 
 # Computes the score
 func compute_score():
@@ -59,4 +56,21 @@ func compute_score():
 	for i in get_node("grid").groups:
 		score += i.member_count*(i.member_count+1)/2
 	return score
- 
+
+# Saves the score to the filesystem
+func save_score(s, c):
+	var score = File.new()
+	
+	var file_content
+	if score.file_exists("user://savegame.save"):
+		score.open("user://savegame.save", File.READ)
+		file_content = score.get_var()
+		file_content.push_back(s)
+		file_content.sort()
+		score.close()
+	
+	score.open("user://savegame.save", File.WRITE)
+	score.store_var([])
+	score.close()
+	
+	print(file_content)

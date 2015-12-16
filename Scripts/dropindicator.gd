@@ -1,7 +1,6 @@
 extends Node2D
 
 # Indicates where the next block is going to fall, and what color it will have
-
 var target_cell = Vector2(0, 0)
 var next
 
@@ -29,7 +28,6 @@ func _ready():
 	next.set_process(false)
 	next.set_mutation(get_node("/root/global").default_mutation_set[randi()%4])
 	set_color(global.colors[next.color])
-	pass
 
 func _process(delta):
 	var target = parent.grid_to_screen(target_cell)
@@ -41,7 +39,6 @@ func _process(delta):
 	
 	next.set_pos(Vector2(0, -get_node("Timer").get_time_left() * 50000)/(1000 - get_pos().y))
 	next.set_rot(get_node("Timer").get_time_left())
-	pass
 
 # Places a block at the indicated location
 func _on_Timer_timeout():
@@ -84,9 +81,7 @@ func _on_Timer_timeout():
 		target.regroup()
 
 func set_color(c):
-	c[3] = 0.5
 	get_node("Arrow").set_modulate(c)
-	pass
 
 func check_physics():
 	# Checks if the indicator is pointing to the right block
@@ -107,4 +102,3 @@ func check_physics():
 	if cell.color == "empty":
 		target_cell -= Vector2(0, 1)
 		check_physics()
-	pass

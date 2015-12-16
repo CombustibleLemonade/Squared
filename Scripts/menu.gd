@@ -108,6 +108,7 @@ func activate_gameplay_menu():
 	set_active_menu(get_node("gameplay_menu"))
 	global.menu_change = true # The script to handle input changes
 
+# quits the game
 func quit():
 	get_tree().quit()
 
