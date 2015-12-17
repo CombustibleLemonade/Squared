@@ -46,6 +46,6 @@ func set_x_pos(pos):
 		x_pos = max_x_pos
 	get_node("container/square").set_pos(Vector2(x_pos, 0))
 
-# TODO
+# returns value in range [0, 1]
 func get_value():
-	return 0
+	return ( x_pos - min_x_pos ) / ( max_x_pos - min_x_pos + 0.0 )

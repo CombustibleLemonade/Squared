@@ -9,7 +9,9 @@ export(int) var width # Amount of columns 	-- x
 export(int) var height # Amount of rows 	-- y
 
 var died = false # Have we died yet?
-var mutation_set
+
+var mutation_set # Set of square color-shapes
+var configuration
 
 func _ready():
 	# Initialization
@@ -24,6 +26,14 @@ func _ready():
 	get_node("Score").set_margin(MARGIN_RIGHT, width*32+100)
 	grid.set_focus(0)
 	grid.get_node("selector").max_y = height - 2
+	
+	reset_scores_of_config(0)
+	
+	configuration = preload("global.gd").Configuration.new()
+	configuration.width = width
+	configuration.height = height
+	
+	print(get_scores_of_config(configuration))
 
 func _process(delta):
 	var scores = ""
@@ -40,7 +50,8 @@ func _process(delta):
 # Computes the score and triggers game over
 func die():
 	var score = compute_score()
-	save_score(score, 0)
+	save_score(score, configuration)
+	
 	died = true
 	deactivate()
 
@@ -60,17 +71,88 @@ func compute_score():
 # Saves the score to the filesystem
 func save_score(s, c):
 	var score = File.new()
+	var scoreconfig = inst2dict(c)
+	var file_content = {}
 	
+	if score.file_exists("user://savegame.save"):
+		score.open("user://savegame.save", File.READ)
+		file_content = score.get_var()
+		
+		if typeof(file_content) == typeof([]):
+			file_content = {scoreconfig : [s]}
+			score.store_var(file_content)
+			return
+		
+		if file_content.has(scoreconfig):
+			file_content[scoreconfig].push_back(scoreconfig)
+		else:
+			file_content[scoreconfig] = [s]
+		score.close()
+	
+	score.open("user://savegame.save", File.WRITE)
+	score.store_var(file_content)
+	score.close()
+
+# Returns all scores of configuration c
+func get_scores_of_config(c):
+	var score = File.new()
 	var file_content
 	if score.file_exists("user://savegame.save"):
 		score.open("user://savegame.save", File.READ)
 		file_content = score.get_var()
-		file_content.push_back(s)
-		file_content.sort()
+		
+		var keys = file_content.keys()
+		var values = []
+		for i in keys:
+			if str(i) == str(inst2dict( c )):
+				values.push_back(file_content[i])
+		
+		return values
+	else:
+		return []
+
+# Gets all configurations that have been played
+func get_played_configs():
+	var score = File.new()
+	var file_content = {}
+	if score.file_exists("user://savegame.save"):
+		score.open("user://savegame.save", File.READ)
+		file_content = score.get_var()
 		score.close()
-	
-	score.open("user://savegame.save", File.WRITE)
-	score.store_var([])
-	score.close()
-	
-	print(file_content)
+		
+		file_content = file_content.keys()
+		
+		var played_config_dict = {}
+		
+		for i in range(0, file_content.size()):
+			var element = file_content[i]
+			played_config_dict[element] = dict2inst(element)
+		
+		file_content = played_config_dict.keys()
+		
+		return file_content
+	else:
+		return []
+
+# Deletes all scores of configuration c
+func reset_scores_of_config(c):
+	var score = File.new()
+	var file_content = {}
+	if score.file_exists("user://savegame.save"):
+		score.open("user://savegame.save", File.READ)
+		file_content = score.get_var()
+		file_content.erase(c)
+		score.close()
+		
+		score.open("user://savegame.save", File.WRITE)
+		score.store_var(file_content)
+		score.close()
+
+# Deletes all scores
+func reset_scores():
+	var score = File.new()
+	var file_content = {}
+	if score.file_exists("user://savegame.save"):
+		score.open("user://savegame.save", File.WRITE)
+		score.store_var({})
+		score.close()

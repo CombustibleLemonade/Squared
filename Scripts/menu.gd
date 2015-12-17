@@ -31,7 +31,8 @@ func _process(delta):
 
 # Handles input events
 func _input(event):
-	get_active_entry()._input_event(event)
+	if event.type == InputEvent.KEY:
+		get_active_entry()._input_event(event)
 	
 	# Prevent double-pressing buttons
 	if global.menu_change:

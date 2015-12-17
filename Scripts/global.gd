@@ -15,10 +15,9 @@ var colors = {
 	"yellow":Color(0.8, 0.7, 0.0),
 	"custom":null}
 
-class mutation:
+class Mutation:
 	var color_name = "" # Name of the color
 	var shape = preload("res://Sprites/Squares/circle.png")
-
 
 var mutation_sets = []
 var default_mutation_set = []
@@ -27,8 +26,17 @@ var menu
 var is_playing = false # Variable that tracks if we are playing a game
 var menu_change = false # Has the menu changed before? (used to prevent double presses)
 
+class Configuration:
+	var width = 7
+	var height = 9
+	
+	var mutation_count = 4
+
+var used_configs = {}
+
 var width = 7 # Default width of grid
-var height = 9 # Default height of grid
+var height = 1 # Default height of grid
+
 var drop_time = 4 # Amount of time it takes for one sprite to be dropped
 
 # Returns all file names in a certain folder
@@ -55,10 +63,10 @@ func _ready():
 
 func create_default_color_set():
 	default_mutation_set = [
-		mutation.new(), 
-		mutation.new(), 
-		mutation.new(),
-		mutation.new()]
+		Mutation.new(), 
+		Mutation.new(), 
+		Mutation.new(),
+		Mutation.new()]
 	
 	default_mutation_set[0].color_name = "red"
 	default_mutation_set[1].color_name = "green"

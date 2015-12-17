@@ -162,8 +162,8 @@ func shift(s):
 		if not sprites[i].group == null:
 			sprites[i].group.expand()
 
+# checks physics of all sprites, from top to bottom
 func check_physics():
-	# checks physics of all sprites, from top to bottom
 	for x in range(0, game.width):
 		for y in range (0, game.height):
 			sprites[Vector2(x, y)].check_physics()
@@ -174,14 +174,17 @@ func check_physics():
 func grid_to_screen(grid):
 	return Vector2((grid.x-game.width/2.0+0.5)*64, -(grid.y)*64)
 
+# Returns the square at position v
 func get_cell(v):
 	if v.x < game.width and v.y < game.height and v.x >= 0 and v.y >= 0:
 		return sprites[v]
 
+# Sets the square at position v
 func set_cell(v, cell):
 	sprites[v] = cell
 	sprites[v].target_cell = v
 
+# Sets the vertical position the grid will slide to
 func set_target_y(y):
 	target_y = y
 
@@ -189,6 +192,7 @@ func set_target_y(y):
 func compute_target_pos():
 	return Vector2(0, target_y * 64)
 
+# Sets the focus point the grid will slide to
 func set_focus(height):
 	set_target_y(height+4)
 
