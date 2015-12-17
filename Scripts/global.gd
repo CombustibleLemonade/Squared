@@ -35,7 +35,7 @@ class Configuration:
 var used_configs = {}
 
 var width = 7 # Default width of grid
-var height = 1 # Default height of grid
+var height = 9 # Default height of grid
 
 var drop_time = 4 # Amount of time it takes for one sprite to be dropped
 
@@ -82,3 +82,68 @@ func create_default_color_set():
 
 func go_to(var from, var to, var delta):
 	return from + (to - from) * pow(0.5, delta*50)
+
+# Returns all scores of configuration c
+func get_scores_of_config(c):
+	var score = File.new()
+	var file_content
+	if score.file_exists("user://savegame.save"):
+		score.open("user://savegame.save", File.READ)
+		file_content = score.get_var()
+		
+		var keys = file_content.keys()
+		var values = []
+		for i in keys:
+			if str(i) == str(inst2dict( c )):
+				values.push_back(file_content[i])
+		values.sort()
+		
+		return values
+	else:
+		return []
+
+# Gets all configurations that have been played
+func get_played_configs():
+	var score = File.new()
+	var file_content = {}
+	if score.file_exists("user://savegame.save"):
+		score.open("user://savegame.save", File.READ)
+		file_content = score.get_var()
+		score.close()
+		
+		file_content = file_content.keys()
+		
+		var played_config_dict = {}
+		
+		for i in range(0, file_content.size()):
+			var element = file_content[i]
+			played_config_dict[element] = dict2inst(element)
+		
+		file_content = played_config_dict.keys()
+		
+		return file_content
+	else:
+		return []
+
+# Deletes all scores of configuration c
+func reset_scores_of_config(c):
+	var score = File.new()
+	var file_content = {}
+	if score.file_exists("user://savegame.save"):
+		score.open("user://savegame.save", File.READ)
+		file_content = score.get_var()
+		file_content.erase(c)
+		score.close()
+		
+		score.open("user://savegame.save", File.WRITE)
+		score.store_var(file_content)
+		score.close()
+
+# Deletes all scores
+func reset_scores():
+	var score = File.new()
+	var file_content = {}
+	if score.file_exists("user://savegame.save"):
+		score.open("user://savegame.save", File.WRITE)
+		score.store_var({})
+		score.close()

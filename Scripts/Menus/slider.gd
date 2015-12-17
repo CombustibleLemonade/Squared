@@ -34,7 +34,7 @@ func _input_event(event):
 
 # applies the size to the size indicator
 func apply_size():
-	get_node("container").set_pos(get_size()/2 + Vector2(0, -1))
+	get_node("container").set_pos(get_size()/2 + Vector2(0, 1))
 	get_node("container").set_size(Vector2(512 - 64, 64) + 5 * Vector2(1, 1))
 
 func set_x_pos(pos):

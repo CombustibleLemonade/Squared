@@ -47,7 +47,6 @@ class Group:
 		if members.size() > 0:
 			members[0].regroup()
 		
-		
 		member_count = all_members.size()
 		members = []
 		

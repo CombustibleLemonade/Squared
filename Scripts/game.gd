@@ -27,13 +27,11 @@ func _ready():
 	grid.set_focus(0)
 	grid.get_node("selector").max_y = height - 2
 	
-	reset_scores_of_config(0)
-	
 	configuration = preload("global.gd").Configuration.new()
 	configuration.width = width
 	configuration.height = height
 	
-	print(get_scores_of_config(configuration))
+	print(global.get_scores_of_config(configuration))
 
 func _process(delta):
 	var scores = ""
@@ -93,66 +91,5 @@ func save_score(s, c):
 	score.store_var(file_content)
 	score.close()
 
-# Returns all scores of configuration c
-func get_scores_of_config(c):
-	var score = File.new()
-	var file_content
-	if score.file_exists("user://savegame.save"):
-		score.open("user://savegame.save", File.READ)
-		file_content = score.get_var()
-		
-		var keys = file_content.keys()
-		var values = []
-		for i in keys:
-			if str(i) == str(inst2dict( c )):
-				values.push_back(file_content[i])
-		
-		return values
-	else:
-		return []
 
-# Gets all configurations that have been played
-func get_played_configs():
-	var score = File.new()
-	var file_content = {}
-	if score.file_exists("user://savegame.save"):
-		score.open("user://savegame.save", File.READ)
-		file_content = score.get_var()
-		score.close()
-		
-		file_content = file_content.keys()
-		
-		var played_config_dict = {}
-		
-		for i in range(0, file_content.size()):
-			var element = file_content[i]
-			played_config_dict[element] = dict2inst(element)
-		
-		file_content = played_config_dict.keys()
-		
-		return file_content
-	else:
-		return []
 
-# Deletes all scores of configuration c
-func reset_scores_of_config(c):
-	var score = File.new()
-	var file_content = {}
-	if score.file_exists("user://savegame.save"):
-		score.open("user://savegame.save", File.READ)
-		file_content = score.get_var()
-		file_content.erase(c)
-		score.close()
-		
-		score.open("user://savegame.save", File.WRITE)
-		score.store_var(file_content)
-		score.close()
-
-# Deletes all scores
-func reset_scores():
-	var score = File.new()
-	var file_content = {}
-	if score.file_exists("user://savegame.save"):
-		score.open("user://savegame.save", File.WRITE)
-		score.store_var({})
-		score.close()
