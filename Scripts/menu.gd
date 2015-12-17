@@ -31,8 +31,9 @@ func _process(delta):
 
 # Handles input events
 func _input(event):
-	if event.type == InputEvent.KEY:
-		get_active_entry()._input_event(event)
+	var ae = get_active_entry()
+	if event.type == InputEvent.KEY and not ae == null and ae.has_method("_input_event"):
+		ae._input_event(event)
 	
 	# Prevent double-pressing buttons
 	if global.menu_change:
@@ -88,12 +89,11 @@ func activate_credits_menu():
 	set_active_menu(get_node("credits_menu"))
 	pass
 
+# These functions open links for the credits
 func store_page():
 	OS.shell_open("http://combustible-lemonade.itch.io/squared")
-
 func artist():
 	OS.shell_open("https://soundcloud.com/unfa")
-
 func font():
 	OS.shell_open("http://www.dafont.com/accuratist.font")
 
@@ -145,16 +145,18 @@ func set_active_menu(var menu):
 	selector.set_target(0)
 	set_process_input(true)
 
+# Sets the selected (active) entry in the menu
 func set_active_entry(var entry):
 	get_node("selector").set_target(-entry.get_position_in_parent())
 
+# Gets the selected (active) entry in the menu
 func get_active_entry():
 	var object = active_menu.get_child(-selector.target)
 	return object
 
 # Will position the selector to the right location for the amount of options
 func set_options():
-	var amount_of_options = active_menu.get_child_count() - 2 # Correct for 3 nodes added because it's the main node
+	var amount_of_options = global.get_horizontal_entry_count(active_menu)
 	selector.max_y = 0
 	selector.min_y = -amount_of_options + 1
 	selector.offset = (amount_of_options - 1)/2.0

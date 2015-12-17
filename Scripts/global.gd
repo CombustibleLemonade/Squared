@@ -32,28 +32,10 @@ class Configuration:
 	
 	var mutation_count = 4
 
-var used_configs = {}
-
 var width = 7 # Default width of grid
 var height = 9 # Default height of grid
 
 var drop_time = 4 # Amount of time it takes for one sprite to be dropped
-
-# Returns all file names in a certain folder
-func get_files(var folder):
-	var files = []
-	var dir = Directory.new()
-	
-	var error = dir.open("res://" + folder)
-	
-	dir.list_dir_begin()
-	
-	var file = dir.get_next()
-	while not file == "":
-		if not file.find(".png") == -1:
-			files.push_back(file)
-		file = dir.get_next()
-	return files
 
 func _ready():
 	for s in get_files("./Sprites/Squares/"):
@@ -61,6 +43,7 @@ func _ready():
 	
 	create_default_color_set()
 
+# Creates the default color set
 func create_default_color_set():
 	default_mutation_set = [
 		Mutation.new(), 
@@ -80,8 +63,45 @@ func create_default_color_set():
 	
 	mutation_sets.push_back(default_mutation_set)
 
+# TODO returns how many horizontal entries are stacked in the menu
+func get_horizontal_entry_count(menu):
+	var children = menu.get_children()
+	var size = 0 # Extra size from submenu members
+	
+	var i = 0
+	while i < children.size():
+		if not children[i].get_name().find("@") == -1:
+			children.remove(i)
+		else:
+			if children[i].get("size") == null:
+				size += 1
+			else:
+				size += children[i].size
+			i+=1
+	
+	return size # Correct for 3 nodes added because it's the main node
+
+# Sort of like lerp, except exponential
 func go_to(var from, var to, var delta):
 	return from + (to - from) * pow(0.5, delta*50)
+
+## FILE OPERATIONS ##
+
+# Returns all file names in a certain folder
+func get_files(var folder):
+	var files = []
+	var dir = Directory.new()
+	
+	var error = dir.open("res://" + folder)
+	
+	dir.list_dir_begin()
+	
+	var file = dir.get_next()
+	while not file == "":
+		if not file.find(".png") == -1:
+			files.push_back(file)
+		file = dir.get_next()
+	return files
 
 # Returns all scores of configuration c
 func get_scores_of_config(c):
@@ -101,6 +121,8 @@ func get_scores_of_config(c):
 		return values
 	else:
 		return []
+
+var used_configs = {}
 
 # Gets all configurations that have been played
 func get_played_configs():

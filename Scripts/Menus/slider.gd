@@ -12,6 +12,11 @@ var move_from
 func _ready():
 	apply_size()
 	set_x_pos(4)
+	set_process(true)
+
+func _process(delta):
+	apply_size()
+	
 
 func _input_event(event):
 	if event.type == InputEvent.MOUSE_BUTTON:
@@ -34,7 +39,7 @@ func _input_event(event):
 
 # applies the size to the size indicator
 func apply_size():
-	get_node("container").set_pos(get_size()/2 + Vector2(0, 1))
+	get_node("container").set_pos(get_size()/2.0 + Vector2(0, 0.5))
 	get_node("container").set_size(Vector2(512 - 64, 64) + 5 * Vector2(1, 1))
 
 func set_x_pos(pos):
