@@ -49,8 +49,8 @@ func _input(event):
 			options_menu_back()
 	
 	# Code to do things according to button pressed
-	if event.is_action_pressed("ui_accept"):
-		active_menu.get_child(-selector.target).press()
+	if event.is_action_pressed("ui_accept") and ae.has_method("press"):
+		ae.press()
 	
 	# Moving up and down
 	if event.is_action_pressed("ui_up"):
@@ -151,8 +151,31 @@ func set_active_entry(var entry):
 
 # Gets the selected (active) entry in the menu
 func get_active_entry():
-	var object = active_menu.get_child(-selector.target)
-	return object
+	return get_entry(-selector.target)
+
+# Gets the i-th element of the menu
+func get_entry(k):
+	var active_entry
+	
+	var children = active_menu.get_children()
+	var i = 0
+	var child_index = 0
+	
+	# Cycle to entries, substract size each time
+	while i <= -selector.target:
+		if children[child_index] extends preload("Menus/submenu.gd"):
+			if children[child_index].size >= k - i:
+				return children[child_index].get_entry( k - i )
+			
+			i += children[child_index].size
+		if children[child_index] extends Control:
+			i += 1
+		else:
+			break
+		child_index += 1
+	
+	active_entry = active_menu.get_child(child_index - 1)
+	return active_entry
 
 # Will position the selector to the right location for the amount of options
 func set_options():

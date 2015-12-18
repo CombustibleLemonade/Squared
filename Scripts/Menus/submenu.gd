@@ -1,17 +1,18 @@
 extends Container
 
-# TODO
-
 var selector
 var size = 0
 
+
 func _init():
 	set_process(true)
-	
 	selector = get_node("/root/main/selector")
 
 func _process(delta):
 	set_size()
+
+func get_entry(i):
+	return get_child(i)
 
 func set_size():
 	size = get_child_count()

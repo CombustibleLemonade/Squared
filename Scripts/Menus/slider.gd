@@ -16,7 +16,6 @@ func _ready():
 
 func _process(delta):
 	apply_size()
-	
 
 func _input_event(event):
 	if event.type == InputEvent.MOUSE_BUTTON:
@@ -42,6 +41,7 @@ func apply_size():
 	get_node("container").set_pos(get_size()/2.0 + Vector2(0, 0.5))
 	get_node("container").set_size(Vector2(512 - 64, 64) + 5 * Vector2(1, 1))
 
+# Sets how far the slider has slided
 func set_x_pos(pos):
 	if pos > min_x_pos and pos < max_x_pos:
 		x_pos = pos

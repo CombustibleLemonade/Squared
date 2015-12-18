@@ -17,7 +17,12 @@ func _input_event(event):
 		focus()
 	if event.type == InputEvent.MOUSE_BUTTON and event.pressed:
 		emit_signal("pressed")
-	pass
+	
+	if event.type == InputEvent.KEY:
+		if event.is_action_pressed("ui_left"):
+			decrement()
+		if event.is_action_pressed("ui_right"):
+			increment()
 
 func set_value(var value_arg):
 	value = value_arg

@@ -34,15 +34,6 @@ func _input(event):
 		if parent.get_active_entry().get_name() == "cancel":
 			exit()
 			return
-	
-	if event.is_action_pressed("ui_left") and parent.get_active_entry().get_name() == "width":
-		get_node("width").value -= 1
-	if event.is_action_pressed("ui_right") and parent.get_active_entry().get_name() == "width":
-		get_node("width").value += 1
-	if event.is_action_pressed("ui_left") and parent.get_active_entry().get_name() == "height":
-		get_node("height").value -= 1
-	if event.is_action_pressed("ui_right") and parent.get_active_entry().get_name() == "height":
-		get_node("height").value += 1
 
 func reset_values():
 	get_node("width").value = global.width
