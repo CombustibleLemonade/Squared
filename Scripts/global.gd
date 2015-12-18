@@ -111,6 +111,14 @@ func get_scores_of_config(c):
 		score.open("user://savegame.save", File.READ)
 		file_content = score.get_var()
 		
+		if not typeof (file_content) == typeof({}):
+			score.close()
+			
+			score.open("user://savegame.save", File.READ)
+			score.store_var({})
+			score.close()
+			return []
+		
 		var keys = file_content.keys()
 		var values = []
 		for i in keys:
