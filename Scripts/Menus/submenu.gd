@@ -5,11 +5,10 @@ var size = 0
 var active_entry_index = 0
 var parent
 
-var Configuration = load("/Scripts/global.gd").Configuration
+var Configuration = load("res://Scripts/global.gd").Configuration
 
 func _init():
 	set_process(true)
-	print("subsubsubsubsubsubsubsubsubsubsubsubsubsubsubsubsubsubsubsubsubsubsubsub")
 
 func _process(delta):
 	set_size()
