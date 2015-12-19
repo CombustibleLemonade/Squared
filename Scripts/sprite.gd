@@ -12,6 +12,7 @@ var target_rotation = 0
 
 var is_falling
 var check = false
+var has_changed = false # Has this square changed since the last frame?
 var group
 
 func _ready(var m = null):

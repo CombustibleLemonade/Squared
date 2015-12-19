@@ -24,6 +24,7 @@ class Group:
 		var all_members = {base_member.target_cell:base_member} # All members
 		base_member.check = true # The base member is already checked, and is already in the unchecked members
 		
+		
 		var k = 0
 		while not unchecked_members.empty():
 			for i in unchecked_members:
@@ -38,6 +39,7 @@ class Group:
 				for j in n:
 					unchecked_members[j] = n[j]
 					unchecked_members[j].check = true
+					unchecked_members[j].has_changed = false
 					all_members[j] = n[j]
 		
 		for i in range (members.size()-1, -1, -1):
@@ -50,13 +52,18 @@ class Group:
 		member_count = all_members.size()
 		members = []
 		
+		
 		for i in all_members:
+			var p = 0
 			all_members[i].check = false
 			members.push_back(all_members[i])
 		
+		
 		members.sort_custom(self, "sort_vertical")
+		
 		for i in range(members.size()):
 			members[i].label.set_text(str(i+1))
+		
 		pass
 	
 	func sort_vertical(var a, var b):
@@ -159,7 +166,7 @@ func shift(s):
 	
 	for i in s:
 		if not sprites[i].group == null:
-			sprites[i].group.expand()
+			sprites[i].has_changed = true
 
 # checks physics of all sprites, from top to bottom
 func check_physics():
@@ -168,6 +175,11 @@ func check_physics():
 			sprites[Vector2(x, y)].check_physics()
 	
 	get_node("dropindicator").check_physics()
+	
+	for i in sprites:
+		if not sprites[i].group == null and sprites[i].has_changed:
+			sprites[i].group.expand()
+			sprites[i].has_changed = false
 
 # Convert grid coordinates to screen coordinates
 func grid_to_screen(grid):
