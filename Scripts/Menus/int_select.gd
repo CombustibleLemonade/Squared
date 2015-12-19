@@ -24,6 +24,9 @@ func _input_event(event):
 		if event.is_action_pressed("ui_right"):
 			increment()
 
+func press():
+	emit_signal("pressed")
+
 func set_value(var value_arg):
 	value = value_arg
 	
@@ -35,7 +38,6 @@ func set_value(var value_arg):
 	var node = get_node("value")
 	if not node == null:
 		node.set_text(str(value))
-	pass
 
 func focus(var inc_dec = null):
 	emit_signal("focus", self)
@@ -43,17 +45,14 @@ func focus(var inc_dec = null):
 
 func increment():
 	set_value(value+1)
-	pass
 
 func decrement():
 	set_value(value-1)
-	pass
 
 func set_text(var text_arg):
 	text = text_arg
 	if not get_node("label") == null:
 		get_node("label").set_text(text_arg)
-	pass
 
 func get_text():
 	return text

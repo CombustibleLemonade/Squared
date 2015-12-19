@@ -33,7 +33,7 @@ class Configuration:
 	var mutation_count = 4
 
 var width = 7 # Default width of grid
-var height = 9 # Default height of grid
+var height = 8 # Default height of grid
 
 var drop_time = 4 # Amount of time it takes for one sprite to be dropped
 
@@ -77,6 +77,7 @@ func get_horizontal_entry_count(menu):
 				size += 1
 			else:
 				size += children[i].size
+				#print(children[i].get_child_count())
 			i+=1
 	
 	return size # Correct for 3 nodes added because it's the main node

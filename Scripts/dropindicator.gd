@@ -42,7 +42,7 @@ func _process(delta):
 
 # Places a block at the indicated location
 func _on_Timer_timeout():
-	if target_cell.y == game.height - 1:
+	if target_cell.y == game.height:
 		game.die()
 		return
 	

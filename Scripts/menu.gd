@@ -28,6 +28,8 @@ func _process(delta):
 	set_pos(OS.get_video_mode_size()/2)
 	var scale = OS.get_video_mode_size().y/600
 	set_scale(Vector2(scale, scale))
+	
+	get_node("game_menu/config").apply_highscore()
 
 # Handles input events
 func _input(event):
@@ -71,7 +73,12 @@ func start_game():
 	var game = preload("../Scenes/Game/game.scn").instance()
 	game.width = global.width
 	game.height = global.height
+	var config = get_node("game_menu/config").get_config()
+	game.set_config(config)
+	
 	add_child(game)
+	
+	var scores = global.get_scores_of_config(config)
 	
 	unpause()
 
@@ -147,7 +154,38 @@ func set_active_menu(var menu):
 
 # Sets the selected (active) entry in the menu
 func set_active_entry(var entry):
-	get_node("selector").set_target(-entry.get_position_in_parent())
+	var target = 0
+	
+	target += entry.get_position_in_parent()
+	
+	var submenu = entry.get_parent()
+	
+	while submenu extends preload("Menus/submenu.gd"):
+		target += submenu.get_position_in_parent()
+		submenu = submenu.get_parent()
+	
+	get_node("selector").set_target(-target)
+
+# Sets the active entry based on index
+func set_active_entry_index(var entry):
+	var active_entry
+	var children = active_menu.get_children()
+	var i = 0
+	var child_index = 0
+	
+	# Cycle to entries, substract size each time
+	while i <= -selector.target:
+		if children[child_index] extends preload("Menus/submenu.gd"):
+			if children[child_index].size >= entry - i:
+				# If our selected entry is a submenu, set its entry
+				return children[child_index].set_entry_index( - i - entry )
+			
+			i += children[child_index].size
+		if children[child_index] extends Control:
+			i += 1
+		else:
+			break
+		child_index += 1
 
 # Gets the selected (active) entry in the menu
 func get_active_entry():
@@ -165,7 +203,7 @@ func get_entry(k):
 	while i <= -selector.target:
 		if children[child_index] extends preload("Menus/submenu.gd"):
 			if children[child_index].size >= k - i:
-				return children[child_index].get_entry( k - i )
+				return children[child_index]
 			
 			i += children[child_index].size
 		if children[child_index] extends Control:

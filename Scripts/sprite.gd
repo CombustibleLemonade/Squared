@@ -29,19 +29,16 @@ func _process(delta):
 	var target = compute_target()
 	set_pos(global.go_to(target, get_pos(), delta))
 	set_rot(global.go_to(target_rotation, get_rot(), delta))
-	pass
 
 # Compute the target position to slide towards
 func compute_target():
 	if not target_cell == null:
 		return Vector2((target_cell.x-game.width/2.0+0.5)*64, -target_cell.y*64)
 	return get_pos()
-	pass
 
 func set_color(c):
 	color = c
 	get_node("Sprite").set_modulate(global.colors[c])
-	pass
 
 func set_shape(sprite):
 	get_node("Sprite").set_texture(sprite)
@@ -69,7 +66,6 @@ func check_physics():
 			physics_change = true
 	
 	return physics_change
-	pass
 
 func drop():
 	# Drop a cell to its proper height

@@ -1,29 +1,19 @@
 extends Node2D
 
+signal moved(to)
+
 var target = 0
 
 var min_y = 0
 var max_y = 7
 
 var offset = 0
+var size_set = false
 
-# Will move (Positive is up, negative is down)
-func move(dy):
-	target += dy
-	
-	if target < min_y:
-		target = min_y
-	elif target > max_y:
-		target = max_y
-
-# Will move to an absolute position
-func set_target(var y):
-	target = y
-	move(0)
- 
 func _ready():
 	set_active(true)
-	set_size(Vector2(64*get_node("/root/global").width, 64))
+	if not size_set:
+		set_size(Vector2(64*get_node("/root/global").width, 64))
 
 func _input(ev):
 	# Move up and down
@@ -43,9 +33,26 @@ func _process(delta):
 	var target_vec = Vector2(0, -64*(target + offset))
 	set_pos(get_node("/root/global").go_to(target_vec, get_pos(), delta))
 
+# Will move (Positive is up, negative is down)
+func move(dy):
+	target += dy
+	
+	if target < min_y:
+		target = min_y
+	elif target > max_y:
+		target = max_y
+	
+	emit_signal("moved", target)
+
+# Will move to an absolute position
+func set_target(var y):
+	target = y
+	move(0)
+
 # Will set the size of the polygon, with rounded corners
 func set_size(var size):
 	get_node("Polygon").set_size(size)
+	size_set = true
 
 func set_active(var is_active):
 	set_process(is_active)

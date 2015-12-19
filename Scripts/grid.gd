@@ -86,7 +86,7 @@ func _ready():
 	# Place tiles
 	randomize()
 	for x in range (game.width):
-		for y in range (game.height):
+		for y in range (game.height + 1):
 			var sprite = global.tile.instance()
 			add_child(sprite)
 			
@@ -103,9 +103,9 @@ func _ready():
 	set_process_input(true)
 	
 	# Set the size indicator
-	get_node("size_indicator").set_size(Vector2(game.width, game.height - 1) * 64 + Vector2(8, 8))
+	get_node("size_indicator").set_size(Vector2(game.width, game.height) * 64 + Vector2(8, 8))
 	get_node("size_indicator").set_process(false)
-	get_node("size_indicator").set_pos(Vector2(0, -32 * (game.height - 2)))
+	get_node("size_indicator").set_pos(Vector2(0, -32 * (game.height - 1)))
 
 func _process(delta):
 	var target_pos = compute_target_pos()
@@ -128,8 +128,8 @@ func _input(ev):
 		game.compute_score()
 		game.deactivate()
 
+# Will move selected row one element to the left
 func move_row_left(row):
-	# Will move selected row one element to the left
 	var shift = []
 	for i in range (game.width-1, -1, -1):
 		shift.append(Vector2(i, row))
@@ -137,8 +137,8 @@ func move_row_left(row):
 	shift(shift)
 	check_physics()
 
+# Will move selected row one element to the right 
 func move_row_right(row):
-	# Will move selected row one element to the right 
 	var shift = []
 	
 	for i in range (0, game.width):
@@ -175,7 +175,7 @@ func grid_to_screen(grid):
 
 # Returns the square at position v
 func get_cell(v):
-	if v.x < game.width and v.y < game.height and v.x >= 0 and v.y >= 0:
+	if v.x < game.width and v.y < game.height + 1 and v.x >= 0 and v.y >= 0:
 		return sprites[v]
 
 # Sets the square at position v

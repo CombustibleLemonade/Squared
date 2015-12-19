@@ -11,7 +11,7 @@ export(int) var height # Amount of rows 	-- y
 var died = false # Have we died yet?
 
 var mutation_set # Set of square color-shapes
-var configuration
+var configuration setget set_config
 
 func _ready():
 	# Initialization
@@ -25,13 +25,11 @@ func _ready():
 	get_node("Score").set_margin(MARGIN_LEFT, width*32+200)
 	get_node("Score").set_margin(MARGIN_RIGHT, width*32+100)
 	grid.set_focus(0)
-	grid.get_node("selector").max_y = height - 2
+	grid.get_node("selector").max_y = height - 1
 	
 	configuration = preload("global.gd").Configuration.new()
 	configuration.width = width
 	configuration.height = height
-	
-	print(global.get_scores_of_config(configuration))
 
 func _process(delta):
 	var scores = ""
@@ -44,6 +42,15 @@ func _process(delta):
 			grid.groups.remove(i)
 	
 	get_node("Score/Label").set_text(str(compute_score()))
+
+# Sets the configuration (with, height, etc.) of the game
+func set_config(c):
+	configuration = c
+	
+	width = c.width
+	height = c.height
+	
+	get_node("grid/selector").set_size( Vector2(width * 64, 64) )
 
 # Computes the score and triggers game over
 func die():
@@ -90,6 +97,3 @@ func save_score(s, c):
 	score.open("user://savegame.save", File.WRITE)
 	score.store_var(file_content)
 	score.close()
-
-
-

@@ -43,11 +43,9 @@ func accept():
 	global.width = get_node("width").value
 	global.height = get_node("height").value
 	exit()
-	pass
 
 func exit():
 	parent.set_active_menu(parent.get_node("options_menu"))
 	parent.selector.set_target(-parent.get_node("options_menu/gameplay").get_position_in_parent())
 	global.menu_change = true
 	reset_values()
-	pass
