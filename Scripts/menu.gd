@@ -22,7 +22,9 @@ func _ready():
 	
 	get_node("background").set_process_input(false)
 	get_node("background").offset = 0
-	get_node("background/Polygon").set_color(Color(0.3, 0.3, 0.3, 0.8))
+	get_node("background/Polygon").set_color(Color(0.3, 0.3, 0.3, 0.9))
+	
+	global.menu = self
 
 func _process(delta):
 	set_pos(OS.get_video_mode_size()/2)
@@ -36,6 +38,8 @@ func _input(event):
 	var ae = get_active_entry()
 	if event.type == InputEvent.KEY and not ae == null and ae.has_method("_input_event"):
 		ae._input_event(event)
+	
+	ae = get_active_entry()
 	
 	# Prevent double-pressing buttons
 	if global.menu_change:
@@ -154,11 +158,23 @@ func set_active_menu(var menu):
 
 # Sets the selected (active) entry in the menu
 func set_active_entry(var entry):
+	if not entry.get("is_focussed") == null:
+		entry.is_focussed = true
+	
+	var previous_entry = get_active_entry()
+	if not previous_entry.get("is_focussed") == null:
+		previous_entry.is_focussed = false
+	
 	var target = 0
-	
-	target += entry.get_position_in_parent()
-	
 	var submenu = entry.get_parent()
+	
+	var i = 0
+	while not submenu.get_child(i) == entry:
+		var size = submenu.get_child(i).get("size")
+		if size == null:
+			size = 1
+		target += size
+		i += 1
 	
 	while submenu extends preload("Menus/submenu.gd"):
 		target += submenu.get_position_in_parent()
@@ -200,13 +216,13 @@ func get_entry(k):
 	var child_index = 0
 	
 	# Cycle to entries, substract size each time
-	while i <= -selector.target:
+	while i <= k:
 		if children[child_index] extends preload("Menus/submenu.gd"):
-			if children[child_index].size >= k - i:
+			if children[child_index].size > k - i:
 				return children[child_index]
 			
 			i += children[child_index].size
-		if children[child_index] extends Control:
+		elif children[child_index] extends Control:
 			i += 1
 		else:
 			break

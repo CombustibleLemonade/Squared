@@ -93,7 +93,11 @@ func save_score(s, c):
 		else:
 			file_content[scoreconfig] = [s]
 		score.close()
-	
-	score.open("user://savegame.save", File.WRITE)
-	score.store_var(file_content)
-	score.close()
+		
+		score.open("user://savegame.save", File.WRITE)
+		score.store_var(file_content)
+		score.close()
+	else:
+		score.open("user://savegame.save", File.WRITE)
+		score.store_var({inst2dict(c):[s]})
+		score.close()

@@ -68,14 +68,13 @@ func check_physics():
 	
 	return physics_change
 
+# Drop a cell to its proper height
 func drop():
-	# Drop a cell to its proper height
 	var s = [target_cell, target_cell - Vector2(0, 1)]
 	parent.shift(s)
 
 # Gives all neighbors of the same color
 func neighbors():
-	# TODO
 	var f_group = {}
 	var sprites = parent.sprites
 	
@@ -87,7 +86,6 @@ func neighbors():
 
 # Same, but with checks. Might be deleted in future
 func neighbors_check(var check_arg):
-	# TODO
 	var f_group = {}
 	var sprites = parent.sprites
 	
