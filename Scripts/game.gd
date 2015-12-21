@@ -12,6 +12,7 @@ var died = false # Have we died yet?
 
 var mutation_set # Set of square color-shapes
 var configuration setget set_config
+var drop_time = 4
 
 func _ready():
 	# Initialization

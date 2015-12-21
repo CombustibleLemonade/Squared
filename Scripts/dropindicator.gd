@@ -18,8 +18,9 @@ func _ready():
 	
 	global.is_playing = true
 	
-	get_node("Timer").set_wait_time(global.drop_time)
-	get_node("Timer").start()
+	if typeof(game.drop_time) == typeof(0.0):
+		get_node("Timer").set_wait_time(game.drop_time)
+		get_node("Timer").start()
 	
 	next = game.get_node("incoming").tiles[0].color
 	next = load("tile.scn").instance()
@@ -34,11 +35,14 @@ func _process(delta):
 	
 	set_pos(global.go_to(target, get_pos(), delta))
 	
-	if not global.is_playing:
-		return
-	
-	next.set_pos(Vector2(0, -get_node("Timer").get_time_left() * 50000)/(1000 - get_pos().y))
-	next.set_rot(get_node("Timer").get_time_left())
+	if typeof(game.drop_time) == typeof(0.0):
+		# Drop time is finite
+		next.set_pos(Vector2(0, -get_node("Timer").get_time_left() * 50000)/(1000 - get_pos().y))
+		next.set_rot(get_node("Timer").get_time_left())
+	else:
+		# Drop time is infinite
+		get_node("Timer").stop()
+		next.set_pos(Vector2(0, -200))
 
 # Places a block at the indicated location
 func _on_Timer_timeout():

@@ -8,6 +8,8 @@ var active_menu # Changes according to which (sub)menu is displayed
 var background_offset = 16
 
 func _ready():
+	print(range(-1, -1, -1))
+	
 	set_process_input(true)
 	set_process(true)
 	
@@ -77,8 +79,11 @@ func start_game():
 	var game = preload("../Scenes/Game/game.scn").instance()
 	game.width = global.width
 	game.height = global.height
+	
+	
 	var config = get_node("game_menu/config").get_config()
 	game.set_config(config)
+	game.drop_time = get_node("game_menu/drop_time").value
 	
 	add_child(game)
 	
@@ -239,3 +244,12 @@ func set_options():
 	selector.offset = (amount_of_options - 1)/2.0
 	
 	get_node("background").set_size(Vector2(64*7 + background_offset, amount_of_options*64 + background_offset))
+
+# Gets called when the slider for the drop time changes
+func drop_time_x_pos_change(x_pos):
+	var value = tan((x_pos * 0.48 + 0.005) * PI) * 4
+	
+	if x_pos == 1:
+		value = "inf"
+	
+	get_node("game_menu/drop_time").value = value

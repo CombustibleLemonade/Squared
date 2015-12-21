@@ -24,11 +24,9 @@ class Group:
 		var all_members = {base_member.target_cell:base_member} # All members
 		base_member.check = true # The base member is already checked, and is already in the unchecked members
 		
-		
-		var k = 0
 		while not unchecked_members.empty():
+			
 			for i in unchecked_members:
-				k += 1
 				var member = unchecked_members[i]
 				unchecked_members.erase(i)
 				if not member.group == self and not member.group == null:
@@ -36,8 +34,11 @@ class Group:
 					member.group = self
 				
 				var n = member.neighbors_check(false)
+				
 				for j in n:
+					print(unchecked_members.has(j))
 					unchecked_members[j] = n[j]
+					
 					unchecked_members[j].check = true
 					unchecked_members[j].has_changed = false
 					all_members[j] = n[j]

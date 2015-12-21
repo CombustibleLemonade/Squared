@@ -6,13 +6,17 @@ signal pressed
 
 export(String) var text setget set_text
 
+signal x_pos_change(to)
+
 var x_pos = 0
 var min_x_pos = -256+64
 var max_x_pos = 256-64
 
 var is_moving = false
 var move_from
-var value
+
+# Value of the slider. Set by external function
+var value = 0 setget set_value
 
 var is_focussed = false
 
@@ -24,13 +28,17 @@ func _ready():
 	set_x_pos(4)
 	set_text(text)
 	
-	set_process(true)
+	get_node("container/square").set_color("red")
+	
+	# Check if we're being run in the editor
+	if not get_node("/root/global") == null:
+		set_process(true)
 
 func _process(delta):
 	go_to_square_opacity(delta)
 	go_to_label_opacity(delta)
 	
-	var menu = get_node("/root/global").menu
+	var menu =  get_node("/root/global").menu
 	
 	if not menu == null and menu.get_active_entry() == self:
 		square_target_opacity = 1
@@ -38,6 +46,7 @@ func _process(delta):
 	else:
 		square_target_opacity = 0.4
 		label_target_opacity = 1
+	pass
 
 func _input_event(event):
 	if event.type == InputEvent.MOUSE_BUTTON:
@@ -65,9 +74,8 @@ func press():
 # Sets the text
 func set_text(t):
 	text = t
-	var label = get_node("label")
-	if not label == null:
-		label.set_text(t)
+	if has_node("label"):
+		get_node("label").set_text(t)
 
 # applies the size to the size indicator
 func apply_size():
@@ -88,14 +96,15 @@ func go_to_label_opacity(delta):
 
 # Sets how far the slider has slided
 func set_x_pos(pos):
-	if pos > min_x_pos and pos < max_x_pos:
-		x_pos = pos
-	elif pos < min_x_pos:
-		x_pos = min_x_pos
-	elif pos > max_x_pos:
-		x_pos = max_x_pos
+	x_pos = clamp(pos, min_x_pos, max_x_pos)
+	emit_signal("x_pos_change", get_interval())
+	
 	get_node("container/square").set_pos(Vector2(x_pos, 0))
 
+func set_value(v):
+	value = v
+	get_node("container/square/Node2D/Label").set_text(str(v).substr(0, 4))
+
 # returns value in range [0, 1]
-func get_value():
+func get_interval():
 	return ( x_pos - min_x_pos ) / ( max_x_pos - min_x_pos + 0.0 )

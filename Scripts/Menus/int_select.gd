@@ -28,16 +28,10 @@ func press():
 	emit_signal("pressed")
 
 func set_value(var value_arg):
-	value = value_arg
+	value = clamp(value_arg, min_val, max_val)
 	
-	if not min_val == null and value < min_val:
-		value = min_val
-	if not max_val == null and value > max_val:
-		value = max_val
-	
-	var node = get_node("value")
-	if not node == null:
-		node.set_text(str(value))
+	if has_node("value"):
+		get_node("value").set_text(str(value))
 
 func focus(var inc_dec = null):
 	emit_signal("focus", self)
@@ -51,7 +45,7 @@ func decrement():
 
 func set_text(var text_arg):
 	text = text_arg
-	if not get_node("label") == null:
+	if has_node("label"):
 		get_node("label").set_text(text_arg)
 
 func get_text():
