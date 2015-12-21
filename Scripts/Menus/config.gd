@@ -1,5 +1,7 @@
 extends "submenu.gd"
 
+signal highscores(c)
+
 # Puts the high-score on the high-score button
 func apply_highscore():
 	var c = get_config()

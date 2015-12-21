@@ -97,4 +97,5 @@ func neighbors_check(var check_arg):
 
 # Make a new group for this node
 func regroup():
-	group = parent.new_group(self)
+	group = preload("Grid/group.gd").new(self)
+	group.game = get_parent().get_parent()
