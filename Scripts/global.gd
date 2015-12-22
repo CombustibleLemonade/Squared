@@ -77,7 +77,6 @@ func get_horizontal_entry_count(menu):
 				size += 1
 			else:
 				size += children[i].size
-				#print(children[i].get_child_count())
 			i+=1
 	
 	return size # Correct for 3 nodes added because it's the main node
@@ -103,6 +102,12 @@ func get_files(var folder):
 			files.push_back(file)
 		file = dir.get_next()
 	return files
+
+func set_last_played_config(c):
+	var config = File.new()
+	
+	config.open("user://last_config.save")
+	
 
 # Returns all scores of configuration c
 func get_scores_of_config(c):

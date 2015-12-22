@@ -11,7 +11,6 @@ var offset = 0
 var size_set = false
 
 func _ready():
-	set_active(true)
 	if not size_set:
 		set_size(Vector2(64*get_node("/root/global").width, 64))
 

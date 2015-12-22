@@ -27,6 +27,7 @@ func _ready():
 	get_node("Score").set_margin(MARGIN_RIGHT, width*32+100)
 	grid.set_focus(0)
 	grid.get_node("selector").max_y = height - 1
+	grid.get_node("selector").set_active(true)
 	
 	configuration = preload("global.gd").Configuration.new()
 	configuration.width = width

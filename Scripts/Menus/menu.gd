@@ -74,9 +74,7 @@ func start_game():
 	if has_node("squares"):
 		get_node("squares").free()
 	
-	get_tree().set_pause(false) # unpause the game
-	
-	var game = preload("../Scenes/Game/game.scn").instance()
+	var game = preload("res://Scenes/Game/game.scn").instance()
 	game.width = global.width
 	game.height = global.height
 	
@@ -110,7 +108,6 @@ func options_menu_back():
 
 func activate_credits_menu():
 	set_active_menu(get_node("credits_menu"))
-	pass
 
 # These functions open links for the credits
 func store_page():
@@ -138,9 +135,15 @@ func quit():
 
 # Will un-hide all main menu items
 func pause(var message = "paused"):
-	set_active_menu(get_node("main_menu"))
 	selector.show()
 	global.is_playing = false # We're not playing anymore
+	get_tree().set_pause(true)
+	
+	set_active_menu(get_node("main_menu"))
+	print(active_menu.get_children())
+	set_options()
+	
+	selector.set_target(0)
 
 # Will hide all main menu items and resume playing
 func unpause():
@@ -188,7 +191,7 @@ func set_active_entry(var entry):
 		target += size
 		i += 1
 	
-	while submenu extends preload("Menus/submenu.gd"):
+	while submenu extends preload("res://Scripts/Menus/submenu.gd"):
 		target += submenu.get_position_in_parent()
 		submenu = submenu.get_parent()
 	
@@ -203,7 +206,7 @@ func set_active_entry_index(var entry):
 	# Cycle to entries, substract size each time
 	while i <= -selector.target:
 		var child = children[child_index]
-		if child extends preload("Menus/submenu.gd"):
+		if child extends preload("res://Scripts/Menus/submenu.gd"):
 			if children[child_index].size >= entry - i:
 				# If our selected entry is a submenu, set its entry
 				children[child_index].set_entry_index( - i - entry )
@@ -230,7 +233,7 @@ func get_entry(k):
 	# Cycle to entries, substract size each time
 	while i <= k:
 		var child = children[child_index]
-		if child extends preload("Menus/submenu.gd"):
+		if child extends preload("res://Scripts/Menus/submenu.gd"):
 			if child.size > k - i:
 				return children[child_index]
 			
@@ -249,6 +252,7 @@ func set_options():
 	selector.max_y = 0
 	selector.min_y = -amount_of_options + 1
 	selector.offset = (amount_of_options - 1)/2.0
+	selector.move(0)
 	
 	get_node("background").set_size(Vector2(64*7 + background_offset, amount_of_options*64 + background_offset))
 

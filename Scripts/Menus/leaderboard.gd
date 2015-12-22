@@ -1,4 +1,4 @@
-extends VBoxContainer
+extends "submenu.gd"
 var s
 
 # Gets all highscores of config c
@@ -13,4 +13,4 @@ func set_config(c):
 
 # Returns to the game menu
 func back():
-	get_parent().activate_game_menu()
+	top_menu.pop_active_menu()

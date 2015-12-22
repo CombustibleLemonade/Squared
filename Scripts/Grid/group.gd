@@ -32,7 +32,7 @@ func expand():
 			
 			unchecked_members = merge(unchecked_members, n)
 			
-			for j in n:
+			for j in n.keys():
 				unchecked_members[j].check = true
 				unchecked_members[j].has_changed = false
 				all_members[j] = n[j]
@@ -59,9 +59,9 @@ func expand():
 
 func merge(a, b):
 	var c = {}
-	for i in a:
+	for i in a.keys():
 		c[i] = a[i]
-	for i in b:
+	for i in b.keys():
 		c[i] = b[i]
 	return c
 

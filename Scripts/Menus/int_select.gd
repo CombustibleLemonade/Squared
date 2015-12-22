@@ -9,6 +9,7 @@ export(String) var text setget set_text
 
 signal focus(entry)
 signal pressed
+signal change # Emitted when the value changes
 
 var global
 
@@ -32,10 +33,11 @@ func set_value(var value_arg):
 	
 	if has_node("value"):
 		get_node("value").set_text(str(value))
+	
+	emit_signal("change")
 
 func focus(var inc_dec = null):
 	emit_signal("focus", self)
-	pass
 
 func increment():
 	set_value(value+1)

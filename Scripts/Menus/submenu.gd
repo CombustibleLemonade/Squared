@@ -1,27 +1,50 @@
 extends Container
 
+signal size_change(new_size)
+
+var global
+var main
 var selector
+var top_menu
+
 var size = 0
 var active_entry_index = 0
-var parent
+
+var index_in_parent = 0
 
 var Configuration = load("res://Scripts/global.gd").Configuration
 
-func _init():
+func _ready():
 	set_process(true)
+
+func _enter_tree():
+	global = get_node("/root/global")
+	main = get_node("/root/main")
+	selector = get_node("/root/main/selector")
+	
+	for i in get_children():
+		if i.has_user_signal("size_change"):
+			i.connect("size_change", self, "size_change")
+		i.connect("pressed", self, "pressed", [i])
+		i.connect("focus", self, "set_active_entry")
+	
+	for i in get_parent().get_children():
+		if i == self:
+			break
+		if i.get_name().find("@") == -1:
+			index_in_parent += 1
 
 func _process(delta):
 	set_size()
-
-func _input_event(event):
-	var ae = get_active_entry()
-	if ae.has_method("_input_event") and not event.type == InputEvent.MOUSE_MOTION:
-		ae._input_event(event)
 
 func press():
 	var ae = get_active_entry()
 	if ae.has_method("press"):
 		get_active_entry().press()
+
+# Called when the size changes
+func size_change(s):
+	emit_signal("size_change", s)
 
 # Gets the active entry
 func get_active_entry():
@@ -29,17 +52,40 @@ func get_active_entry():
 
 # Gets the i-the entry of this menu
 func get_entry(i):
-	# TODO allow for submenus in submenus
-	return get_child(i)
+	var active_entry
+	
+	var children = get_children()
+	var j = 0
+	var child_index = 0
+	
+	# Cycle to entries, substract size each time
+	while j <= i:
+		var child = children[child_index]
+		
+		# Check if child extends submenu
+		# We can't use extends here, since it will lead to cyclic preloads
+		if child.has_method("get_entry"):
+			if child.size > i - j:
+				return children[child_index].get_entry(i-j)
+			
+			j += children[child_index].size
+		elif child extends Control and not child.get_name().begins_with("@"):
+			j += 1
+		
+		child_index += 1
+		
+	
+	active_entry = get_child(child_index - 1)
+	return active_entry
 
 # Sets the active entry index
-func set_entry_index(i):
+func set_active_entry_index(i):
 	# TODO allow for submenus
 	active_entry_index = i
 
 # Sets the active entry
 func set_active_entry(entry):
-	get_node("/root/main").set_active_entry(entry)
+	main.set_active_entry(entry)
 
 # Gets the width that is set
 func get_width():
@@ -51,5 +97,11 @@ func get_height():
 
 # Sets the custom minimum size of container according to menu entries
 func set_size():
-	size = get_child_count()
+	size = 0
+	for i in get_children():
+		if i.has_method("get_entry"):
+			size += i.size
+		else:
+			size += 1
+	
 	set_custom_minimum_size(Vector2(0, 63))

@@ -2,6 +2,9 @@ extends "submenu.gd"
 
 signal highscores(c)
 
+func _ready():
+	apply_highscore()
+
 # Puts the high-score on the high-score button
 func apply_highscore():
 	var c = get_config()
@@ -23,6 +26,8 @@ func get_config():
 	
 	return c
 
-# TODO
+# Activates the leaderboard
 func activate_leaderboard():
-	get_node("/root/main").activate_leaderboard(get_config())
+	var leaderboard = preload("res://Scenes/Menus/Submenus/leaderboard.scn").instance()
+	top_menu.set_active_menu(leaderboard)
+	leaderboard.set_config(get_config())
