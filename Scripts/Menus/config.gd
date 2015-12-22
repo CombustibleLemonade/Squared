@@ -22,3 +22,7 @@ func get_config():
 	c.height = get_node("height").value
 	
 	return c
+
+# TODO
+func activate_leaderboard():
+	get_node("/root/main").activate_leaderboard(get_config())

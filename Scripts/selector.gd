@@ -35,12 +35,7 @@ func _process(delta):
 
 # Will move (Positive is up, negative is down)
 func move(dy):
-	target += dy
-	
-	if target < min_y:
-		target = min_y
-	elif target > max_y:
-		target = max_y
+	target = clamp(target + dy, min_y, max_y)
 	
 	emit_signal("moved", target)
 

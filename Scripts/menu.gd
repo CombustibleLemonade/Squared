@@ -94,6 +94,13 @@ func start_game():
 func activate_game_menu():
 	set_active_menu(get_node("game_menu"))
 
+func activate_leaderboard(c):
+	var l = preload("res://Scenes/Menus/leaderboard.scn").instance()
+	add_child(l)
+	l.set_config(c)
+	
+	set_active_menu(l)
+
 func activate_options_menu():
 	set_active_menu(get_node("options_menu"))
 
@@ -189,24 +196,24 @@ func set_active_entry(var entry):
 
 # Sets the active entry based on index
 func set_active_entry_index(var entry):
-	var active_entry
 	var children = active_menu.get_children()
 	var i = 0
 	var child_index = 0
 	
 	# Cycle to entries, substract size each time
 	while i <= -selector.target:
-		if children[child_index] extends preload("Menus/submenu.gd"):
+		var child = children[child_index]
+		if child extends preload("Menus/submenu.gd"):
 			if children[child_index].size >= entry - i:
 				# If our selected entry is a submenu, set its entry
-				return children[child_index].set_entry_index( - i - entry )
+				children[child_index].set_entry_index( - i - entry )
+				break
 			
 			i += children[child_index].size
-		if children[child_index] extends Control:
+		elif child extends Control and not child.get_name().begins_with("@"):
 			i += 1
-		else:
-			break
 		child_index += 1
+
 
 # Gets the selected (active) entry in the menu
 func get_active_entry():
@@ -222,15 +229,15 @@ func get_entry(k):
 	
 	# Cycle to entries, substract size each time
 	while i <= k:
-		if children[child_index] extends preload("Menus/submenu.gd"):
-			if children[child_index].size > k - i:
+		var child = children[child_index]
+		if child extends preload("Menus/submenu.gd"):
+			if child.size > k - i:
 				return children[child_index]
 			
 			i += children[child_index].size
-		elif children[child_index] extends Control:
+		elif child extends Control and not child.get_name().begins_with("@"):
 			i += 1
-		else:
-			break
+		
 		child_index += 1
 	
 	active_entry = active_menu.get_child(child_index - 1)
