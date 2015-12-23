@@ -24,6 +24,8 @@ func _ready(var m = null):
 	
 	if not m == null:
 		set_mutation(mutation)
+	
+
 
 func _process(delta):
 	# Smoothly glide to our target transform

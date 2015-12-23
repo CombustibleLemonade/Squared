@@ -42,6 +42,7 @@ func _ready():
 		shapes.push_back(load("Sprites/Squares/" + s))
 	
 	create_default_color_set()
+	print(OS.get_data_dir())
 
 # Creates the default color set
 func create_default_color_set():
@@ -103,38 +104,35 @@ func get_files(var folder):
 		file = dir.get_next()
 	return files
 
-func set_last_played_config(c):
-	var config = File.new()
+# Saves data to a file in path
+func save_file(path, data):
+	var file = File.new()
 	
-	config.open("user://last_config.save")
-	
+	file.open(path, File.WRITE)
+	file.store_var(data)
+	file.close()
+
+# Load data from a file in path
+func load_file(path):
+	var file = File.new()
+	var data
+	if file.file_exists(path):
+		file.open(path, File.READ)
+		data = file.get_var()
+		return data
+	else:
+		return null
 
 # Returns all scores of configuration c
 func get_scores_of_config(c):
-	var score = File.new()
-	var file_content
-	if score.file_exists("user://savegame.save"):
-		score.open("user://savegame.save", File.READ)
-		file_content = score.get_var()
-		
-		if not typeof (file_content) == typeof({}):
-			score.close()
-			
-			score.open("user://savegame.save", File.READ)
-			score.store_var({})
-			score.close()
-			return []
-		
-		var keys = file_content.keys()
-		var values = []
-		for i in keys:
-			if str(i) == str(inst2dict( c )):
-				values.push_back(file_content[i])
-		values.sort()
-		
-		return values
-	else:
+	var data = load_file("user://savegame.save")
+	
+	var key = inst2dict(c)
+	
+	if data == null or not data.has(str(inst2dict(c))):
 		return []
+	else:
+		return [data[str(inst2dict(c))]]
 
 var used_configs = {}
 

@@ -77,29 +77,12 @@ func compute_score():
 
 # Saves the score to the filesystem
 func save_score(s, c):
-	var score = File.new()
-	var scoreconfig = inst2dict(c)
-	var file_content = {}
+	var data = global.load_file("user://savegame.save")
+	var key = str(inst2dict(c))
 	
-	if score.file_exists("user://savegame.save"):
-		score.open("user://savegame.save", File.READ)
-		file_content = score.get_var()
-		
-		if typeof(file_content) == typeof([]):
-			file_content = {scoreconfig : [s]}
-			score.store_var(file_content)
-			return
-		
-		if file_content.has(scoreconfig):
-			file_content[scoreconfig].push_back(scoreconfig)
-		else:
-			file_content[scoreconfig] = [s]
-		score.close()
-		
-		score.open("user://savegame.save", File.WRITE)
-		score.store_var(file_content)
-		score.close()
+	if data.has(key):
+		data[key].push_back(s)
 	else:
-		score.open("user://savegame.save", File.WRITE)
-		score.store_var({inst2dict(c):[s]})
-		score.close()
+		data[key] = [s]
+	
+	global.save_file("user://savegame.save", data)
