@@ -33,6 +33,9 @@ func set_active_menu(var menu):
 	add_child(menu)
 	menu_stack.push_back(menu)
 	
+	if menu.get_minimum_size().y < get_size().y:
+		print("panic")
+	
 	# Set the target
 	main.set_options()
 	selector.set_target(0)

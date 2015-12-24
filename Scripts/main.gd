@@ -15,7 +15,7 @@ func _ready():
 	set_process_input(true)
 	global.menu = self
 	
-	# OS.set_window_fullscreen(true)
+	OS.set_window_fullscreen(true)
 	
 	set_active_menu(get_node("menu"))
 	get_node("background").set_process_input(false)
