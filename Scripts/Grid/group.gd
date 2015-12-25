@@ -21,7 +21,7 @@ func expand():
 	base_member.check = true # The base member is already checked, and is already in the unchecked members
 	
 	while not unchecked_members.empty():
-		for i in unchecked_members:
+		for i in unchecked_members.keys():
 			var member = unchecked_members[i]
 			unchecked_members.erase(i)
 			if not member.group == self and not member.group == null:
@@ -30,9 +30,11 @@ func expand():
 			
 			var n = member.neighbors_check(false)
 			
+			# This somehow reduces the amout of errors
 			unchecked_members = merge(unchecked_members, n)
 			
 			for j in n.keys():
+				unchecked_members[j] = n[j]
 				unchecked_members[j].check = true
 				unchecked_members[j].has_changed = false
 				all_members[j] = n[j]
@@ -45,11 +47,9 @@ func expand():
 		members[0].regroup()
 	
 	member_count = all_members.size()
-	members = []
 	
-	for i in all_members:
-		var p = 0
-		all_members[i].check = false
+	members = []
+	for i in all_members.keys():
 		members.push_back(all_members[i])
 	
 	members.sort_custom(self, "sort_vertical")

@@ -32,6 +32,8 @@ func _process(delta):
 	var target = compute_target()
 	set_pos(global.go_to(target, get_pos(), delta))
 	set_rot(global.go_to(target_rotation, get_rot(), delta))
+	
+	check = false
 
 # Compute the target position to slide towards
 func compute_target():
@@ -52,6 +54,7 @@ func set_mutation(m):
 	set_color(m.color_name)
 	set_shape(m.shape)
 
+# Checks the physics, and drops down if neccesary
 func check_physics():
 	if color == "empty":
 		return
