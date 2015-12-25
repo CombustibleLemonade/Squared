@@ -28,6 +28,8 @@ func set_active_menu(var menu):
 	if menu == null:
 		return
 	
+	get_active_menu().active_entry_index = -selector.target
+	
 	menu.top_menu = self
 	menu.set_size_in_menu()
 	
@@ -38,6 +40,7 @@ func set_active_menu(var menu):
 	main.set_options()
 	selector.set_target(0)
 
+
 # Pops the active menu
 func pop_active_menu():
 	remove_child(menu_stack[menu_stack.size()-1])
@@ -47,7 +50,7 @@ func pop_active_menu():
 	add_child(menu_stack[menu_stack.size()-1])
 	main.set_options()
 	
-	selector.target = 0
+	selector.target = -get_active_menu().active_entry_index
 
 # Returns the active menu
 func get_active_menu():
