@@ -4,6 +4,8 @@ func _ready():
 	get_node("config").top_menu = top_menu
 
 func pressed(e):
+	print(get_node("start").get_pos())
+	
 	if e.get_name() == "start":
 		start_game()
 	if e.get_name() == "back":

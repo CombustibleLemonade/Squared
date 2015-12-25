@@ -132,7 +132,10 @@ func get_scores_of_config(c):
 	if data == null or not data.has(str(inst2dict(c))):
 		return []
 	else:
-		return [data[str(inst2dict(c))]]
+		var scores = data[str(inst2dict(c))]
+		scores.sort()
+		scores.invert()
+		return scores
 
 var used_configs = {}
 
