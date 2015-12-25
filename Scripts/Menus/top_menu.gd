@@ -8,6 +8,7 @@ func _ready():
 	index_in_parent = 0
 	
 	menu_stack.push_back(get_node("main_menu"))
+	set_process(true)
 
 # Load a menu and set it as active
 func load_active_menu(var path):
@@ -28,18 +29,16 @@ func set_active_menu(var menu):
 		return
 	
 	menu.top_menu = self
-	menu.set_size()
+	menu.set_size_in_menu()
 	
 	add_child(menu)
 	menu_stack.push_back(menu)
-	
-	if menu.get_minimum_size().y < get_size().y:
-		print("panic")
 	
 	# Set the target
 	main.set_options()
 	selector.set_target(0)
 
+# Pops the active menu
 func pop_active_menu():
 	remove_child(menu_stack[menu_stack.size()-1])
 	
@@ -49,3 +48,7 @@ func pop_active_menu():
 	main.set_options()
 	
 	selector.target = 0
+
+# Returns the active menu
+func get_active_menu():
+	return menu_stack[menu_stack.size()-1]

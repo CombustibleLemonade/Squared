@@ -15,7 +15,7 @@ func _ready():
 	set_process_input(true)
 	global.menu = self
 	
-	OS.set_window_fullscreen(true)
+	# OS.set_window_fullscreen(true)
 	
 	set_active_menu(get_node("menu"))
 	get_node("background").set_process_input(false)
@@ -136,4 +136,7 @@ func set_size(s):
 	selector.min_y = -s + 1
 	selector.offset = (s - 1)/2.0
 	
-	get_node("background").set_size(Vector2(64*7 + background_offset, s*64 + background_offset))
+	var size = Vector2(64*7 + background_offset, s*64 + background_offset)
+	
+	get_node("background").set_size(size)
+	get_node("menu").get_active_menu().set_pos(Vector2(0, 300 - s * 32))

@@ -35,7 +35,7 @@ func _enter_tree():
 			index_in_parent += 1
 
 func _process(delta):
-	set_size()
+	set_size_in_menu()
 
 func press():
 	var ae = get_active_entry()
@@ -96,7 +96,7 @@ func get_height():
 	return get_node("height").value
 
 # Sets the custom minimum size of container according to menu entries
-func set_size():
+func set_size_in_menu():
 	size = 0
 	for i in get_children():
 		if i.has_method("get_entry"):
@@ -104,4 +104,4 @@ func set_size():
 		else:
 			size += 1
 	
-	set_custom_minimum_size(Vector2(0, 63))
+	set_custom_minimum_size(Vector2(0, size * 64 - 1))
