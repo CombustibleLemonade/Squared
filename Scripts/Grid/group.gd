@@ -50,6 +50,7 @@ func expand():
 	
 	members = []
 	for i in all_members.keys():
+		all_members[i].check = false
 		members.push_back(all_members[i])
 	
 	members.sort_custom(self, "sort_vertical")
