@@ -105,3 +105,7 @@ func set_size_in_menu():
 			size += 1
 	
 	set_custom_minimum_size(Vector2(0, size * 64 - 1))
+
+# Sets the scroll of the menu
+func center():
+	set_pos(Vector2(0, 300 - size * 32))

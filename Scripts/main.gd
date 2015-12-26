@@ -6,6 +6,9 @@ var global
 var menu_stack = []
 
 var background_offset = 16
+var scroll = 0
+
+var target_pos = Vector2()
 
 func _ready():
 	selector = get_node("selector")
@@ -15,8 +18,6 @@ func _ready():
 	set_process_input(true)
 	global.menu = self
 	
-	# OS.set_window_fullscreen(true)
-	
 	set_active_menu(get_node("menu"))
 	get_node("background").set_process_input(false)
 	get_node("background").offset = 0
@@ -25,11 +26,16 @@ func _ready():
 	set_options()
 
 func _process(delta):
-	set_pos(OS.get_video_mode_size()/2)
 	var scale = OS.get_video_mode_size().y/600
 	set_scale(Vector2(scale, scale))
 	
 	set_options()
+	
+	# Move to the target position
+	var next_pos = global.go_to(target_pos, get_pos(), delta)
+	
+	set_pos(next_pos)
+
 
 func _input(event):
 	if global.is_playing:
@@ -110,7 +116,7 @@ func set_active_entry(var entry):
 		target += submenu.index_in_parent
 		submenu = submenu.get_parent()
 	
-	get_node("selector").set_target(-target)
+	selector.set_target(-target)
 
 # Sets the active entry based on index
 func set_active_entry_index(var entry):
@@ -139,4 +145,19 @@ func set_size(s):
 	var size = Vector2(64*7 + background_offset, s*64 + background_offset)
 	
 	get_node("background").set_size(size)
-	get_node("menu").get_active_menu().set_pos(Vector2(0, 300 - s * 32))
+	get_node("menu").get_active_menu().center()
+	
+	set_scroll()
+
+# TODO
+# Sets the scrolling
+func set_scroll():
+	var selector_deviation = 64 * (selector.target + selector.offset) - scroll
+	
+	
+	if selector_deviation > 256:
+		scroll += 64
+	if selector_deviation < -256:
+		scroll -= 64
+	
+	target_pos = Vector2(OS.get_window_size().x / 2, OS.get_window_size().y * (0.5 + scroll / 600.0))

@@ -42,7 +42,7 @@ func _ready():
 		shapes.push_back(load("Sprites/Squares/" + s))
 	
 	create_default_color_set()
-	print(OS.get_data_dir())
+	OS.set_window_fullscreen(true)
 
 # Creates the default color set
 func create_default_color_set():
