@@ -51,6 +51,12 @@ func pop_active_menu():
 	
 	selector.target = -get_active_menu().active_entry_index
 
+# Remove all menus
+func pop_all_menus():
+	while menu_stack.size() > 2:
+		pop_active_menu()
+
+# Called when the menu changes
 func on_menu_changed():
 	main.scroll = 0
 	main.set_options()

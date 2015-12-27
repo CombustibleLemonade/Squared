@@ -17,9 +17,6 @@ func start_game():
 	if main.has_node("squares"):
 		main.get_node("squares").free()
 	
-	main.get_node("selector").hide()
-	global.is_playing = true
-	
 	main.unpause()
 	
 	var game = preload("res://Scenes/Game/game.scn").instance()
@@ -33,5 +30,8 @@ func start_game():
 
 # Gets called when the drop_time slider changes position
 func drop_time_changed(x_pos):
-	var val = tan(x_pos*PI/2 * 0.95) * 4 + 0.1
+	var val = tan( (x_pos * 0.96 + 0.01)*PI/2 ) * 4
+	
+	if x_pos == 1:
+		val = "inf"
 	get_node("drop_time").set_value(val)

@@ -53,6 +53,9 @@ func _input(event):
 	if event.is_action_pressed("ui_accept"):
 		get_active_entry().press()
 	
+	if event.is_action_pressed("ui_cancel"):
+		unpause()
+	
 	if ae.has_method("_input"):
 		ae.input(event)
 
@@ -62,6 +65,8 @@ func pause():
 	set_process_input(true)
 	
 	get_node("menu").load_active_menu("res://Scenes/Menus/Submenus/main_menu.scn")
+	get_node("menu").show()
+	get_node("background").show()
 	
 	set_options()
 	
@@ -75,6 +80,15 @@ func pause():
 func unpause():
 	get_tree().set_pause(false)
 	set_process_input(false)
+	
+	get_node("menu").pop_all_menus()
+	get_node("menu").hide()
+	get_node("background").hide()
+	
+	get_node("selector").hide()
+	get_node("selector").set_process(false)
+	
+	global.is_playing = true
 
 # Sets the active menu
 func set_active_menu(var menu):
