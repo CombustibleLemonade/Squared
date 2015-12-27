@@ -6,6 +6,8 @@ var version_minor
 var possible_colors = ["red", "green", "blue", "yellow"]
 var tile = load("tile.scn")
 
+var save_file_path = "user://savegame.save"
+
 var shapes = []
 var colors = {
 	"empty":Color(0.0, 0.0, 0.0, 0.0),
@@ -164,17 +166,11 @@ func get_played_configs():
 
 # Deletes all scores of configuration c
 func reset_scores_of_config(c):
-	var score = File.new()
-	var file_content = {}
-	if score.file_exists("user://savegame.save"):
-		score.open("user://savegame.save", File.READ)
-		file_content = score.get_var()
-		file_content.erase(c)
-		score.close()
-		
-		score.open("user://savegame.save", File.WRITE)
-		score.store_var(file_content)
-		score.close()
+	var scores = load_file(save_file_path)
+	
+	scores.erase(str(inst2dict(c)))
+	
+	save_file(save_file_path, scores)
 
 # Deletes all scores
 func reset_scores():

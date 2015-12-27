@@ -18,6 +18,8 @@ func _ready():
 	set_process(true)
 
 func _enter_tree():
+	index_in_parent = 0 # Reset the index in parent
+	
 	global = get_node("/root/global")
 	main = get_node("/root/main")
 	selector = get_node("/root/main/selector")
@@ -77,11 +79,6 @@ func get_entry(i):
 	
 	active_entry = get_child(child_index - 1)
 	return active_entry
-
-# Sets the active entry index
-func set_active_entry_index(i):
-	# TODO allow for submenus
-	active_entry_index = i
 
 # Sets the active entry
 func set_active_entry(entry):

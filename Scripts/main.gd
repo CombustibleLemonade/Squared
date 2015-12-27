@@ -36,7 +36,6 @@ func _process(delta):
 	
 	set_pos(next_pos)
 
-
 func _input(event):
 	if global.is_playing:
 		return
@@ -78,6 +77,10 @@ func pause():
 
 # Unpauses the game
 func unpause():
+	# If there is no unpausable game, return
+	if has_node("game") and get_node("game").died:
+		return
+	
 	get_tree().set_pause(false)
 	set_process_input(false)
 	
@@ -131,10 +134,6 @@ func set_active_entry(var entry):
 		submenu = submenu.get_parent()
 	
 	selector.set_target(-target)
-
-# Sets the active entry based on index
-func set_active_entry_index(var entry):
-	get_node("menu").set_active_entry_index(-entry)
 
 # Gets the selected (active) entry in the menu
 func get_active_entry():
