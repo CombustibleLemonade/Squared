@@ -17,7 +17,6 @@ func start_game():
 	
 	if main.has_node("squares"):
 		main.get_node("squares").free()
-	print(top_menu.menu_stack)
 	
 	main.unpause()
 	

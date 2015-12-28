@@ -15,7 +15,7 @@ func _ready():
 	
 	# Add the initial random tiles to the incoming list
 	for i in range (0, height):
-		var tile = load("tile.scn").instance()
+		var tile = preload("res://Scenes/Game/square.scn").instance()
 		
 		tiles.push_back(tile)
 		add_child(tile)
@@ -38,7 +38,7 @@ func shift():
 	
 	# Append a new tile
 	var color = get_node("/root/global").possible_colors[randi()%4]
-	var tile = load("tile.scn").instance()
+	var tile = preload("res://Scenes/Game/square.scn").instance()
 	tile.target_cell = Vector2(0, 0)
 	
 	add_child(tile)

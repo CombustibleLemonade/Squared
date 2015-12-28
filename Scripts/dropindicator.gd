@@ -23,7 +23,7 @@ func _ready():
 		get_node("Timer").start()
 	
 	next = game.get_node("incoming").tiles[0].color
-	next = load("tile.scn").instance()
+	next = preload("res://Scenes/Game/square.scn").instance()
 	
 	add_child(next)
 	next.set_process(false)

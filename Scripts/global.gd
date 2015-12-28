@@ -6,7 +6,7 @@ var version_major
 var version_minor
 
 var possible_colors = ["red", "green", "blue", "yellow"]
-var tile = load("tile.scn")
+var tile = preload("res://Scenes/Game/square.scn")
 
 var save_file_path = "user://savegame.save"
 
