@@ -45,6 +45,8 @@ func _process(delta):
 	set_pos(global.go_to(target_pos, get_pos(), delta))
 
 func _input(ev):
+	game.record.save_event(ev)
+	
 	# To handle input
 	if ev.type == InputEvent.KEY and ev.is_pressed() and not ev.echo and not get_node("dropindicator/Timer") == null and global.is_playing:
 		# Shift rows when arrows are pressed

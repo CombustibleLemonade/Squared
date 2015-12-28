@@ -29,8 +29,8 @@ var is_playing = false # Variable that tracks if we are playing a game
 var menu_change = false # Has the menu changed before? (used to prevent double presses)
 
 class Configuration:
-	var width = 7
-	var height = 9
+	var width = 0
+	var height = 0
 	
 	var mutation_count = 4
 
@@ -135,9 +135,11 @@ func get_scores_of_config(c):
 		return []
 	else:
 		var scores = data[str(inst2dict(c))]
-		scores.sort()
-		scores.invert()
+		scores.sort_custom(self, "score_sort")
 		return scores
+
+func score_sort(a, b):
+	return a.score > b.score
 
 var used_configs = {}
 

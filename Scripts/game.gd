@@ -14,6 +14,8 @@ var mutation_set # Set of square color-shapes
 var configuration setget set_config
 var drop_time = 4
 
+var record = preload("res://Scripts/Grid/record.gd").new()
+
 func _ready():
 	# Initialization
 	global = get_node("/root/global")
@@ -48,6 +50,7 @@ func _process(delta):
 # Sets the configuration (with, height, etc.) of the game
 func set_config(c):
 	configuration = c
+	record.config = c
 	
 	width = c.width
 	height = c.height
@@ -57,7 +60,12 @@ func set_config(c):
 # Computes the score and triggers game over
 func die():
 	var score = compute_score()
-	save_score(score, configuration)
+	
+	record.score = score
+	record.drop_time = drop_time
+	record.has_undo = false
+	
+	save_score(inst2dict(record), configuration)
 	
 	died = true
 	deactivate()

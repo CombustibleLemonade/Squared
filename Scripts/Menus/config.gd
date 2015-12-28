@@ -11,7 +11,7 @@ func apply_highscore():
 	var scores = get_node("/root/global").get_scores_of_config(c)
 	
 	if not scores.size() == 0:
-		get_node("high-score").text = "high-scores: " + str(scores[0])
+		get_node("high-score").text = "high-scores: " + str(scores[0].score)
 	else:
 		get_node("high-score").text = "high-scores: null"
 
