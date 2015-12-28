@@ -63,7 +63,7 @@ func pause():
 	get_tree().set_pause(true)
 	set_process_input(true)
 	
-	get_node("menu").load_active_menu("res://Scenes/Menus/Submenus/main_menu.scn")
+	# get_node("menu").load_active_menu("res://Scenes/Menus/Submenus/main_menu.scn")
 	get_node("menu").show()
 	get_node("background").show()
 	
@@ -84,7 +84,6 @@ func unpause():
 	get_tree().set_pause(false)
 	set_process_input(false)
 	
-	get_node("menu").pop_all_menus()
 	get_node("menu").hide()
 	get_node("background").hide()
 	

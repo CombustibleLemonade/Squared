@@ -10,11 +10,6 @@ var start_time
 var actions = []
 var blocks = []
 
-# Will play the replay
-# TODO
-func start_replay():
-	pass
-
 func _init():
 	start_time = OS.get_ticks_msec()
 

@@ -11,11 +11,13 @@ func pressed(e):
 
 # Starts the game
 func start_game():
+	
 	if main.has_node("game"): # remove the previous game
 		main.get_node("game").free()
 	
 	if main.has_node("squares"):
 		main.get_node("squares").free()
+	print(top_menu.menu_stack)
 	
 	main.unpause()
 	
@@ -26,7 +28,6 @@ func start_game():
 	game.set_config(config)
 	
 	main.add_child(game)
-	top_menu.load_active_menu(null)
 
 # Gets called when the drop_time slider changes position
 func drop_time_changed(x_pos):

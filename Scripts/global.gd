@@ -1,5 +1,7 @@
 extends Node
 
+signal file_change(path, data)
+
 var version_major
 var version_minor
 
@@ -113,6 +115,8 @@ func save_file(path, data):
 	file.open(path, File.WRITE)
 	file.store_var(data)
 	file.close()
+	
+	emit_signal("file_change", path, data)
 
 # Load data from a file in path
 func load_file(path):

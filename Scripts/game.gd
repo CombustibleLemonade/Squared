@@ -50,7 +50,7 @@ func _process(delta):
 # Sets the configuration (with, height, etc.) of the game
 func set_config(c):
 	configuration = c
-	record.config = c
+	record.config = inst2dict(c)
 	
 	width = c.width
 	height = c.height

@@ -4,10 +4,19 @@ signal highscores(c)
 
 func _ready():
 	apply_highscore()
+	get_node("/root/global").connect("file_change", self, "on_file_change")
+
+# Sets the score
+func on_file_change(path, data):
+	if not is_inside_tree():
+		return
+	
+	apply_highscore()
 
 # Puts the high-score on the high-score button
 func apply_highscore():
 	var c = get_config()
+	
 	var scores = get_node("/root/global").get_scores_of_config(c)
 	
 	if not scores.size() == 0:

@@ -13,7 +13,6 @@ func _ready():
 # Load a menu and set it as active
 func load_active_menu(var path):
 	if path == null:
-		set_active_menu(null)
 		return
 	
 	var menu = load(path).instance()
