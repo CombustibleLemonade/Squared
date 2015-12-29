@@ -49,10 +49,12 @@ func _ready():
 func _input(event):
 	if event.is_action_pressed("ui_cancel"):
 		pause()
+	
+	# TODO fix timer speed
 	if event.is_action_pressed("replay_speedup"):
-		replay_speed *= 1.1
+		replay_speed *= 1.5
 	if event.is_action_pressed("replay_slowdown"):
-		replay_speed /= 1.1
+		replay_speed /= 1.5
 
 func start():
 	set_process(true)
@@ -63,6 +65,8 @@ func pause():
 
 func _process(delta):
 	time_left -= delta * 1000 * replay_speed
+	
+	get_node("game/grid/dropindicator").time_left += (1 - replay_speed) * delta
 	
 	if time_left <= 0 and not actions.size() == 0:
 		get_node("game").input(actions[0][0])

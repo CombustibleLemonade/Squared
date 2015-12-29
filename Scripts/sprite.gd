@@ -68,6 +68,8 @@ func check_physics():
 			check_physics()
 			physics_change = true
 	
+	has_changed = true
+	
 	return physics_change
 
 # Drop a cell to its proper height

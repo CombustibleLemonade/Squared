@@ -8,6 +8,8 @@ var parent
 var game
 var global
 
+var time_left setget set_time_left, get_time_left
+
 func _ready():
 	# Initalization here
 	parent = get_parent()
@@ -19,7 +21,7 @@ func _ready():
 	global.is_playing = true
 	
 	if typeof(game.drop_time) == typeof(0.0):
-		get_node("Timer").set_wait_time(game.drop_time)
+		set_time_left(game.drop_time)
 		get_node("Timer").start()
 	
 	next = game.get_node("incoming").tiles[0].color
@@ -44,8 +46,11 @@ func _process(delta):
 		get_node("Timer").stop()
 		next.set_pos(Vector2(0, -200))
 
-# Places a block at the indicated location
 func _on_Timer_timeout():
+	on_Timer_timeout()
+
+# Places a block at the indicated location
+func on_Timer_timeout():
 	if target_cell.y == game.height:
 		game.die()
 		return
@@ -83,6 +88,8 @@ func _on_Timer_timeout():
 	
 	if not grouped:
 		target.regroup()
+	
+	set_time_left(game.drop_time)
 
 func set_color(c):
 	get_node("Arrow").set_modulate(c)
@@ -106,3 +113,10 @@ func check_physics():
 	if cell.color == "empty":
 		target_cell -= Vector2(0, 1)
 		check_physics()
+
+func set_time_left(t):
+	get_node("Timer").set_wait_time(t)
+	get_node("Timer").start()
+
+func get_time_left():
+	return get_node("Timer").get_time_left()

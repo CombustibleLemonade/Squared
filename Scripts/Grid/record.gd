@@ -1,5 +1,7 @@
 extends Node
 
+var version = "alpha 0.1"
+
 var score
 
 var drop_time

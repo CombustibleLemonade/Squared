@@ -23,7 +23,6 @@ var is_replay = false
 
 func _init():
 	random_seed = randi()
-	random_seed = 15
 	next_rand_seed = random_seed
 
 func _ready():

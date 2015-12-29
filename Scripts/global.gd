@@ -2,9 +2,6 @@ extends Node
 
 signal file_change(path, data)
 
-var version_major
-var version_minor
-
 var possible_colors = ["red", "green", "blue", "yellow"]
 var tile = preload("res://Scenes/Game/square.scn")
 
