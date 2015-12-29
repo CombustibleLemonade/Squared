@@ -23,8 +23,7 @@ func _ready():
 		tile.set_process(true)
 		tile.target_cell = Vector2(0, height-i-1)
 		tile.set_pos(tile.compute_target())
-		tile.set_mutation(get_node("/root/global").default_mutation_set[randi()%4])
-	pass
+		tile.set_mutation(get_node("/root/global").default_mutation_set[get_parent().next_int()%4])
 
 func shift():
 	# Delete the last one
@@ -37,7 +36,7 @@ func shift():
 		tiles[i-1] = tiles[i]
 	
 	# Append a new tile
-	var color = get_node("/root/global").possible_colors[randi()%4]
+	var color = get_node("/root/global").possible_colors[get_parent().next_int()%4]
 	var tile = preload("res://Scenes/Game/square.scn").instance()
 	tile.target_cell = Vector2(0, 0)
 	
@@ -45,6 +44,6 @@ func shift():
 	
 	tile.set_process(true)
 	tiles[tiles.size()-1] = tile
-	tile.set_mutation(get_node("/root/global").default_mutation_set[randi()%4])
+	tile.set_mutation(get_node("/root/global").default_mutation_set[get_parent().next_int()%4])
 	tile.set_pos(tile.compute_target())
 	return out

@@ -27,7 +27,7 @@ func _ready():
 	
 	add_child(next)
 	next.set_process(false)
-	next.set_mutation(get_node("/root/global").default_mutation_set[randi()%4])
+	next.set_mutation(get_node("/root/global").default_mutation_set[game.next_int()%4])
 	set_color(global.colors[next.color])
 
 func _process(delta):
@@ -70,7 +70,7 @@ func _on_Timer_timeout():
 	var next_color_value = get_node("/root/global").colors[next.color]
 	set_color(next_color_value)
 	
-	target_cell.x = randi()%game.width
+	target_cell.x = game.next_int()%game.width
 	check_physics()
 	
 	var grouped = false # Has this square been placed in a group yet

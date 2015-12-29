@@ -12,9 +12,19 @@ var died = false # Have we died yet?
 
 var mutation_set # Set of square color-shapes
 var configuration setget set_config
-var drop_time = 4
+var drop_time = 4 # Amount of time between block drops
+
+var random_seed # Seed used bu this game
+var next_rand_seed # Intermediate seed
 
 var record = preload("res://Scripts/Grid/record.gd").new()
+
+var is_replay = false
+
+func _init():
+	random_seed = randi()
+	random_seed = 15
+	next_rand_seed = random_seed
 
 func _ready():
 	# Initialization
@@ -23,6 +33,7 @@ func _ready():
 	grid = get_node("grid")
 	
 	set_process(true)
+	set_process_input(true)
 	
 	get_node("incoming").set_pos(Vector2(width*64 + 64, 8*32))
 	get_node("Score").set_margin(MARGIN_LEFT, width*32+200)
@@ -47,6 +58,14 @@ func _process(delta):
 	
 	get_node("Score/Label").set_text(str(compute_score()))
 
+func _input(e):
+	if not is_replay:
+		input(e)
+
+func input(e):
+	get_node("grid").input(e)
+	get_node("grid/selector").input(e)
+
 # Sets the configuration (with, height, etc.) of the game
 func set_config(c):
 	configuration = c
@@ -64,15 +83,16 @@ func die():
 	record.score = score
 	record.drop_time = drop_time
 	record.has_undo = false
+	record.random_seed = random_seed
 	
-	save_score(inst2dict(record), configuration)
+	if not is_replay:
+		save_score(inst2dict(record), configuration)
 	
 	died = true
 	deactivate()
 
 # Will pause the game in the background, and display the main menu in the foreground
 func deactivate():
-	get_tree().set_pause(true)
 	set_pause_mode(1)
 	get_parent().pause()
 
@@ -94,3 +114,10 @@ func save_score(s, c):
 		data[key] = [s]
 	
 	global.save_file("user://savegame.save", data)
+
+# Returns a random integer
+func next_int():
+	var next = rand_seed(next_rand_seed)
+	next_rand_seed = next[0]
+	return next[0]
+

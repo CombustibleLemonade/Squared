@@ -14,7 +14,7 @@ func _ready():
 	if not size_set:
 		set_size(Vector2(64*get_node("/root/global").width, 64))
 
-func _input(ev):
+func input(ev):
 	# Move up and down
 	var parent = get_parent()
 	if ev.type == InputEvent.KEY and ev.is_pressed() and not ev.echo:

@@ -10,6 +10,8 @@ var start_time
 var actions = []
 var blocks = []
 
+var random_seed
+
 func _init():
 	start_time = OS.get_ticks_msec()
 

@@ -44,7 +44,7 @@ func _process(delta):
 	var target_pos = compute_target_pos()
 	set_pos(global.go_to(target_pos, get_pos(), delta))
 
-func _input(ev):
+func input(ev):
 	game.record.save_event(ev)
 	
 	# To handle input
