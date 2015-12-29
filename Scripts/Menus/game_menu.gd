@@ -15,6 +15,9 @@ func start_game():
 	if main.has_node("game"): # remove the previous game
 		main.get_node("game").free()
 	
+	if main.has_node("replayer"): # remove the previous replay
+		main.get_node("replayer").free()
+	
 	if main.has_node("squares"):
 		main.get_node("squares").free()
 	
