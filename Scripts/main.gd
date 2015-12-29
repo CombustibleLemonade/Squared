@@ -81,6 +81,15 @@ func unpause():
 	if has_node("game") and get_node("game").died:
 		return
 	
+	if has_node("replayer") and get_node("replayer/game").died:
+		return
+	
+	var game
+	if has_node("replayer"):
+		game = get_node("replayer/game")
+	if has_node("game"):
+		game = get_node("game")
+	
 	get_tree().set_pause(false)
 	set_process_input(false)
 	
@@ -91,6 +100,9 @@ func unpause():
 	get_node("selector").set_process(false)
 	
 	global.is_playing = true
+	
+	if not game == null:
+		game.activate()
 
 # Sets the active menu
 func set_active_menu(var menu):

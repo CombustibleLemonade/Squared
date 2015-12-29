@@ -94,7 +94,12 @@ func die():
 # Will pause the game in the background, and display the main menu in the foreground
 func deactivate():
 	set_pause_mode(1)
+	record.pause()
 	get_parent().pause()
+
+# Gets called when the game resumes
+func activate():
+	record.resume()
 
 # Computes the score
 func compute_score():
