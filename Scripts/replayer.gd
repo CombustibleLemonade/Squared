@@ -44,6 +44,9 @@ func _ready():
 	
 	get_node("game").is_replay = true
 	actions = fix_actions_pressed(record.actions)
+	
+	set_global_pos(OS.get_window_size()/2)
+	
 	start()
 
 func _input(event):
@@ -66,7 +69,8 @@ func pause():
 func _process(delta):
 	time_left -= delta * 1000 * replay_speed
 	
-	get_node("game/grid/dropindicator").time_left += (1 - replay_speed) * delta
+	if time_left + (1 - replay_speed) * delta > 0:
+		get_node("game/grid/dropindicator").time_left += (1 - replay_speed) * delta
 	
 	if time_left <= 0 and not actions.size() == 0:
 		get_node("game").input(actions[0][0])

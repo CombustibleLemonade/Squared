@@ -38,6 +38,9 @@ var height = 8 # Default height of grid
 
 var drop_time = 4 # Amount of time it takes for one sprite to be dropped
 
+func _init():
+	randomize()
+
 func _ready():
 	for s in get_files("./Sprites/Squares/"):
 		shapes.push_back(load("Sprites/Squares/" + s))

@@ -1,6 +1,6 @@
 extends "submenu.gd"
 
-var record
+var record setget set_record
 
 func pressed(e):
 	if e.get_name() == "back":
@@ -26,3 +26,6 @@ func start_replay():
 	game.set_config(dict2inst(record.config))
 	game.record = record
 	main.add_child(game)
+
+func set_record(r):
+	record = r

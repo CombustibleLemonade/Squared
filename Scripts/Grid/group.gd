@@ -43,8 +43,9 @@ func expand():
 		if all_members.has(members[i].target_cell):
 			members.remove(i)
 	
-	if members.size() > 0:
-		members[0].regroup()
+	for i in members:
+		if i.group == self:
+			i.regroup()
 	
 	member_count = all_members.size()
 	

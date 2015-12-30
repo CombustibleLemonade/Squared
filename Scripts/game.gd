@@ -77,12 +77,19 @@ func set_config(c):
 
 # Computes the score and triggers game over
 func die():
+	var date = OS.get_date()
+	var time = OS.get_time()
+	
 	var score = compute_score()
 	
 	record.score = score
 	record.drop_time = drop_time
 	record.has_undo = false
 	record.random_seed = random_seed
+
+	record.date = [date, time]
+	
+	print(record.date)
 	
 	if not is_replay:
 		save_score(inst2dict(record), configuration)

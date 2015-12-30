@@ -89,7 +89,10 @@ func on_Timer_timeout():
 	if not grouped:
 		target.regroup()
 	
-	set_time_left(game.drop_time)
+	if typeof(game.drop_time) == typeof("inf") and game.drop_time == "inf":
+		get_node("Timer").stop()
+	else:
+		set_time_left(game.drop_time)
 
 func set_color(c):
 	get_node("Arrow").set_modulate(c)
