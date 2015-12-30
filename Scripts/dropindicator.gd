@@ -39,8 +39,14 @@ func _process(delta):
 	
 	if typeof(game.drop_time) == typeof(0.0):
 		# Drop time is finite
-		next.set_pos(Vector2(0, -get_node("Timer").get_time_left() * 50000)/(1000 - get_pos().y))
-		next.set_rot(get_node("Timer").get_time_left())
+		var tl
+		if game.is_replay:
+			tl = time_left
+		else:
+			tl = get_node("Timer").get_time_left()
+		
+		next.set_pos(Vector2(0, -tl * 50000)/(1000 - get_pos().y))
+		next.set_rot(tl)
 	else:
 		# Drop time is infinite
 		get_node("Timer").stop()
@@ -51,6 +57,8 @@ func _on_Timer_timeout():
 
 # Places a block at the indicated location
 func on_Timer_timeout():
+	game.record.save_event("drop")
+	
 	if target_cell.y == game.height:
 		game.die()
 		return
@@ -119,7 +127,14 @@ func check_physics():
 
 func set_time_left(t):
 	get_node("Timer").set_wait_time(t)
-	get_node("Timer").start()
+	if not game.is_replay:
+		get_node("Timer").start()
+	else:
+		get_node("Timer").stop()
+	time_left = t
 
 func get_time_left():
-	return get_node("Timer").get_time_left()
+	if game.is_replay:
+		return time_left
+	else:
+		return get_node("Timer").get_time_left()

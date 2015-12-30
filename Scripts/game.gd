@@ -62,6 +62,8 @@ func _input(e):
 		input(e)
 
 func input(e):
+	if not e.is_action("Next"):
+		record.save_event(e)
 	get_node("grid").input(e)
 	get_node("grid/selector").input(e)
 
@@ -86,10 +88,7 @@ func die():
 	record.drop_time = drop_time
 	record.has_undo = false
 	record.random_seed = random_seed
-
 	record.date = [date, time]
-	
-	print(record.date)
 	
 	if not is_replay:
 		save_score(inst2dict(record), configuration)

@@ -24,7 +24,9 @@ func fix_actions_pressed(actions):
 	var ret = [] # Use a new array (since arrays are passed by reference)
 	
 	for i in actions:
-		if not i[0].is_action("ui_cancel"):
+		if typeof(i[0]) == typeof(""):
+			ret.push_back(i)
+		elif not i[0].is_action("ui_cancel"):
 			if i[0].type == 1 and pressedkeys.has(i[0].scancode):
 				pressedkeys.erase(i[0].scancode)
 				i[0].pressed = false
@@ -70,10 +72,14 @@ func _process(delta):
 	time_left -= delta * 1000 * replay_speed
 	
 	if time_left + (1 - replay_speed) * delta > 0:
-		get_node("game/grid/dropindicator").time_left += (1 - replay_speed) * delta
+		get_node("game/grid/dropindicator").time_left -=  replay_speed * delta
 	
 	if time_left <= 0 and not actions.size() == 0:
-		get_node("game").input(actions[0][0])
+		var action = actions[0][0]
+		if typeof(action) == typeof(""):
+			get_node("game/grid/dropindicator")._on_Timer_timeout()
+		else:
+			get_node("game").input(actions[0][0])
 		
 		if not actions.size() == 1:
 			time_left += actions[1][1] - actions[0][1]
