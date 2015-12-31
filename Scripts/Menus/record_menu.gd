@@ -8,6 +8,7 @@ func pressed(e):
 	if e.get_name() == "replay":
 		start_replay()
 
+# Starts playing the replay
 func start_replay():
 	if main.has_node("game"): # remove the previous game
 		main.get_node("game").free()
@@ -29,3 +30,4 @@ func start_replay():
 
 func set_record(r):
 	record = r
+	get_node("seed").set_text("seed: " + str(record.random_seed))

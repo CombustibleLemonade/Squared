@@ -24,8 +24,6 @@ func _ready(var m = null):
 	
 	if not m == null:
 		set_mutation(mutation)
-	
-
 
 func _process(delta):
 	# Smoothly glide to our target transform
@@ -41,10 +39,10 @@ func compute_target():
 
 func set_color(c):
 	color = c
-	get_node("Sprite").set_modulate(global.colors[c])
+	get_node("sprite").set_modulate(global.colors[c])
 
 func set_shape(sprite):
-	get_node("Sprite").set_texture(sprite)
+	get_node("sprite").set_texture(sprite)
 
 func set_mutation(m):
 	mutation = m
@@ -103,3 +101,10 @@ func neighbors_check(var check_arg):
 func regroup():
 	group = preload("Grid/group.gd").new(self)
 	group.game = get_parent().get_parent()
+
+# Sets the text
+func set_text(t):
+	get_node("Node2D/Label").set_text(t)
+
+func get_text():
+	return get_node("Node2D/Label").get_text()

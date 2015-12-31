@@ -15,15 +15,12 @@ func _ready():
 	
 	# Add the initial random tiles to the incoming list
 	for i in range (0, height):
-		var tile = preload("res://Scenes/Game/square.scn").instance()
+		var tile = new_square()
 		
 		tiles.push_back(tile)
-		add_child(tile)
 		
-		tile.set_process(true)
 		tile.target_cell = Vector2(0, height-i-1)
 		tile.set_pos(tile.compute_target())
-		tile.set_mutation(get_node("/root/global").default_mutation_set[get_parent().next_int()%4])
 
 func shift():
 	# Delete the last one
@@ -35,15 +32,23 @@ func shift():
 		tiles[i].target_cell += Vector2(0, 1)
 		tiles[i-1] = tiles[i]
 	
-	# Append a new tile
-	var color = get_node("/root/global").possible_colors[get_parent().next_int()%4]
-	var tile = preload("res://Scenes/Game/square.scn").instance()
+	var tile = new_square()
 	tile.target_cell = Vector2(0, 0)
 	
-	add_child(tile)
-	
-	tile.set_process(true)
 	tiles[tiles.size()-1] = tile
-	tile.set_mutation(get_node("/root/global").default_mutation_set[get_parent().next_int()%4])
 	tile.set_pos(tile.compute_target())
+	
 	return out
+
+# Creates a new square
+func new_square():
+	var color = get_node("/root/global").possible_colors[get_parent().next_int()%4]
+	var pos = get_parent().next_int()%get_parent().width
+	var square = preload("res://Scenes/Game/square.scn").instance()
+	
+	square.set_text(str(pos))
+	square.set_process(true)
+	add_child(square)
+	
+	square.set_mutation(get_node("/root/global").default_mutation_set[get_parent().next_int()%4])
+	return square

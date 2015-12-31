@@ -85,6 +85,3 @@ func _process(delta):
 			time_left += actions[1][1] - actions[0][1]
 		
 		actions.remove(0)
-	
-	if actions.size() == 0:
-

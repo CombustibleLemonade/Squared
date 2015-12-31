@@ -35,8 +35,8 @@ func _ready():
 	set_process_input(true)
 	
 	get_node("incoming").set_pos(Vector2(width*64 + 64, 8*32))
-	get_node("Score").set_margin(MARGIN_LEFT, width*32+200)
-	get_node("Score").set_margin(MARGIN_RIGHT, width*32+100)
+	get_node("score").set_margin(MARGIN_LEFT, width*32+200)
+	get_node("score").set_margin(MARGIN_RIGHT, width*32+100)
 	grid.set_focus(0)
 	grid.get_node("selector").max_y = height - 1
 	grid.get_node("selector").set_active(true)
@@ -44,6 +44,14 @@ func _ready():
 	configuration = preload("global.gd").Configuration.new()
 	configuration.width = width
 	configuration.height = height
+	
+	
+	for i in range(width):
+		var number = Label.new()
+		number.set_text(str(i))
+		number.set_custom_minimum_size(Vector2(64, 0))
+		number.set_align(Label.ALIGN_CENTER)
+		get_node("numbering").add_child(number)
 
 func _process(delta):
 	var scores = ""
@@ -55,7 +63,7 @@ func _process(delta):
 		else:
 			grid.groups.remove(i)
 	
-	get_node("Score/Label").set_text(str(compute_score()))
+	get_node("score/Label").set_text(str(compute_score()))
 
 func _input(e):
 	if not is_replay:
@@ -104,7 +112,8 @@ func deactivate():
 
 # Gets called when the game resumes
 func activate():
-	record.resume()
+	if not is_replay:
+		record.resume()
 
 # Computes the score
 func compute_score():
@@ -130,4 +139,3 @@ func next_int():
 	var next = rand_seed(next_rand_seed)
 	next_rand_seed = next[0]
 	return next[0]
-

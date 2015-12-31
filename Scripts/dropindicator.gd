@@ -45,7 +45,7 @@ func _process(delta):
 		else:
 			tl = get_node("Timer").get_time_left()
 		
-		next.set_pos(Vector2(0, -tl * 50000)/(1000 - get_pos().y))
+		next.set_pos(Vector2(0, -tl * 50000)/1000)
 		next.set_rot(tl)
 	else:
 		# Drop time is infinite
@@ -83,7 +83,9 @@ func on_Timer_timeout():
 	var next_color_value = get_node("/root/global").colors[next.color]
 	set_color(next_color_value)
 	
-	target_cell.x = game.next_int()%game.width
+	target_cell.x = int(next.get_text())
+	next.set_text("")
+	
 	check_physics()
 	
 	var grouped = false # Has this square been placed in a group yet
