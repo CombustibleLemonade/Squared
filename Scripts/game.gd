@@ -99,7 +99,7 @@ func die():
 	record.date = [date, time]
 	
 	if not is_replay:
-		save_score(inst2dict(record), configuration)
+		global.save_score(inst2dict(record), configuration)
 	
 	died = true
 	deactivate()
@@ -114,25 +114,12 @@ func deactivate():
 func activate():
 	if not is_replay:
 		record.resume()
-
 # Computes the score
 func compute_score():
 	var score = 0
 	for i in get_node("grid").groups:
 		score += i.member_count*(i.member_count+1)/2
 	return score
-
-# Saves the score to the filesystem
-func save_score(s, c):
-	var data = global.load_file("user://savegame.save")
-	var key = str(inst2dict(c))
-	
-	if data.has(key):
-		data[key].push_back(s)
-	else:
-		data[key] = [s]
-	
-	global.save_file("user://savegame.save", data)
 
 # Returns a random integer
 func next_int():

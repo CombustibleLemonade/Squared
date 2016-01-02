@@ -1,5 +1,8 @@
 extends "submenu.gd"
 
+func _ready():
+	get_node("version").set_text(get_node("/root/global").version)
+
 func pressed(e):
 	if e.get_name() == "store_page":
 		OS.shell_open("http://combustible-lemonade.itch.io/squared")

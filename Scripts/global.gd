@@ -1,11 +1,13 @@
 extends Node
 
+var version = "alpha 0.1"
+
 signal file_change(path, data)
 
 var possible_colors = ["red", "green", "blue", "yellow"]
 var tile = preload("res://Scenes/Game/square.scn")
 
-var save_file_path = "user://savegame.save"
+var leaderboard_path = "user://Leaderboards/leaderboards.save"
 
 var shapes = []
 var colors = {
@@ -112,6 +114,14 @@ func get_files(var folder):
 func save_file(path, data):
 	var file = File.new()
 	
+	# Check if the containing directory exists
+	var dir = Directory.new()
+	dir.open( "user://" )
+	
+	if not dir.dir_exists(path.get_base_dir()):
+		var rel_path = path.get_base_dir().replace("user://", "")
+		dir.make_dir_recursive(rel_path)
+	
 	file.open(path, File.WRITE)
 	file.store_var(data)
 	file.close()
@@ -131,7 +141,7 @@ func load_file(path):
 
 # Returns all scores of configuration c
 func get_scores_of_config(c):
-	var data = load_file("user://savegame.save")
+	var data = load_file(leaderboard_path)
 	
 	var key = inst2dict(c)
 	
@@ -151,8 +161,8 @@ var used_configs = {}
 func get_played_configs():
 	var score = File.new()
 	var file_content = {}
-	if score.file_exists("user://savegame.save"):
-		score.open("user://savegame.save", File.READ)
+	if score.file_exists(leaderboard_path):
+		score.open(leaderboard_path, File.READ)
 		file_content = score.get_var()
 		score.close()
 		
@@ -172,17 +182,32 @@ func get_played_configs():
 
 # Deletes all scores of configuration c
 func reset_scores_of_config(c):
-	var scores = load_file(save_file_path)
+	var scores = load_file(leaderboard_path)
 	
 	scores.erase(str(inst2dict(c)))
 	
-	save_file(save_file_path, scores)
+	save_file(leaderboard_path, scores)
 
 # Deletes all scores
 func reset_scores():
 	var score = File.new()
 	var file_content = {}
-	if score.file_exists("user://savegame.save"):
-		score.open("user://savegame.save", File.WRITE)
+	if score.file_exists(leaderboard_path):
+		score.open(leaderboard_path, File.WRITE)
 		score.store_var({})
 		score.close()
+
+# Saves the score to the filesystem
+func save_score(s, c):
+	var data = load_file(leaderboard_path)
+	var key = str(inst2dict(c))
+	
+	if data == null:
+		data = {}
+	
+	if data.has(key):
+		data[key].push_back(s)
+	else:
+		data[key] = [s]
+	
+	save_file(leaderboard_path, data)

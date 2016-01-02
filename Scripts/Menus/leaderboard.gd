@@ -36,10 +36,12 @@ func pressed(e):
 		top_menu.load_active_menu("res://Scenes/Menus/Submenus/record_menu.scn")
 		top_menu.get_active_menu().record = record
 
-# TODO resets scores of this config
+# resets scores of this config
 func reset_scores():
 	global.reset_scores_of_config(config)
 	for i in get_children():
 		if i.get_name().is_valid_integer():
 			remove_child(i)
 			i.queue_free()
+	
+	top_menu.pop_active_menu()
