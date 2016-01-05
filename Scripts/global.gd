@@ -49,6 +49,8 @@ func _ready():
 	
 	create_default_color_set()
 	OS.set_window_fullscreen(true)
+	
+	print(OS.get_data_dir())
 
 # Creates the default color set
 func create_default_color_set():
@@ -119,8 +121,8 @@ func save_file(path, data):
 	dir.open( "user://" )
 	
 	if not dir.dir_exists(path.get_base_dir()):
-		var rel_path = path.get_base_dir().replace("user://", "")
-		dir.make_dir_recursive(rel_path)
+		var rel_path = path.get_base_dir()
+		dir.make_dir(rel_path)
 	
 	file.open(path, File.WRITE)
 	file.store_var(data)
