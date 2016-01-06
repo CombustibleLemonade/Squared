@@ -52,7 +52,7 @@ func _input(event):
 	if event.is_action_pressed("ui_accept"):
 		get_active_entry().press()
 	
-	if event.is_action_pressed("ui_cancel"):
+	if event.is_action_pressed("ui_cancel") and get_tree().is_paused():
 		unpause()
 	
 	if ae.has_method("_input"):
