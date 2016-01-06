@@ -34,11 +34,11 @@ func toggle():
 	if is_on:
 		get_node("CenterContainer/Tile").target_rotation = PI/2
 		get_node("CenterContainer/Tile").set_color("red")
-		get_node("CenterContainer/Tile/Sprite").set_texture(load("res://Sprites/Tickbox/cross.png"))
+		get_node("CenterContainer/Tile/sprite").set_texture(load("res://Sprites/Tickbox/cross.png"))
 	else:
 		get_node("CenterContainer/Tile").target_rotation = 0
 		get_node("CenterContainer/Tile").set_color("green")
-		get_node("CenterContainer/Tile/Sprite").set_texture(load("res://Sprites/Tickbox/tick.png"))
+		get_node("CenterContainer/Tile/sprite").set_texture(load("res://Sprites/Tickbox/tick.png"))
 	is_on = !is_on
 	emit_signal("toggled", is_on)
 
@@ -53,11 +53,11 @@ func set(state):
 	if state:
 		get_node("CenterContainer/Tile").set_rot(0)
 		get_node("CenterContainer/Tile").set_color("green")
-		get_node("CenterContainer/Tile/Sprite").set_texture(load("res://Sprites/Tickbox/tick.png"))
+		get_node("CenterContainer/Tile/sprite").set_texture(load("res://Sprites/Tickbox/tick.png"))
 	else:
 		get_node("CenterContainer/Tile").set_rot(PI/2)
 		get_node("CenterContainer/Tile").set_color("red")
-		get_node("CenterContainer/Tile/Sprite").set_texture(load("res://Sprites/Tickbox/cross.png"))
+		get_node("CenterContainer/Tile/sprite").set_texture(load("res://Sprites/Tickbox/cross.png"))
 	
 	get_node("CenterContainer/Tile").set_rot(get_node("CenterContainer/Tile").target_rotation)
 	is_on = state
