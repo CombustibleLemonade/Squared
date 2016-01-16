@@ -173,7 +173,6 @@ func set_size(s):
 	
 	set_scroll()
 
-# TODO
 # Sets the scrolling
 func set_scroll():
 	var selector_deviation = 64 * (selector.target + selector.offset) - scroll

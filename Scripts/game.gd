@@ -45,7 +45,6 @@ func _ready():
 	configuration.width = width
 	configuration.height = height
 	
-	
 	for i in range(width):
 		var number = Label.new()
 		number.set_text(str(i))
@@ -64,6 +63,8 @@ func _process(delta):
 			grid.groups.remove(i)
 	
 	get_node("score/Label").set_text(str(compute_score()))
+	
+	fit_in_rect(Rect2(Vector2(), OS.get_window_size()))
 
 func _input(e):
 	if not is_replay:
@@ -126,3 +127,10 @@ func next_int():
 	var next = rand_seed(next_rand_seed)
 	next_rand_seed = next[0]
 	return next[0]
+
+# Fits the game in a certain rectangle. Measured in pixels
+func fit_in_rect(rect):
+	var scale = rect.size.y/OS.get_window_size().y
+	set_scale(Vector2(scale, scale))
+	
+	set_global_pos(OS.get_window_size()/2)
