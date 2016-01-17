@@ -64,7 +64,8 @@ func _process(delta):
 	
 	get_node("score/Label").set_text(str(compute_score()))
 	
-	fit_in_rect(Rect2(Vector2(), OS.get_window_size()))
+	var window_size = OS.get_window_size()
+	fit_in_rect(Rect2(Vector2(), window_size))
 
 func _input(e):
 	if not is_replay:
@@ -130,7 +131,10 @@ func next_int():
 
 # Fits the game in a certain rectangle. Measured in pixels
 func fit_in_rect(rect):
-	var scale = rect.size.y/OS.get_window_size().y
+	var scale_x = (600/OS.get_window_size().y)/((320 +  width*64)/rect.size.x)
+	var scale_y = rect.size.y/OS.get_window_size().y
+	
+	var scale = min(scale_x, scale_y)
 	set_scale(Vector2(scale, scale))
 	
-	set_global_pos(OS.get_window_size()/2)
+	set_global_pos(rect.pos + rect.size/2)
