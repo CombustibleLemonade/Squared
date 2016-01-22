@@ -177,7 +177,6 @@ func set_size(s):
 func set_scroll():
 	var selector_deviation = 64 * (selector.target + selector.offset) - scroll
 	
-	
 	if selector_deviation > 256:
 		scroll += 64
 	if selector_deviation < -256:

@@ -46,9 +46,9 @@ func pop_active_menu():
 	menu_stack.remove(menu_stack.size()-1)
 	
 	add_child(menu_stack[menu_stack.size()-1])
-	on_menu_changed()
 	
 	selector.target = -get_active_menu().active_entry_index
+	on_menu_changed()
 
 # Remove all menus
 func pop_all_menus():
