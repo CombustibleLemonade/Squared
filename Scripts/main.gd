@@ -9,6 +9,7 @@ var background_offset = 16
 var scroll = 0
 
 var target_pos = Vector2()
+var games = []
 
 func _ready():
 	selector = get_node("selector")
@@ -156,7 +157,7 @@ func get_entry(k):
 
 # Will position the selector to the right location for the amount of options
 func set_options():
-	var amount_of_options = global.get_horizontal_entry_count(menu_stack[menu_stack.size()-1])
+	var amount_of_options = global.get_vertical_entry_count(menu_stack[menu_stack.size()-1])
 	selector.set_process(true)
 	set_size(amount_of_options)
 

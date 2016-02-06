@@ -12,7 +12,7 @@ var active_entry_index = 0
 
 var index_in_parent = 0
 
-var Configuration = load("res://Scripts/global.gd").Configuration
+var Configuration = preload("res://Scripts/GlobalScope/global.gd").Configuration
 
 func _ready():
 	set_process(true)

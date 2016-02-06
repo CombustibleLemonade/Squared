@@ -41,7 +41,7 @@ func _ready():
 	grid.get_node("selector").max_y = height - 1
 	grid.get_node("selector").set_active(true)
 	
-	configuration = preload("global.gd").Configuration.new()
+	configuration = preload("GlobalScope/global.gd").Configuration.new()
 	configuration.width = width
 	configuration.height = height
 	
@@ -110,7 +110,7 @@ func die():
 func deactivate():
 	set_pause_mode(1)
 	record.pause()
-	get_parent().pause()
+	get_node("/root/main").pause()
 
 # Gets called when the game resumes
 func activate():

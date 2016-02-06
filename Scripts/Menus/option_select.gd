@@ -2,7 +2,7 @@ tool
 extends HBoxContainer
 
 export(Array) var possible_values setget set_possible_values
-export(int) var value = 0 setget set_value
+export(int) var value = 0 setget set_value, get_value
 
 signal focus(entry)
 signal pressed
@@ -45,6 +45,14 @@ func set_value(var value_arg):
 		get_node("value").set_text(str(possible_values[value]))
 	
 	emit_signal("change")
+
+# Returns the int value of the selector
+func get_value():
+	return value
+
+# Returns the text value of the selector
+func get_value_string():
+	return possible_values[value]
 
 func focus(var inc_dec = null):
 	emit_signal("focus", self)

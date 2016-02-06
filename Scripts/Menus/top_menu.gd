@@ -36,8 +36,8 @@ func set_active_menu(var menu):
 	menu_stack.push_back(menu)
 	
 	# Set the target
-	on_menu_changed()
 	selector.set_target(0)
+	on_menu_changed()
 
 # Pops the active menu
 func pop_active_menu():

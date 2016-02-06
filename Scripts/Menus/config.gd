@@ -26,7 +26,7 @@ func apply_highscore():
 
 # Gets the config of the selected parameters
 func get_config():
-	var c = preload("../global.gd").Configuration.new()
+	var c = preload("../GlobalScope/global.gd").Configuration.new()
 	
 	if get_node("width") == null:
 		return c

@@ -11,7 +11,6 @@ func pressed(e):
 
 # Starts the game
 func start_game():
-	
 	if main.has_node("game"): # remove the previous game
 		main.get_node("game").free()
 	
@@ -23,11 +22,11 @@ func start_game():
 	
 	main.unpause()
 	
-	var game = preload("res://Scenes/Game/game.scn").instance()
+	var game = preload("res://Scenes/Game/versus.scn").instance()
 	game.drop_time = get_node("drop_time").value
 	
 	var config = get_node("config").get_config()
-	game.set_config(config)
+	game.set_config([config])
 	
 	main.add_child(game)
 

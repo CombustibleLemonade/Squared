@@ -50,7 +50,7 @@ func _ready():
 	create_default_color_set()
 	OS.set_window_fullscreen(true)
 	
-	print(OS.get_data_dir())
+	var dir = Directory.new()
 
 # Creates the default color set
 func create_default_color_set():
@@ -72,8 +72,8 @@ func create_default_color_set():
 	
 	mutation_sets.push_back(default_mutation_set)
 
-# TODO returns how many horizontal entries are stacked in the menu
-func get_horizontal_entry_count(menu):
+# Returns how many vertical entries are stacked in the menu
+func get_vertical_entry_count(menu):
 	var children = menu.get_children()
 	var size = 0 # Extra size from submenu members
 	
