@@ -65,7 +65,6 @@ func _process(delta):
 	get_node("score/Label").set_text(str(compute_score()))
 	
 	var window_size = OS.get_window_size()
-	fit_in_rect(Rect2(Vector2(), window_size))
 
 func _input(e):
 	if not is_replay:
@@ -76,6 +75,10 @@ func input(e):
 		record.save_event(e)
 	get_node("grid").input(e)
 	get_node("grid/selector").input(e)
+
+# TODO: perform an action
+func perform_action(a):
+	pass
 
 # Sets the configuration (with, height, etc.) of the game
 func set_config(c):
@@ -116,6 +119,7 @@ func deactivate():
 func activate():
 	if not is_replay:
 		record.resume()
+
 # Computes the score
 func compute_score():
 	var score = 0
