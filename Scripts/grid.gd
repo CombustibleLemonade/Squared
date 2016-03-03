@@ -46,20 +46,18 @@ func _process(delta):
 
 func input(ev):
 	# To handle input
-	if ev.type == InputEvent.KEY and ev.is_pressed() and not ev.echo and not get_node("dropindicator/Timer") == null and global.is_playing:
+	if not get_node("dropindicator/Timer") == null and global.is_playing:
 		# Shift rows when arrows are pressed
-		if ev.is_action("left"):
+		if "left" in ev:
 			move_row_left(selector.target)
-		elif ev.is_action("right"):
+		elif "right" in ev:
 			move_row_right(selector.target)
 		
-		elif ev.is_action("Next"):
+		elif "next" in ev:
 			get_node("dropindicator")._on_Timer_timeout()
 			get_node("dropindicator/Timer").start()
 	
-	if ev.is_action_pressed("ui_cancel"):
-		game.compute_score()
-		game.deactivate()
+
 
 # Will move selected row one element to the left
 func move_row_left(row):

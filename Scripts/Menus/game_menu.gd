@@ -26,7 +26,9 @@ func start_game():
 	game.drop_time = get_node("drop_time").value
 	
 	var config = get_node("config").get_config()
-	game.set_config([config])
+	game.set_config([config, config])
+	
+	game.fields[0].scheme = "default 2"
 	
 	main.add_child(game)
 

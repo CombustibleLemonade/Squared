@@ -24,13 +24,7 @@ func _ready():
 		set_time_left(game.drop_time)
 		get_node("Timer").start()
 	
-	next = game.get_node("incoming").tiles[0].color
-	next = preload("res://Scenes/Game/square.scn").instance()
-	
-	add_child(next)
-	next.set_process(false)
-	next.set_mutation(get_node("/root/global").default_mutation_set[game.next_int()%4])
-	set_color(global.colors[next.color])
+	fetch_next()
 
 func _process(delta):
 	var target = parent.grid_to_screen(target_cell)
@@ -73,18 +67,7 @@ func on_Timer_timeout():
 	remove_child(next)
 	next.free()
 	
-	# Now load the next next block from the incoming list
-	next = get_node("../../incoming").shift()
-	
-	# And add it to ourselves
-	add_child(next)
-	next.set_process(false)
-	
-	var next_color_value = get_node("/root/global").colors[next.color]
-	set_color(next_color_value)
-	
-	target_cell.x = int(next.get_text())
-	next.set_text("")
+	fetch_next()
 	
 	check_physics()
 	
@@ -103,6 +86,19 @@ func on_Timer_timeout():
 		get_node("Timer").stop()
 	else:
 		set_time_left(game.drop_time)
+
+# Loads the next block from the incoming list
+func fetch_next():
+	next = get_node("../../incoming").shift()
+	
+	add_child(next)
+	next.set_process(false)
+	
+	var next_color_value = get_node("/root/global").colors[next.color]
+	set_color(next_color_value)
+	
+	target_cell.x = int(next.get_text())
+	next.set_text("")
 
 func set_color(c):
 	get_node("Arrow").set_modulate(c)

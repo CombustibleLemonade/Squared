@@ -17,15 +17,15 @@ func _ready():
 func input(ev):
 	# Move up and down
 	var parent = get_parent()
-	if ev.type == InputEvent.KEY and ev.is_pressed() and not ev.echo:
-		if ev.is_action("up"):
-			move(1)
-			if target - parent.get_focus() > 6:
-				parent.set_focus(target-6)
-		elif ev.is_action("down"):
-			move(-1)
-			if target - parent.get_focus() < 0:
-				parent.set_focus(target)
+	
+	if "up" in ev:
+		move(1)
+		if target - parent.get_focus() > 6:
+			parent.set_focus(target-6)
+	elif "down" in ev:
+		move(-1)
+		if target - parent.get_focus() < 0:
+			parent.set_focus(target)
 
 func _process(delta):
 	# Will make the selector move to the target position

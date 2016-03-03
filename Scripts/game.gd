@@ -5,6 +5,8 @@ var global
 var selector
 var grid
 
+var scheme = "default 1"
+
 export(int) var width # Amount of columns 	-- x
 export(int) var height # Amount of rows 	-- y
 
@@ -14,7 +16,7 @@ var mutation_set # Set of square color-shapes
 var configuration setget set_config
 var drop_time = 4 # Amount of time between block drops
 
-var random_seed # Seed used bu this game
+var random_seed # Seed used by this game
 var next_rand_seed # Intermediate seed
 
 var record = preload("res://Scripts/Grid/record.gd").new()
@@ -70,15 +72,19 @@ func _input(e):
 	if not is_replay:
 		input(e)
 
+# Handles input
 func input(e):
 	if not e.is_action("Next"):
 		record.save_event(e)
-	get_node("grid").input(e)
-	get_node("grid/selector").input(e)
-
-# TODO: perform an action
-func perform_action(a):
-	pass
+	
+	var event = get_node("/root/input").parse_input(scheme, e)
+	
+	get_node("grid").input(event)
+	get_node("grid/selector").input(event)
+	
+	if e.is_action_pressed("ui_cancel"):
+		compute_score()
+		deactivate()
 
 # Sets the configuration (with, height, etc.) of the game
 func set_config(c):

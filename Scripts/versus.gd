@@ -7,6 +7,9 @@ var died = false setget set_died, get_died # Have we died yet?
 
 var fields = [] # Amount of fields in game
 
+func _ready():
+	set_layout()
+
 # Sets the config of the entire game
 func set_config(c):
 	config = c
@@ -17,6 +20,10 @@ func set_config(c):
 	for i in config:
 		add_field(i)
 
+# Sets all field to input array
+func set_fields(f):
+	fields = f
+
 # Adds a field with a certain field config
 func add_field(field_config):
 	var field = preload("res://Scenes/Game/game.scn").instance()
@@ -25,6 +32,18 @@ func add_field(field_config):
 	field.set_config(field_config)
 	add_child(field)
 	fields.push_back(field)
+
+# TODO: Sets the layout of the fields
+func set_layout():
+	if fields.size() == 1:
+		fields[0].fit_in_rect(Rect2(Vector2(), OS.get_window_size()))
+	if fields.size() == 2:
+		var size = Vector2(OS.get_window_size().x / 2, OS.get_window_size().y)
+		var half_pos = Vector2(OS.get_window_size().x / 2, 0)
+		fields[0].fit_in_rect(Rect2(Vector2(), size))
+		fields[1].fit_in_rect(Rect2(half_pos, size))
+	
+	pass
 
 # Start playing again
 func activate():
