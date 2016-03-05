@@ -69,7 +69,7 @@ func _process(delta):
 	var window_size = OS.get_window_size()
 
 func _input(e):
-	if not is_replay:
+	if not is_replay and not died:
 		input(e)
 
 # Handles input
@@ -84,7 +84,7 @@ func input(e):
 	
 	if e.is_action_pressed("ui_cancel"):
 		compute_score()
-		deactivate()
+		get_parent().deactivate()
 
 # Sets the configuration (with, height, etc.) of the game
 func set_config(c):
@@ -113,13 +113,12 @@ func die():
 		global.save_score(inst2dict(record), configuration)
 	
 	died = true
-	deactivate()
+	
+	get_node("grid/dropindicator").set_process(false)
+	
+	get_parent().set_died(self)
 
-# Will pause the game in the background, and display the main menu in the foreground
-func deactivate():
-	set_pause_mode(1)
-	record.pause()
-	get_node("/root/main").pause()
+
 
 # Gets called when the game resumes
 func activate():

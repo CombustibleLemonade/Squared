@@ -25,10 +25,10 @@ func _enter_tree():
 	selector = get_node("/root/main/selector")
 	
 	for i in get_children():
-		if i.has_user_signal("size_change"):
-			i.connect("size_change", self, "size_change")
-		i.connect("pressed", self, "pressed", [i])
-		i.connect("focus", self, "set_active_entry")
+		if i extends Label:
+			i.connect("pressed", self, "pressed", [i])
+		if i extends preload("res://Scripts/Menus/button.gd"):
+			i.connect("focus", self, "set_active_entry")
 	
 	for i in get_parent().get_children():
 		if i == self:

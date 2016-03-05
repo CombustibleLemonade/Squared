@@ -48,7 +48,7 @@ func _ready():
 		shapes.push_back(load("Sprites/Squares/" + s))
 	
 	create_default_color_set()
-	OS.set_window_fullscreen(true)
+	#OS.set_window_fullscreen(true)
 	
 	var dir = Directory.new()
 

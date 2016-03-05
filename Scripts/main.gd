@@ -46,7 +46,6 @@ func _input(event):
 		ae._input_event(event)
 	
 	if event.is_action_pressed("ui_up"):
-		print(event.scancode)
 		get_node("selector").move(1)
 	if event.is_action_pressed("ui_down"):
 		get_node("selector").move(-1)

@@ -42,8 +42,6 @@ func set_layout():
 		var half_pos = Vector2(OS.get_window_size().x / 2, 0)
 		fields[0].fit_in_rect(Rect2(Vector2(), size))
 		fields[1].fit_in_rect(Rect2(half_pos, size))
-	
-	pass
 
 # Start playing again
 func activate():
@@ -51,8 +49,24 @@ func activate():
 		f.activate()
 
 # Set if we're dead. Does nothing
-func set_died(d):
-	pass
+func set_died(died_field):
+	died_field.died = true
+	
+	var all_dead = true
+	
+	for f in fields:
+		all_dead = all_dead && f.died
+	
+	if all_dead:
+		deactivate()
+
+# Will pause the game in the background, and display the main menu in the foreground
+func deactivate():
+	set_pause_mode(1)
+	for f in fields:
+		f.record.pause()
+	get_node("/root/main").pause()
+
 
 # Returns true if we're dead
 func get_died():
