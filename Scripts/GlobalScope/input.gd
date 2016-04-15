@@ -1,6 +1,7 @@
 extends Node
 
 var schemes = []
+var bindings = {}
 
 func _init():
 	add_default_scheme()
@@ -13,7 +14,6 @@ func add_default_scheme():
 	add_binding("default 1", "down", key_event(KEY_DOWN))
 	add_binding("default 1", "left", key_event(KEY_LEFT))
 	add_binding("default 1", "right", key_event(KEY_RIGHT))
-	
 	
 	add_control_scheme("default 2")
 	add_binding("default 2", "next", key_event(KEY_SHIFT))
@@ -43,7 +43,7 @@ func parse_input(scheme, a):
 
 # Adds a control scheme
 func add_control_scheme(name):
-	if not name.find("/") == -1:
+	if name.find("/") != -1:
 		# TODO make dialog thing appear
 		print("player names can't contain forward slashes (/).")
 		return
@@ -55,7 +55,13 @@ func add_control_scheme(name):
 	InputMap.add_action(name + "/right")
 	
 	schemes.push_back(name)
+	bindings[name] = []
 
 # Adds a binding for the player
 func add_binding(scheme, type, control):
 	InputMap.action_add_event(scheme + "/" + type, control)
+	bindings[scheme].push_back(control)
+
+# TODO
+func get_icon(scheme, type):
+	pass

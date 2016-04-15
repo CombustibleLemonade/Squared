@@ -68,6 +68,9 @@ func start():
 func pause():
 	get_node("/root/main").pause()
 
+func set_died(n):
+	pause()
+
 func _process(delta):
 	time_left -= delta * 1000 * replay_speed
 	

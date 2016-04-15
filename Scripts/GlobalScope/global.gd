@@ -148,8 +148,10 @@ func get_scores_of_config(c):
 	var key = inst2dict(c)
 	
 	if data == null or not data.has(str(inst2dict(c))):
+		# If no scores of this config have been stored yet, return empty
 		return []
 	else:
+		# Otherwise, load stuff
 		var scores = data[str(inst2dict(c))]
 		scores.sort_custom(self, "score_sort")
 		return scores

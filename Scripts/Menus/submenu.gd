@@ -75,7 +75,6 @@ func get_entry(i):
 			j += 1
 		
 		child_index += 1
-		
 	
 	active_entry = get_child(child_index - 1)
 	return active_entry
