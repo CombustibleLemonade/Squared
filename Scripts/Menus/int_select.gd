@@ -36,7 +36,7 @@ func set_value(var value_arg):
 	
 	emit_signal("change")
 
-func focus(var inc_dec = null):
+func focus():
 	emit_signal("focus", self)
 
 func increment():

@@ -45,6 +45,9 @@ func _input(event):
 	if not event.type in [InputEvent.MOUSE_BUTTON, InputEvent.MOUSE_MOTION] and ae.has_method("_input_event"):
 		ae._input_event(event)
 	
+	if is_entry_locked:
+		return
+	
 	if event.is_action_pressed("ui_up"):
 		get_node("selector").move(1)
 	if event.is_action_pressed("ui_down"):
@@ -121,8 +124,16 @@ func set_active_menu(var menu):
 	
 	selector.set_target(0)
 
+var is_entry_locked = false
+
+func set_menu_lock(is_locked):
+	is_entry_locked = is_locked
+
 # Sets the selected (active) entry in the menu
 func set_active_entry(var entry):
+	if is_entry_locked:
+		return
+	
 	if not entry.get("is_focussed") == null:
 		entry.is_focussed = true
 	

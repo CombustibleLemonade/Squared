@@ -49,8 +49,6 @@ func _ready():
 	
 	create_default_color_set()
 	#OS.set_window_fullscreen(true)
-	
-	var dir = Directory.new()
 
 # Creates the default color set
 func create_default_color_set():

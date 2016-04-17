@@ -16,8 +16,6 @@ var Configuration = preload("res://Scripts/GlobalScope/global.gd").Configuration
 
 func _ready():
 	set_process(true)
-
-func _enter_tree():
 	index_in_parent = 0 # Reset the index in parent
 	
 	global = get_node("/root/global")
@@ -27,8 +25,8 @@ func _enter_tree():
 	for i in get_children():
 		if i extends Label:
 			i.connect("pressed", self, "pressed", [i])
-		if i extends preload("res://Scripts/Menus/button.gd"):
-			i.connect("focus", self, "set_active_entry")
+		#if i extends preload("res://Scripts/Menus/button.gd"):
+		i.connect("focus", self, "set_active_entry")
 	
 	for i in get_parent().get_children():
 		if i == self:

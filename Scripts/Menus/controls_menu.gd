@@ -21,6 +21,8 @@ func _ready():
 		b.connect("pressed", self, "pressed", [b])
 
 func pressed(e):
+	if e.get_name() == "add_scheme":
+		top_menu.load_active_menu("res://Scenes/Menus/Submenus/add_scheme_menu.scn")
 	if e.get_name() == "back":
 		top_menu.pop_active_menu()
 	if e.get_name().is_valid_integer():
