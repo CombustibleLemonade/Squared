@@ -20,7 +20,8 @@ func _process(delta):
 			square.target_cell.x -= size_x * 2
 		square.target_cell.x += delta * 0.3
 		set_square(square)
-	set_global_pos(OS.get_window_size() / 2)
+	
+	set_global_pos(OS.get_window_size()/2)
 
 func add_row(range_arg, y):
 	for x in range_arg:
@@ -38,7 +39,7 @@ func set_square(s):
 	var x = s.target_cell.x
 	var y = s.target_cell.y
 	
-	s.set_pos(Vector2(x * 70, y * (70 + x * (x - 1) * 0.5)))
+	s.set_pos(Vector2(x * 70 - 32, y * (70 + x * (x - 1) * 0.5)))
 	s.set_rot(tan( - x * y / 70.0))
 	
 	# Make squares fade in/out at the ends

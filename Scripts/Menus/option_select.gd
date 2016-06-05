@@ -1,5 +1,4 @@
-tool
-extends HBoxContainer
+extends "menu_entry.gd"
 
 export(Array) var possible_values setget set_possible_values
 export(int) var value = 0 setget set_value, get_value
@@ -17,6 +16,7 @@ func _init():
 
 func _ready():
 	global = get_node("/root/global")
+	set_value(value)
 
 func _input_event(event):
 	if event.type == InputEvent.MOUSE_MOTION:

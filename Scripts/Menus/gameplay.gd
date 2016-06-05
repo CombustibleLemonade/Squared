@@ -12,7 +12,6 @@ func _ready():
 	parent = get_parent()
 	
 	reset_values()
-	pass
 
 func _input(event):
 	var selected = parent.get_active_entry()

@@ -30,8 +30,8 @@ var is_playing = false # Variable that tracks if we are playing a game
 var menu_change = false # Has the menu changed before? (used to prevent double presses)
 
 class Configuration:
-	var width = 0
-	var height = 0
+	var width = 7
+	var height = 8
 	
 	var mutation_count = 4
 

@@ -1,5 +1,5 @@
 tool
-extends HBoxContainer
+extends "menu_entry.gd"
 
 export(String) var text = "" setget change_text
 export(bool) var is_on setget change_on

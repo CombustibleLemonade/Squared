@@ -34,6 +34,7 @@ func add_field(field_config):
 	fields.push_back(field)
 
 # TODO: Sets the layout of the fields
+# Doesn't yet work for 3+ players
 func set_layout():
 	if fields.size() == 1:
 		fields[0].fit_in_rect(Rect2(Vector2(), OS.get_window_size()))

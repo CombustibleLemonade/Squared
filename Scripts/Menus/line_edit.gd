@@ -1,4 +1,4 @@
-extends HBoxContainer
+extends "menu_entry"
 
 signal pressed
 signal focus(entry)

@@ -1,5 +1,5 @@
 tool
-extends HBoxContainer
+extends "menu_entry.gd"
 
 signal pressed
 signal key_set
@@ -45,6 +45,7 @@ func set_key_event(ev):
 	set_key(OS.get_scancode_string(ev.scancode))
 	key_event = ev
 
+# Check if the keybinding is set yet
 func is_key_valid():
 	return key_event != null
 

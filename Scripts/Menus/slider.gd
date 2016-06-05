@@ -1,5 +1,5 @@
 tool
-extends Container
+extends "menu_entry.gd"
 
 signal focus(entry)
 signal pressed

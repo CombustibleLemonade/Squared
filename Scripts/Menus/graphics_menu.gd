@@ -9,3 +9,8 @@ func pressed(e):
 
 func set_fullscreen(is_fullscreen):
 	OS.set_window_fullscreen(is_fullscreen)
+
+func _on_glow_amount_x_pos_change( to ):
+	var environment = get_node("/root/main/world_environment").get_environment()
+	environment.fx_set_param(Environment.FX_PARAM_GLOW_BLUR_SCALE, to)
+	environment.fx_set_param(Environment.FX_PARAM_GLOW_BLUR_STRENGTH, to * 0.4 + 0.8)

@@ -2,9 +2,18 @@ extends "submenu.gd"
 
 signal highscores(c)
 
+var config_count = 1 setget set_config_count
+
+func pressed(e):
+	if e.get_name() == "high-score":
+		activate_leaderboard()
+
 func _ready():
 	apply_highscore()
 	get_node("/root/global").connect("file_change", self, "on_file_change")
+
+func set_config_count(c):
+	config_count = c
 
 # Sets the score
 func on_file_change(path, data):
@@ -28,7 +37,9 @@ func apply_highscore():
 func get_config():
 	var c = preload("../GlobalScope/global.gd").Configuration.new()
 	
-	if get_node("width") == null:
+	if not has_node("width") == null:
+		c.width = 6
+		c.height = 6
 		return c
 	
 	c.width = get_node("width").value

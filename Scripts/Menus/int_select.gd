@@ -1,5 +1,5 @@
 tool
-extends HBoxContainer
+extends "menu_entry.gd"
 
 export var min_val = 1
 export var max_val = 10
@@ -12,6 +12,9 @@ signal pressed
 signal change # Emitted when the value changes
 
 var global
+
+func _ready():
+	set_value(value)
 
 func _input_event(event):
 	if event.type == InputEvent.MOUSE_MOTION:

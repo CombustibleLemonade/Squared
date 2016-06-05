@@ -22,12 +22,6 @@ func _ready():
 	main = get_node("/root/main")
 	selector = get_node("/root/main/selector")
 	
-	for i in get_children():
-		if i extends Label:
-			i.connect("pressed", self, "pressed", [i])
-		#if i extends preload("res://Scripts/Menus/button.gd"):
-		i.connect("focus", self, "set_active_entry")
-	
 	for i in get_parent().get_children():
 		if i == self:
 			break
@@ -58,7 +52,7 @@ func get_entry(i):
 	var j = 0
 	var child_index = 0
 	
-	# Cycle to entries, substract size each time
+	# Cycle to entries, add size to j, until j equals i
 	while j <= i:
 		var child = children[child_index]
 		
@@ -69,13 +63,18 @@ func get_entry(i):
 				return children[child_index].get_entry(i-j)
 			
 			j += children[child_index].size
-		elif child extends Control and not child.get_name().begins_with("@"):
+		elif does_child_count(child):
 			j += 1
 		
 		child_index += 1
 	
 	active_entry = get_child(child_index - 1)
 	return active_entry
+
+func does_child_count(c):
+	if c extends Control and not c.get_name().begins_with("@") and not c.is_hidden():
+		return true
+	return false
 
 # Sets the active entry
 func set_active_entry(entry):
@@ -93,7 +92,7 @@ func get_height():
 func set_size_in_menu():
 	size = 0
 	for i in get_children():
-		if i.has_method("get_entry"):
+		if not i.get("size") == null:
 			size += i.size
 		else:
 			size += 1
@@ -103,3 +102,11 @@ func set_size_in_menu():
 # Sets the scroll of the menu
 func center():
 	set_pos(Vector2(0, 300 - size * 32))
+
+# Registers a child
+func register_child(c):
+	if c extends Label:
+		c.connect("pressed", self, "pressed", [c])
+	#if i extends preload("res://Scripts/Menus/button.gd"):
+	#if i.has_user_signal("focus"):
+	c.connect("focus", self, "set_active_entry")
