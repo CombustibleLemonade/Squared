@@ -42,7 +42,11 @@ func start_game():
 	var c = []
 	for i in range(player_count):
 		c.push_back(configs[i])
+	
 	game.set_config(c)
+	
+	if player_count == 2:
+		game.fields[0].scheme = "default 2"
 	
 	main.add_child(game)
 

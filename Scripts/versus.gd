@@ -79,3 +79,16 @@ func get_died():
 		d = d || f.died
 	
 	return d
+
+# Updates the score for a field
+func update_score(field, score):
+	if fields.size() == 1:
+		field.set_score(score)
+	else:
+		for f in fields:
+			if f != field:
+				f.set_score(100 - score)
+				
+				if 100 - score < 0:
+					field.die()
+					f.die()

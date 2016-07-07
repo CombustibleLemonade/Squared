@@ -22,6 +22,8 @@ func _ready():
 	main = get_node("/root/main")
 	selector = get_node("/root/main/selector")
 	
+	add_constant_override("separation", 1)
+	
 	for i in get_parent().get_children():
 		if i == self:
 			break

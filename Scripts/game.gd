@@ -37,8 +37,7 @@ func _ready():
 	set_process_input(true)
 	
 	get_node("incoming").set_pos(Vector2(width*64 + 64, 8*32))
-	get_node("score").set_margin(MARGIN_LEFT, width*32+200)
-	get_node("score").set_margin(MARGIN_RIGHT, width*32+100)
+	
 	grid.set_focus(0)
 	grid.get_node("selector").max_y = height - 1
 	grid.get_node("selector").set_active(true)
@@ -64,9 +63,12 @@ func _process(delta):
 		else:
 			grid.groups.remove(i)
 	
-	get_node("score/Label").set_text(str(compute_score()))
+	get_parent().update_score(self, compute_score())
 	
 	var window_size = OS.get_window_size()
+
+func set_score(score):
+	get_node("score/Label").set_text(str(score))
 
 func _input(e):
 	if not is_replay and not died:
@@ -118,8 +120,6 @@ func die():
 	
 	get_parent().set_died(self)
 
-
-
 # Gets called when the game resumes
 func activate():
 	if not is_replay:
@@ -128,8 +128,10 @@ func activate():
 # Computes the score
 func compute_score():
 	var score = 0
+	
 	for i in get_node("grid").groups:
 		score += i.member_count*(i.member_count+1)/2
+	
 	return score
 
 # Returns a random integer

@@ -56,8 +56,6 @@ func input(ev):
 		elif "next" in ev:
 			get_node("dropindicator")._on_Timer_timeout()
 			get_node("dropindicator/Timer").start()
-	
-
 
 # Will move selected row one element to the left
 func move_row_left(row):

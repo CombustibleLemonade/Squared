@@ -1,7 +1,6 @@
 extends Node2D
 
 # Will store and show a list of what blocks fall next
-
 var width = 1
 var height = 9
 

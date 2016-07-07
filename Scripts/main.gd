@@ -25,6 +25,14 @@ func _ready():
 	get_node("background/Polygon").set_color(Color(0.3, 0.3, 0.3, 0.9))
 	
 	set_options()
+	
+	if OS.get_name() == "HTML5":
+		get_node("menu/main_menu/credits").hide()
+		get_node("menu/main_menu/quit").hide()
+		
+		var inp = get_node("/root/input")
+		if inp.bindings.has("default 1") && inp.bindings["default 1"].has("next"):
+			inp.add_binding("default 1", "next", key_event(KEY_SPACE))
 
 func _process(delta):
 	var scale = OS.get_video_mode_size().y/600
