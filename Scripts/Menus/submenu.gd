@@ -109,6 +109,5 @@ func center():
 func register_child(c):
 	if c extends Label:
 		c.connect("pressed", self, "pressed", [c])
-	#if i extends preload("res://Scripts/Menus/button.gd"):
-	#if i.has_user_signal("focus"):
+	
 	c.connect("focus", self, "set_active_entry")

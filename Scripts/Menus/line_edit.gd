@@ -1,4 +1,4 @@
-extends "menu_entry"
+extends "menu_entry.gd"
 
 signal pressed
 signal focus(entry)

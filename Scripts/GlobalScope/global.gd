@@ -6,6 +6,7 @@ signal file_change(path, data)
 
 var possible_colors = ["red", "green", "blue", "yellow"]
 var tile = preload("res://Scenes/Game/square.scn")
+var sounds = preload("res://Sounds/singleton.scn").instance()
 
 var leaderboard_path = "user://Leaderboards/leaderboards.save"
 

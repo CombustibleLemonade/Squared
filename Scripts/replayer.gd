@@ -88,3 +88,6 @@ func _process(delta):
 			time_left += actions[1][1] - actions[0][1]
 		
 		actions.remove(0)
+
+func update_score(node, score):
+	node.set_score(score)

@@ -2,7 +2,6 @@ tool
 extends "menu_entry.gd"
 
 signal focus(entry)
-signal pressed
 
 export(String) var text setget set_text
 
@@ -67,9 +66,6 @@ func _input_event(event):
 		set_x_pos(x_pos - 10)
 	if event.is_action("right"):
 		set_x_pos(x_pos + 10)
-
-func press():
-	emit_signal("pressed")
 
 # Sets the text
 func set_text(t):

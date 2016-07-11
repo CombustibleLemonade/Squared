@@ -57,9 +57,14 @@ func _input(event):
 		return
 	
 	if event.is_action_pressed("ui_up"):
+		get_active_entry().on_defocus()
 		get_node("selector").move(1)
+		get_active_entry().on_focus()
+	
 	if event.is_action_pressed("ui_down"):
+		get_active_entry().on_defocus()
 		get_node("selector").move(-1)
+		get_active_entry().on_focus()
 	
 	if event.is_action_pressed("ui_accept"):
 		get_active_entry().press()
@@ -141,6 +146,10 @@ func set_menu_lock(is_locked):
 func set_active_entry(var entry):
 	if is_entry_locked:
 		return
+	
+	if entry != get_active_entry():
+		get_active_entry().on_defocus()
+		entry.on_focus()
 	
 	if not entry.get("is_focussed") == null:
 		entry.is_focussed = true

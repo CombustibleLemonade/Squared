@@ -1,6 +1,7 @@
 extends "menu_entry.gd"
 
-signal pressed
+onready var global = get_node("/root/global")
+
 signal focus(entry)
 
 func _input_event(event):
@@ -8,7 +9,13 @@ func _input_event(event):
 		press()
 	
 	if event.type == InputEvent.MOUSE_MOTION:
-		emit_signal("focus", self)
+		focus()
 
-func press():
-	emit_signal("pressed")
+func focus():
+	emit_signal("focus", self)
+
+func play_click_sound():
+	if get_name() == "back":
+		global.sounds.play("back")
+	else:
+		global.sounds.play("click")

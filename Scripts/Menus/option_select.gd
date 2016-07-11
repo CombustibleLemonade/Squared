@@ -4,7 +4,6 @@ export(Array) var possible_values setget set_possible_values
 export(int) var value = 0 setget set_value, get_value
 
 signal focus(entry)
-signal pressed
 signal change # Emitted when the value changes
 
 var global
@@ -29,9 +28,6 @@ func _input_event(event):
 			decrement()
 		if event.is_action_pressed("ui_right"):
 			increment()
-
-func press():
-	emit_signal("pressed")
 
 # Sets the possible values
 func set_possible_values(var value_arg):
