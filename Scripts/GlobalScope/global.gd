@@ -17,11 +17,16 @@ var colors = {
 	"green":Color(0,0.7,0.2), 
 	"blue":Color(0.0,0.4,0.8),
 	"yellow":Color(0.8, 0.7, 0.0),
+	"purple":Color(0.6, 0.0, 0.9),
 	"custom":null}
 
 class Mutation:
-	var color_name = "" # Name of the color
+	var color_name = "" setget set_color_name # Name of the color
+	var color
 	var shape = preload("res://Sprites/Squares/circle.png")
+	
+	func set_color_name(n):
+		color_name = n
 
 var mutation_sets = []
 var default_mutation_set = []
@@ -57,17 +62,20 @@ func create_default_color_set():
 		Mutation.new(), 
 		Mutation.new(), 
 		Mutation.new(),
+		Mutation.new(),
 		Mutation.new()]
 	
 	default_mutation_set[0].color_name = "red"
 	default_mutation_set[1].color_name = "green"
 	default_mutation_set[2].color_name = "blue"
 	default_mutation_set[3].color_name = "yellow"
+	default_mutation_set[4].color_name = "purple"
 	
 	default_mutation_set[0].shape = preload("res://Sprites/Squares/square.png")
 	default_mutation_set[1].shape = preload("res://Sprites/Squares/circle.png")
 	default_mutation_set[2].shape = preload("res://Sprites/Squares/star.png")
 	default_mutation_set[3].shape = preload("res://Sprites/Squares/triangle.png")
+	default_mutation_set[4].shape = preload("res://Sprites/Squares/square45.png")
 	
 	mutation_sets.push_back(default_mutation_set)
 

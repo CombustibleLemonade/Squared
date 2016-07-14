@@ -1,7 +1,7 @@
 extends Node
 
-var selector
-var global
+onready var selector = get_node("selector")
+onready var global = get_node("/root/global")
 
 var menu_stack = []
 
@@ -12,9 +12,6 @@ var target_pos = Vector2()
 var games = []
 
 func _ready():
-	selector = get_node("selector")
-	global = get_node("/root/global")
-	
 	set_process(true)
 	set_process_input(true)
 	global.menu = self
@@ -56,19 +53,23 @@ func _input(event):
 	if is_entry_locked:
 		return
 	
+	# Move the menu selector one up
 	if event.is_action_pressed("ui_up"):
 		get_active_entry().on_defocus()
 		get_node("selector").move(1)
 		get_active_entry().on_focus()
 	
+	# Move the menu selector one down
 	if event.is_action_pressed("ui_down"):
 		get_active_entry().on_defocus()
 		get_node("selector").move(-1)
 		get_active_entry().on_focus()
 	
+	# Press the selected entry
 	if event.is_action_pressed("ui_accept"):
 		get_active_entry().press()
 	
+	# Unpause the game
 	if event.is_action_pressed("ui_cancel") and get_tree().is_paused():
 		unpause()
 	

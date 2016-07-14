@@ -30,7 +30,7 @@ func add_row(range_arg, y):
 		
 		add_child(s)
 		
-		s.set_mutation(global.default_mutation_set[randi() % global.default_mutation_set.size()])
+		s.set_mutation(global.default_mutation_set[randi() % 4])
 		
 		set_square(s)
 		s.set_process(false)

@@ -1,5 +1,7 @@
 extends Node
 
+# TODO TODO TODO
+
 var version = ""
 
 var version_check_thread = Thread.new()

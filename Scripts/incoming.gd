@@ -21,6 +21,7 @@ func _ready():
 		tile.target_cell = Vector2(0, height-i-1)
 		tile.set_pos(tile.compute_target())
 
+# Shift all squares one upwards
 func shift():
 	# Delete the last one
 	var out = tiles[0]
@@ -41,7 +42,9 @@ func shift():
 
 # Creates a new square
 func new_square():
-	var color = get_node("/root/global").possible_colors[get_parent().next_int()%4]
+	var config = get_parent().configuration
+	var rand_int = get_parent().next_int() % config.mutation_count
+	
 	var pos = get_parent().next_int()%get_parent().width
 	var square = preload("res://Scenes/Game/square.scn").instance()
 	
@@ -49,5 +52,5 @@ func new_square():
 	square.set_process(true)
 	add_child(square)
 	
-	square.set_mutation(get_node("/root/global").default_mutation_set[get_parent().next_int()%4])
+	square.set_mutation(get_node("/root/global").default_mutation_set[rand_int])
 	return square

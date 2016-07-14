@@ -9,6 +9,7 @@ var config setget set_config, get_config
 func _ready():
 	get_node("width").set_value(get_config().width)
 	get_node("height").set_value(get_config().height)
+	get_node("count").set_value(get_config().mutation_count)
 	initialized = true
 	
 	update_config()
@@ -33,6 +34,7 @@ func update_config():
 	
 	c.width = get_node("width").value
 	c.height = get_node("height").value
+	c.mutation_count = get_node("count").value
 	
 	set_config(c)
 	

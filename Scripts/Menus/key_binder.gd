@@ -1,7 +1,6 @@
 tool
 extends "menu_entry.gd"
 
-signal pressed
 signal key_set
 signal focus(entry)
 
