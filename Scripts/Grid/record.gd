@@ -18,9 +18,11 @@ var random_seed
 
 func _init():
 	start_time = OS.get_ticks_msec()
+	print(start_time)
 
 func save_event(ev):
 	actions.push_back([ev, OS.get_ticks_msec() - start_time])
+	print(OS.get_ticks_msec() - start_time)
 
 func pause():
 	pause_time = OS.get_ticks_msec()

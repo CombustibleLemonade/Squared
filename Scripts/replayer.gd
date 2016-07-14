@@ -79,7 +79,7 @@ func _process(delta):
 	
 	if time_left <= 0 and not actions.size() == 0:
 		var action = actions[0][0]
-		if typeof(action) == typeof(""):
+		if action == "drop":
 			get_node("game/grid/dropindicator")._on_Timer_timeout()
 		else:
 			get_node("game").input(actions[0][0])

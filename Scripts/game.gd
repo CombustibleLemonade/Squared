@@ -77,15 +77,16 @@ func _input(e):
 
 # Handles input
 func input(e):
-	if not e.is_action("Next"):
-		record.save_event(e)
-	
 	var event = get_node("/root/input").parse_input(scheme, e)
+	
+	for ev in event:
+		if ev != "next":
+			record.save_event(ev)
 	
 	get_node("grid").input(event)
 	get_node("grid/selector").input(event)
 	
-	if e.is_action_pressed("ui_cancel"):
+	if typeof(e) != typeof("") and e.is_action_pressed("ui_cancel"):
 		compute_score()
 		get_parent().deactivate()
 

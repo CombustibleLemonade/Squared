@@ -31,7 +31,7 @@ func add_default_scheme():
 	add_binding("default 1", "down", key_event(KEY_DOWN))
 	add_binding("default 1", "left", key_event(KEY_LEFT))
 	add_binding("default 1", "right", key_event(KEY_RIGHT))
-	add_binding("default 1", "next", key_event(KEY_CONTROL))
+	add_binding("default 1", "next", key_event(KEY_SPACE))
 	
 	add_control_scheme("default 2")
 	add_binding("default 2", "up", key_event(KEY_W))
@@ -51,6 +51,9 @@ func key_event(scancode):
 
 # Parse input
 func parse_input(scheme, a):
+	if typeof(a) == typeof(""):
+		return [a]
+	
 	var actions = []
 	
 	for i in controls:
