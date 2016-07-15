@@ -38,7 +38,7 @@ func update_config():
 	
 	set_config(c)
 	
-	var scores = get_node("/root/global").get_scores_of_config(c)
+	var scores = get_node("/root/highscores").get_scores_of_config(c)
 	if not scores.size() == 0:
 		get_node("leaderboard").text = "high-score: " + str(scores[0].score)
 	else:

@@ -6,7 +6,7 @@ var config
 # Gets all highscores of config c
 func set_config(c):
 	config = c
-	s = get_node("/root/global").get_scores_of_config(c)
+	s = get_node("/root/highscores").get_scores_of_config(c)
 	
 	for i in range(s.size()):
 		var b = preload("res://Scenes/Menus/MenuEntries/button.scn").instance()

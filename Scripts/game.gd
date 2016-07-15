@@ -114,7 +114,7 @@ func die():
 	record.date = [date, time]
 	
 	if not is_replay:
-		global.save_score(inst2dict(record), configuration)
+		get_node("/root/highscores").save_score(inst2dict(record), configuration)
 	
 	died = true
 	

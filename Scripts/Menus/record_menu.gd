@@ -5,6 +5,13 @@ var record setget set_record
 func pressed(e):
 	if e.get_name() == "back":
 		top_menu.pop_active_menu()
+	if e.get_name() == "delete":
+		e.set_name("delete_sure")
+		e.set_text("are you sure?")
+	elif e.get_name() == "delete_sure":
+		e.set_name("delete")
+		e.set_text("delete")
+		delete()
 	if e.get_name() == "replay":
 		start_replay()
 
@@ -31,3 +38,7 @@ func start_replay():
 func set_record(r):
 	record = r
 	get_node("seed").set_text("seed: " + str(record.random_seed))
+
+# TODO
+func delete():
+	pass

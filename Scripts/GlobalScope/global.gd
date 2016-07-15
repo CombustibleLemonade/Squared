@@ -8,8 +8,6 @@ var possible_colors = ["red", "green", "blue", "yellow"]
 var tile = preload("res://Scenes/Game/square.scn")
 var sounds = preload("res://Sounds/singleton.scn").instance()
 
-var leaderboard_path = "user://Leaderboards/leaderboards.save"
-
 var shapes = []
 var colors = {
 	"empty":Color(0.0, 0.0, 0.0, 0.0),
@@ -147,78 +145,3 @@ func load_file(path):
 		return data
 	else:
 		return null
-
-# Returns all scores of configuration c
-func get_scores_of_config(c):
-	var data = load_file(leaderboard_path)
-	
-	var key = inst2dict(c)
-	
-	if data == null or not data.has(str(inst2dict(c))):
-		# If no scores of this config have been stored yet, return empty
-		return []
-	else:
-		# Otherwise, load stuff
-		var scores = data[str(inst2dict(c))]
-		scores.sort_custom(self, "score_sort")
-		return scores
-
-func score_sort(a, b):
-	return a.score > b.score
-
-var used_configs = {}
-
-# Gets all configurations that have been played
-func get_played_configs():
-	var score = File.new()
-	var file_content = {}
-	if score.file_exists(leaderboard_path):
-		score.open(leaderboard_path, File.READ)
-		file_content = score.get_var()
-		score.close()
-		
-		file_content = file_content.keys()
-		
-		var played_config_dict = {}
-		
-		for i in range(0, file_content.size()):
-			var element = file_content[i]
-			played_config_dict[element] = dict2inst(element)
-		
-		file_content = played_config_dict.keys()
-		
-		return file_content
-	else:
-		return []
-
-# Deletes all scores of configuration c
-func reset_scores_of_config(c):
-	var scores = load_file(leaderboard_path)
-	
-	scores.erase(str(inst2dict(c)))
-	
-	save_file(leaderboard_path, scores)
-
-# Deletes all scores
-func reset_scores():
-	var score = File.new()
-	var file_content = {}
-	if score.file_exists(leaderboard_path):
-		score.open(leaderboard_path, File.WRITE)
-		score.store_var({})
-		score.close()
-
-# Saves the score to the filesystem
-func save_score(s, c):
-	var data = load_file(leaderboard_path)
-	var key = str(inst2dict(c))
-	
-	if data == null:
-		data = {}
-	
-	if data.has(key):
-		data[key].push_back(s)
-	else:
-		data[key] = [s]
-	
-	save_file(leaderboard_path, data)
