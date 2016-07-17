@@ -4,7 +4,6 @@ var version = "alpha 0.1"
 
 signal file_change(path, data)
 
-var possible_colors = ["red", "green", "blue", "yellow"]
 var tile = preload("res://Scenes/Game/square.scn")
 var sounds = preload("res://Sounds/singleton.scn").instance()
 
@@ -15,7 +14,7 @@ var colors = {
 	"green":Color(0,0.7,0.2), 
 	"blue":Color(0.0,0.4,0.8),
 	"yellow":Color(0.8, 0.7, 0.0),
-	"purple":Color(0.6, 0.0, 0.9),
+	"purple":Color(0.7, 0.2, 0.8),
 	"custom":null}
 
 class Mutation:
