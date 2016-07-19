@@ -1,7 +1,9 @@
 extends "submenu.gd"
 
+onready var options = get_node("/root/options")
+
 func _ready():
-	get_node("fullscreen").set(OS.is_window_fullscreen())
+	get_node("fullscreen").set(options.get_fullscreen())
 
 func pressed(e):
 	if e.get_name() == "back":

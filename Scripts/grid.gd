@@ -44,18 +44,26 @@ func _process(delta):
 	var target_pos = compute_target_pos()
 	set_pos(global.go_to(target_pos, get_pos(), delta))
 
+# To handle input
 func input(ev):
-	# To handle input
+	var sounding = false # Wether or not to play a sound
+	
 	if not get_node("dropindicator/Timer") == null and global.is_playing:
 		# Shift rows when arrows are pressed
 		if "left" in ev:
 			move_row_left(selector.target)
+			sounding = true
 		elif "right" in ev:
 			move_row_right(selector.target)
+			sounding = true
 		
 		elif "next" in ev:
 			get_node("dropindicator")._on_Timer_timeout()
 			get_node("dropindicator/Timer").start()
+			sounding = true
+	
+	if sounding:
+		play_sounds()
 
 # Will move selected row one element to the left
 func move_row_left(row):
@@ -129,5 +137,15 @@ func compute_target_pos():
 func set_focus(height):
 	set_target_y(height+4)
 
+# Gets the bar of the grid that is in the middle of the screen?
 func get_focus():
 	return target_y-4
+
+# Plays sounds according to the group sizes
+func play_sounds():
+	for g in groups:
+		var voice = global.sounds.play("note")
+		var pitch = pow(2, (g.member_count - 4.5)/6.0)
+		
+		global.sounds.set_pitch_scale(voice, pitch)
+

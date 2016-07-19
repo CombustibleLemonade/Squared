@@ -100,9 +100,11 @@ func fetch_next():
 	target_cell.x = int(next.get_text())
 	next.set_text("")
 
+# Sets the color of the dropindicator according to the next block
 func set_color(c):
 	get_node("Arrow").set_modulate(c)
 
+# Make the dropindicator fall down far enough
 func check_physics():
 	# Checks if the indicator is pointing to the right block
 	var cell = get_parent().get_cell(target_cell)
@@ -123,6 +125,7 @@ func check_physics():
 		target_cell -= Vector2(0, 1)
 		check_physics()
 
+# Set the amount of time that is remaining until the next drop
 func set_time_left(t):
 	get_node("Timer").set_wait_time(t)
 	if not game.is_replay:
@@ -131,6 +134,7 @@ func set_time_left(t):
 		get_node("Timer").stop()
 	time_left = t
 
+# Returne the amount of time remaining until the next drop
 func get_time_left():
 	if game.is_replay:
 		return time_left
