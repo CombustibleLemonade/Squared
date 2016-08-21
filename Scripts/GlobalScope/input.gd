@@ -66,7 +66,7 @@ func parse_input(scheme, a):
 func add_control_scheme(name):
 	if name.find("/") != -1:
 		# TODO make dialog thing appear
-		print("player names can't contain forward slashes (/).")
+		print("Scheme names can't contain forward slashes (/).")
 		return
 	
 	if schemes.find(name) == -1:
@@ -82,5 +82,18 @@ func add_binding(scheme, type, control):
 	InputMap.action_add_event(scheme + "/" + type, control)
 	bindings[scheme][type] = control
 
+# Saves the scheme to the filesystem
 func save_scheme():
 	global.save_file(path, bindings)
+
+# Removes a control scheme
+func remove_control_scheme(scheme):
+	for type in controls:
+		remove_type(scheme, type)
+	
+	schemes.erase(scheme)
+	bindings.erase(scheme)
+
+# Removes a type 
+func remove_type(scheme, type):
+	InputMap.erase_action(scheme + "/" + type)
