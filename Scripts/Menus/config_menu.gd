@@ -5,11 +5,15 @@ var game_menu = null
 var initialized = false
 
 var config setget set_config, get_config
+var scheme = "" setget set_scheme
 
 func _ready():
 	get_node("width").set_value(get_config().width)
 	get_node("height").set_value(get_config().height)
 	get_node("count").set_value(get_config().mutation_count)
+	get_node("scheme").set_possible_values(get_node("/root/input").schemes)
+	get_node("scheme").set_value(0)
+	
 	initialized = true
 	
 	update_config()
@@ -49,3 +53,11 @@ func activate_leaderboard():
 	var leaderboard = preload("res://Scenes/Menus/Submenus/leaderboard.scn").instance()
 	top_menu.set_active_menu(leaderboard)
 	leaderboard.set_config(get_config())
+
+func set_scheme(s):
+	scheme = s
+	
+	if get_node("scheme") == null:
+		return
+	
+	get_node("scheme").set_value( get_node("scheme").schemes.find(s) )

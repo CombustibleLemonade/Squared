@@ -2,6 +2,7 @@ extends "submenu.gd"
 
 var config_buttons = []
 var configs = []
+var default_schemes = ["defualt 1", "default 2"]
 var player_count = 1
 
 func _ready():
@@ -18,8 +19,8 @@ func open_player_config(index):
 	config.index = index
 	config.game_menu = self
 	
+	
 	top_menu.set_active_menu(config)
-	#config.initialize()
 	
 	delete_player_buttons()
 

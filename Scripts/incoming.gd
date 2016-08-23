@@ -48,7 +48,8 @@ func new_square():
 	var pos = get_parent().next_int()%get_parent().width
 	var square = preload("res://Scenes/Game/square.scn").instance()
 	
-	square.set_text(str(pos))
+	square.set_text(get_parent().int_to_column(pos))
+	square.target_column = pos
 	square.set_process(true)
 	add_child(square)
 	

@@ -97,7 +97,7 @@ func fetch_next():
 	var next_color_value = get_node("/root/global").colors[next.color]
 	set_color(next_color_value)
 	
-	target_cell.x = int(next.get_text())
+	target_cell.x = next.target_column
 	next.set_text("")
 
 # Sets the color of the dropindicator according to the next block

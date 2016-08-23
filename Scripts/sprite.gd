@@ -6,6 +6,7 @@ var label
 
 var color
 var mutation
+var target_column = 0
 
 var target_cell = Vector2(0, 0)
 var target_rotation = 0

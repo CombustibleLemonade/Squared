@@ -49,7 +49,7 @@ func _ready():
 	
 	for i in range(width):
 		var number = Label.new()
-		number.set_text(str(i))
+		number.set_text(int_to_column(i))
 		number.set_custom_minimum_size(Vector2(64, 0))
 		number.set_align(Label.ALIGN_CENTER)
 		get_node("numbering").add_child(number)
@@ -151,3 +151,9 @@ func fit_in_rect(rect):
 	set_scale(Vector2(scale, scale))
 	
 	set_global_pos(rect.pos + rect.size/2)
+
+var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+# Converts an int to a string, with the numbering system of the columns
+func int_to_column(i):
+	return alphabet[i]

@@ -1,6 +1,6 @@
 extends "menu_entry.gd"
 
-signal pressed
+#signal pressed
 signal focus(entry)
 
 func _ready():
