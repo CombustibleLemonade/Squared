@@ -1,159 +1,103 @@
 extends Node2D
 
-# Node shortcuts
-var global
-var selector
-var grid
+var drop_time = 4
 
-var scheme = "default 1"
+var config setget parse_object
+var died = false setget set_died, get_died # Have we died yet?
 
-export(int) var width # Amount of columns 	-- x
-export(int) var height # Amount of rows 	-- y
-
-var died = false # Have we died yet?
-
-var mutation_set # Set of square color-shapes
-var configuration setget set_config
-var drop_time = 4 # Amount of time between block drops
-
-var random_seed # Seed used by this game
-var next_rand_seed # Intermediate seed
-
-var record = preload("res://Scripts/Grid/record.gd").new()
-
-var is_replay = false
-
-func _init():
-	random_seed = randi()
-	next_rand_seed = random_seed
+var fields = [] # Amount of fields in game
+var setup
 
 func _ready():
-	# Initialization
-	global = get_node("/root/global")
-	selector = get_node("grid/selector")
-	grid = get_node("grid")
-	
-	set_process(true)
-	set_process_input(true)
-	
-	get_node("incoming").set_pos(Vector2(width*64 + 64, 8*32))
-	
-	grid.set_focus(0)
-	grid.get_node("selector").max_y = height - 1
-	grid.get_node("selector").set_active(true)
-	
-	if configuration == null:
-		configuration = preload("GlobalScope/global.gd").Configuration.new()
-		configuration.width = width
-		configuration.height = height
-	
-	for i in range(width):
-		var number = Label.new()
-		number.set_text(int_to_column(i))
-		number.set_custom_minimum_size(Vector2(64, 0))
-		number.set_align(Label.ALIGN_CENTER)
-		get_node("numbering").add_child(number)
+	set_layout()
 
-func _process(delta):
-	var scores = ""
-	var i = 0
-	while i < grid.groups.size():
-		if grid.groups[i].member_count > 0:
-			scores += str(grid.groups[i].member_count) + "\n"
-			i += 1
+# Set up all fields with the right configuration and settings
+func set_setups(s):
+	setup = s
+	var player_count = s.config.player_count
+	
+	for i in range(player_count):
+		add_field(i)
+	
+	parse_object(setup)
+
+# Adds a field with a certain field config
+func add_field(index):
+	var field = preload("res://Scenes/Game/field.scn").instance()
+	
+	add_child(field)
+	fields.push_back(field)
+
+func parse_object(o):
+	var dict = inst2dict(o)
+	
+	var keys = dict.keys()
+	
+	for k in keys:
+		if typeof(dict[k]) == typeof([]):
+			for i in range(fields.size()):
+				if k in fields[i]:
+					fields[i].set(k, dict[k][i])
 		else:
-			grid.groups.remove(i)
-	
-	get_parent().update_score(self, compute_score())
-	
-	var window_size = OS.get_window_size()
+			if k in self:
+				set(k, dict[k])
 
-func set_score(score):
-	get_node("score/Label").set_text(str(score))
+# TODO: Sets the layout of the fields
+# Doesn't yet work for 3+ players
+func set_layout():
+	if fields.size() == 1:
+		fields[0].fit_in_rect(Rect2(Vector2(), OS.get_window_size()))
+	if fields.size() == 2:
+		var size = Vector2(OS.get_window_size().x / 2, OS.get_window_size().y)
+		var half_pos = Vector2(OS.get_window_size().x / 2, 0)
+		fields[0].fit_in_rect(Rect2(Vector2(), size))
+		fields[1].fit_in_rect(Rect2(half_pos, size))
 
-func _input(e):
-	if not is_replay and not died:
-		input(e)
-
-# Handles input
-func input(e):
-	var event = get_node("/root/input").parse_input(scheme, e)
-	
-	for ev in event:
-		if ev != "next":
-			record.save_event(ev)
-	
-	get_node("grid").input(event)
-	get_node("grid/selector").input(event)
-	
-	if typeof(e) != typeof("") and e.is_action_pressed("ui_cancel"):
-		compute_score()
-		get_parent().deactivate()
-
-# Sets the configuration (with, height, etc.) of the game
-func set_config(c):
-	configuration = c
-	record.config = inst2dict(c)
-	
-	width = c.width
-	height = c.height
-	
-	get_node("grid/selector").set_size( Vector2(width * 64, 64) )
-
-# Computes the score and triggers game over
-func die():
-	var date = OS.get_date()
-	var time = OS.get_time()
-	
-	var score = compute_score()
-	
-	record.score = score
-	record.drop_time = drop_time
-	record.has_undo = false
-	record.random_seed = random_seed
-	record.date = [date, time]
-	
-	if not is_replay:
-		get_node("/root/highscores").save_score(inst2dict(record), configuration)
-	
-	died = true
-	
-	get_node("grid/dropindicator").set_process(false)
-	
-	get_parent().set_died(self)
-
-# Gets called when the game resumes
+# Start playing again
 func activate():
-	if not is_replay:
-		record.resume()
+	for f in fields:
+		f.activate()
 
-# Computes the score
-func compute_score():
-	var score = 0
+# Set if we're dead. Does nothing
+func set_died(died_field):
+	died_field.died = true
 	
-	for i in get_node("grid").groups:
-		score += i.member_count*(i.member_count+1)/2
+	var all_dead = true
 	
-	return score
-
-# Returns a random integer
-func next_int():
-	var next = rand_seed(next_rand_seed)
-	next_rand_seed = next[0]
-	return next[0]
-
-# Fits the game in a certain rectangle. Measured in pixels
-func fit_in_rect(rect):
-	var scale_x = (600/OS.get_window_size().y)/((320 +  width*64)/rect.size.x)
-	var scale_y = rect.size.y/OS.get_window_size().y
+	for f in fields:
+		all_dead = all_dead && f.died
 	
-	var scale = min(scale_x, scale_y)
-	set_scale(Vector2(scale, scale))
+	if all_dead:
+		deactivate()
+
+# Will pause the game in the background, and display the main menu in the foreground
+func deactivate():
+	set_pause_mode(1)
+	for f in fields:
+		f.record.pause()
+	get_node("/root/main").pause()
+
+
+# Returns true if we're dead
+func get_died():
+	if fields.size() == 0:
+		return true
 	
-	set_global_pos(rect.pos + rect.size/2)
+	var d = false
+	for f in fields:
+		d = d || f.died
+	
+	return d
 
-var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-
-# Converts an int to a string, with the numbering system of the columns
-func int_to_column(i):
-	return alphabet[i]
+# Updates the score for a field
+func update_score(field, score):
+	if fields.size() == 1:
+		field.set_score(score)
+	else:
+		for f in fields:
+			if f != field:
+				f.set_score(100 - score)
+				
+				if 100 - score < 0:
+					field.die()
+					f.die()

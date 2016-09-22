@@ -73,6 +73,7 @@ func get_entry(i):
 	active_entry = get_child(child_index - 1)
 	return active_entry
 
+# Returns if a child counts towards the total
 func does_child_count(c):
 	if c extends Control and not c.get_name().begins_with("@") and not c.is_hidden():
 		return true
@@ -81,14 +82,6 @@ func does_child_count(c):
 # Sets the active entry
 func set_active_entry(entry):
 	main.set_active_entry(entry)
-
-# Gets the width that is set
-func get_width():
-	return get_node("width").value
-
-# Gets the height that is set
-func get_height():
-	return get_node("height").value
 
 # Sets the custom minimum size of container according to menu entries
 func set_size_in_menu():
@@ -108,6 +101,8 @@ func center():
 # Registers a child
 func register_child(c):
 	if c extends Label:
-		c.connect("pressed", self, "pressed", [c])
+		if !c.is_connected("pressed", self, "pressed"):
+			c.connect("pressed", self, "pressed", [c])
 	
-	c.connect("focus", self, "set_active_entry")
+	if !c.is_connected("focus", self, "set_active_entry"):
+		c.connect("focus", self, "set_active_entry")

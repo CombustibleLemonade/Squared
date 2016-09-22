@@ -42,13 +42,14 @@ func shift():
 
 # Creates a new square
 func new_square():
-	var config = get_parent().configuration
-	var rand_int = get_parent().next_int() % config.mutation_count
+	var p = get_parent()
 	
-	var pos = get_parent().next_int()%get_parent().width
+	var rand_int = p.next_int() % p.mutation_count
+	
+	var pos = p.next_int()%p.width
 	var square = preload("res://Scenes/Game/square.scn").instance()
 	
-	square.set_text(get_parent().int_to_column(pos))
+	square.set_text(p.int_to_column(pos))
 	square.target_column = pos
 	square.set_process(true)
 	add_child(square)

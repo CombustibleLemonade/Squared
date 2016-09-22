@@ -1,5 +1,7 @@
 extends "submenu.gd"
 
+onready var highscores = get_node("/root/highscores")
+
 var s
 var config
 
@@ -38,7 +40,7 @@ func pressed(e):
 
 # resets scores of this config
 func reset_scores():
-	global.reset_scores_of_config(config)
+	highscores.reset_scores_of_config(config)
 	for i in get_children():
 		if i.get_name().is_valid_integer():
 			remove_child(i)

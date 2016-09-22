@@ -7,6 +7,8 @@ signal file_change(path, data)
 var tile = preload("res://Scenes/Game/square.scn")
 var sounds = preload("res://Sounds/singleton.scn").instance()
 
+onready var main = get_node("/root/main")
+
 var shapes = []
 var colors = {
 	"empty":Color(0.0, 0.0, 0.0, 0.0),
@@ -32,11 +34,19 @@ var menu
 var is_playing = false # Variable that tracks if we are playing a game
 var menu_change = false # Has the menu changed before? (used to prevent double presses)
 
+# This class describes the key to distinguish leaderboards
 class Configuration:
-	var width = 7
-	var height = 8
+	var player_count = 1
 	
-	var mutation_count = 4
+	var width = []
+	var height = []
+	var mutation_count = []
+
+# This class fully describes a played game
+class Setup:
+	var drop_time = [4, 4, 4, 4]
+	var scheme = []
+	var config = Configuration.new()
 
 var width = 7 # Default width of grid
 var height = 8 # Default height of grid
@@ -95,8 +105,30 @@ func get_vertical_entry_count(menu):
 	return size # Correct for 3 nodes added because it's the main node
 
 # Sort of like lerp, except exponential
-func go_to(var from, var to, var delta):
+func go_to(from, to, delta):
 	return from + (to - from) * pow(0.5, delta*50)
+
+# inst2dict, but also turns all values into dictionaries, and theirs, etc.
+func inst3dict(inst):
+	var dict = inst
+	
+	if typeof(dict) == TYPE_OBJECT:
+		dict = inst2dict(inst)
+		
+		for k in dict.keys():
+			dict[k] = inst3dict(dict[k])
+	
+	return dict
+
+# dict2inst, but inverted for inst3dict
+func dict3inst(dict):
+	var inst = dict
+	
+	for k in inst.keys():
+		if typeof(inst[k]) == TYPE_DICTIONARY:
+			inst[k] = dict3inst(inst[k])
+	
+	inst = dict2inst(inst)
 
 ## FILE OPERATIONS ##
 
@@ -144,3 +176,20 @@ func load_file(path):
 		return data
 	else:
 		return null
+
+## MENU OPERATIONS ##
+
+func start_game(setup):
+	clear_mess()
+
+# Clears things that obstruct a new game
+func clear_mess():
+	if main.has_node("game"): # remove the previous game
+		main.get_node("game").free()
+	
+	if main.has_node("replayer"): # remove the previous replay
+		main.get_node("replayer").free()
+	
+	if main.has_node("squares"):
+		main.get_node("squares").free()
+

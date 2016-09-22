@@ -97,10 +97,15 @@ func set_x_pos(pos):
 	
 	get_node("container/square").set_pos(Vector2(x_pos, 0))
 
+# Sets the text of the object TODO rename this to set_text
 func set_value(v):
 	value = v
 	get_node("container/square/Node2D/Label").set_text(str(v).substr(0, 4))
 
 # returns value in range [0, 1]
 func get_interval():
-	return ( x_pos - min_x_pos ) / ( max_x_pos - min_x_pos + 0.0 )
+	return ( x_pos - min_x_pos ) / ( max_x_pos - min_x_pos )
+
+# sets the value in range [0, 1]
+func set_interval(interval):
+	set_x_pos( interval * (max_x_pos - min_x_pos) + min_x_pos )

@@ -4,15 +4,15 @@ onready var options = get_node("/root/options")
 
 func _ready():
 	get_node("fullscreen").set(options.get_fullscreen())
+	get_node("glow_amount").set_interval(options.get_glow())
 
 func pressed(e):
 	if e.get_name() == "back":
 		top_menu.pop_active_menu()
 
 func set_fullscreen(is_fullscreen):
-	OS.set_window_fullscreen(is_fullscreen)
+	options.set_fullscreen(is_fullscreen)
 
 func _on_glow_amount_x_pos_change( to ):
-	var environment = get_node("/root/main/world_environment").get_environment()
-	environment.fx_set_param(Environment.FX_PARAM_GLOW_BLUR_SCALE, to)
-	environment.fx_set_param(Environment.FX_PARAM_GLOW_BLUR_STRENGTH, to * 0.4 + 0.8)
+	if options:
+		options.set_glow(to)

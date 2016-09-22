@@ -48,11 +48,11 @@ func get_played_configs():
 
 # Deletes all scores of configuration c
 func reset_scores_of_config(c):
-	var scores = load_file(leaderboard_path)
+	var scores = global.load_file(leaderboard_path)
 	
 	scores.erase(str(inst2dict(c)))
 	
-	save_file(leaderboard_path, scores)
+	global.save_file(leaderboard_path, scores)
 
 # Deletes all scores
 func reset_scores():
