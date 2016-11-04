@@ -6,7 +6,8 @@ var is_fullscreen setget set_fullscreen, get_fullscreen
 # File with all options
 var options = {
 	"fullscreen" : false, 
-	"glow" : 0.45
+	"glow" : 0.45,
+	"audio_master" : 0.6
 }
 
 func _ready():
@@ -40,6 +41,9 @@ func apply_options():
 	environment.fx_set_param(Environment.FX_PARAM_GLOW_BLUR_SCALE, options["glow"])
 	environment.fx_set_param(Environment.FX_PARAM_GLOW_BLUR_STRENGTH, options["glow"] * 0.4 + 0.8)
 	
+	# Audio
+	get_node("/root/audio").apply_volume()
+	
 	save_options()
 
 # Saves the options
@@ -48,14 +52,17 @@ func save_options():
 
 # Loads the options
 func load_options():
+	# Load from memory
 	var file_options = global.load_file("user://Options/options.save")
 	if file_options == null:
 		return
 	
+	# Add new keys for newly added options
 	for option in options.keys():
 		if !file_options.has(option):
 			file_options[option] = options[option]
 	
+	# Apply options
 	options = file_options
 	apply_options()
 

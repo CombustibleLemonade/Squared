@@ -23,7 +23,6 @@ var square_target_opacity = 0.4
 var label_target_opacity = 1.0
 
 func _ready():
-	apply_size()
 	set_x_pos(4)
 	set_text(text)
 	
@@ -45,7 +44,8 @@ func _process(delta):
 	else:
 		square_target_opacity = 0.4
 		label_target_opacity = 1
-	pass
+	
+	apply_size() # TODO: change this so 
 
 func _input_event(event):
 	if event.type == InputEvent.MOUSE_BUTTON:
@@ -100,11 +100,12 @@ func set_x_pos(pos):
 # Sets the text of the object TODO rename this to set_text
 func set_value(v):
 	value = v
+	print("OHNOES")
 	get_node("container/square/Node2D/Label").set_text(str(v).substr(0, 4))
 
 # returns value in range [0, 1]
 func get_interval():
-	return ( x_pos - min_x_pos ) / ( max_x_pos - min_x_pos )
+	return ( x_pos - min_x_pos ) / ( max_x_pos - min_x_pos + 0.0 )
 
 # sets the value in range [0, 1]
 func set_interval(interval):
