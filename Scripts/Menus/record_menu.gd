@@ -31,8 +31,14 @@ func start_replay():
 	var game = preload("res://Scenes/Game/replay.scn").instance()
 	
 	game.drop_time = record.drop_time
-	game.set_config(dict2inst(record.config))
 	game.record = record
+	
+	var setup = global.Setup.new()
+	setup.config = dict2inst(record.config)
+	setup.scheme = ["@REPLAY"]
+	setup.random_seed = record.random_seed
+	game.set_setups(setup)
+	
 	main.add_child(game)
 
 func set_record(r):

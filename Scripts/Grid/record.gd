@@ -19,8 +19,9 @@ var random_seed
 func _init():
 	start_time = OS.get_ticks_msec()
 
-func save_event(ev):
-	actions.push_back([ev, OS.get_ticks_msec() - start_time])
+# Saves a timed event to the record. ev is the event, f is the field index
+func save_event(ev, f):
+	actions.push_back([ev, f, OS.get_ticks_msec() - start_time])
 
 func pause():
 	pause_time = OS.get_ticks_msec()

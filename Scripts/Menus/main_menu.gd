@@ -8,9 +8,9 @@ func _enter_tree():
 	top_menu = get_parent()
 
 func pressed(e):
-	if e.get_name() == "local_game":
+	if e.get_name() == "singleplayer_game":
 		activate_new_game()
-	if e.get_name() == "online_game":
+	if e.get_name() == "multiplayer_game":
 		activate_online_game()
 	if e.get_name() == "options":
 		activate_options()

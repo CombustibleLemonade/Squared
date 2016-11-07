@@ -2,10 +2,12 @@ extends Node2D
 
 # Node shortcuts
 var global
+var game
 var selector
 var grid
 
 var scheme = "default 1"
+var index = 0 # Index of the field
 
 export(int) var width setget set_width # Amount of columns 	-- x
 export(int) var height 				   # Amount of rows 	-- y
@@ -14,20 +16,12 @@ export(int) var mutation_count # Amount of different colors
 var died = false # Have we died yet?
 var drop_time = 4 # Amount of time between block drops
 
-var random_seed # Seed used by this game
-var next_rand_seed # Intermediate seed
-
-var record = preload("res://Scripts/Grid/record.gd").new()
-
 var is_replay = false
-
-func _init():
-	random_seed = randi()
-	next_rand_seed = random_seed
 
 func _ready():
 	# Initialization
 	global = get_node("/root/global")
+	game = get_parent()
 	selector = get_node("grid/selector")
 	grid = get_node("grid")
 	
@@ -82,7 +76,7 @@ func input(e):
 	
 	for ev in event:
 		if ev != "next":
-			record.save_event(ev)
+			game.record.save_event(ev, index)
 	
 	get_node("grid").input(event)
 	get_node("grid/selector").input(event)
@@ -98,25 +92,17 @@ func die():
 	
 	var score = compute_score()
 	
-	record.score = score
-	record.drop_time = drop_time
-	record.has_undo = false
-	record.random_seed = random_seed
-	record.date = [date, time]
-	
-	#if not is_replay:
-	#	get_node("/root/highscores").save_score(inst2dict(record), setup.config)
-	
+	game.record.score = score
+	game.record.config = get_parent().config
+	game.record.drop_time = drop_time
+	game.record.has_undo = false
+	game.record.random_seed = get_parent().random_seed
+	game.record.date = [date, time]
 	died = true
 	
 	get_node("grid/dropindicator").set_process(false)
 	
 	get_parent().set_died(self)
-
-# Gets called when the game resumes
-func activate():
-	if not is_replay:
-		record.resume()
 
 # Computes the score
 func compute_score():
@@ -126,12 +112,6 @@ func compute_score():
 		score += i.member_count*(i.member_count+1)/2
 	
 	return score
-
-# Returns a random integer
-func next_int():
-	var next = rand_seed(next_rand_seed)
-	next_rand_seed = next[0]
-	return next[0]
 
 # Fits the game in a certain rectangle. Measured in pixels
 func fit_in_rect(rect):

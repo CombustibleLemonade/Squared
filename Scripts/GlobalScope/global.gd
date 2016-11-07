@@ -45,6 +45,7 @@ class Configuration:
 # This class fully describes a played game
 class Setup:
 	var drop_time = [4, 4, 4, 4]
+	var random_seed = 0
 	var scheme = []
 	var config = Configuration.new()
 

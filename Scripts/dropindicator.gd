@@ -5,15 +5,17 @@ var target_cell = Vector2(0, 0)
 var next
 
 var parent
+var field
 var game
 var global
 
-var time_left setget set_time_left, get_time_left
+var time_left = 0 setget set_time_left, get_time_left
 
 func _ready():
 	# Initalization here
 	parent = get_parent()
-	game = get_parent().get_parent()
+	field = parent.get_parent()
+	game = field.get_parent()
 	global = get_node("/root/global")
 	
 	set_process(true) 
@@ -51,10 +53,10 @@ func _on_Timer_timeout():
 
 # Places a block at the indicated location
 func on_Timer_timeout():
-	game.record.save_event("drop")
+	game.record.save_event("drop", get_parent().get_parent().index)
 	
-	if target_cell.y == game.height:
-		game.die()
+	if target_cell.y == field.height:
+		field.die()
 		return
 	
 	# Send the next block to the right location
@@ -127,6 +129,10 @@ func check_physics():
 
 # Set the amount of time that is remaining until the next drop
 func set_time_left(t):
+	if t <= 0:
+		set_time_left(0.01)
+		return
+	
 	get_node("Timer").set_wait_time(t)
 	if not game.is_replay:
 		get_node("Timer").start()

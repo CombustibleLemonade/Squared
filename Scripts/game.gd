@@ -7,6 +7,11 @@ var died = false setget set_died, get_died # Have we died yet?
 
 var fields = [] # Amount of fields in game
 var setup
+var is_replay
+
+var random_seed # Seed used by this game
+var next_rand_seed # Intermediate seed
+var record = preload("res://Scripts/Grid/record.gd").new()
 
 func _ready():
 	set_layout()
@@ -16,19 +21,33 @@ func set_setups(s):
 	setup = s
 	var player_count = s.config.player_count
 	
+	if s.random_seed == 0:
+		s.random_seed = randi()
+	
+	random_seed = s.random_seed
+	next_rand_seed = s.random_seed
+	
 	for i in range(player_count):
-		add_field(i)
+		add_field(i, s.random_seed)
+	
+	if s.scheme[0] == "@REPLAY":
+		is_replay = true
+		for f in fields:
+			f.is_replay = true
 	
 	parse_object(setup)
 
 # Adds a field with a certain field config
-func add_field(index):
+func add_field(index, r):
 	var field = preload("res://Scenes/Game/field.scn").instance()
 	
 	add_child(field)
 	fields.push_back(field)
 
+# Sets the configuration
+# TODO: rename this
 func parse_object(o):
+	config = o
 	var dict = inst2dict(o)
 	
 	var keys = dict.keys()
@@ -55,8 +74,7 @@ func set_layout():
 
 # Start playing again
 func activate():
-	for f in fields:
-		f.activate()
+	record.resume()
 
 # Set if we're dead. Does nothing
 func set_died(died_field):
@@ -68,15 +86,21 @@ func set_died(died_field):
 		all_dead = all_dead && f.died
 	
 	if all_dead:
-		deactivate()
+		finish()
+
+# Gets called when the game finishes
+func finish():
+	deactivate()
+	var r = global.inst3dict(record)
+	
+	if not is_replay:
+		get_node("/root/highscores").save_score(r, config)
 
 # Will pause the game in the background, and display the main menu in the foreground
 func deactivate():
 	set_pause_mode(1)
-	for f in fields:
-		f.record.pause()
+	record.pause()
 	get_node("/root/main").pause()
-
 
 # Returns true if we're dead
 func get_died():
@@ -101,3 +125,14 @@ func update_score(field, score):
 				if 100 - score < 0:
 					field.die()
 					f.die()
+
+# Makes time progress in a replay
+func progress_time(delta):
+	for f in fields:
+		f.get_node("grid/dropindicator").time_left -=  delta
+
+# Returns a random integer
+func next_int():
+	var next = rand_seed(next_rand_seed)
+	next_rand_seed = next[0]
+	return next[0]

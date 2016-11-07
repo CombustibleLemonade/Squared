@@ -33,7 +33,7 @@ func set_value(var value_arg):
 	if has_node("value"):
 		get_node("value").set_text(str(value))
 	
-	emit_signal("change")
+	#emit_signal("change")
 
 func focus():
 	emit_signal("focus", self)

@@ -50,6 +50,10 @@ func get_played_configs():
 func reset_scores_of_config(c):
 	var scores = global.load_file(leaderboard_path)
 	
+	# If there are no scores, we can't reset them
+	if scores == null:
+		return
+	
 	scores.erase(str(inst2dict(c)))
 	
 	global.save_file(leaderboard_path, scores)

@@ -7,7 +7,6 @@ var height = 9
 var tiles = []
 
 func _ready():
-	
 	randomize()
 	
 	set_process(true)
@@ -44,9 +43,9 @@ func shift():
 func new_square():
 	var p = get_parent()
 	
-	var rand_int = p.next_int() % p.mutation_count
+	var rand_int = p.get_parent().next_int() % p.mutation_count
 	
-	var pos = p.next_int()%p.width
+	var pos = p.get_parent().next_int()%p.width
 	var square = preload("res://Scenes/Game/square.scn").instance()
 	
 	square.set_text(p.int_to_column(pos))

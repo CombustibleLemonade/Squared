@@ -27,6 +27,7 @@ sync func load_game(setup = get_setup()):
 	main.unpause()
 	
 	var game = preload("res://Scenes/Game/game.scn").instance()
+	
 	game.set_setups(setup)
 	main.add_child(game)
 
@@ -46,7 +47,8 @@ func get_config():
 	
 	conf.player_count = player_count
 	
-	for c in config_menus:
+	for i in range(player_count):
+		var c = config_menus[i]
 		conf.width.push_back(c.width)
 		conf.height.push_back(c.height)
 		conf.mutation_count.push_back(c.mutation_count)
@@ -56,8 +58,6 @@ func get_config():
 # TODO: Ajusts the setup of the menu
 sync func set_setup(s):
 	var conf = s.config
-	
-	print(s.config.player_count)
 
 # Gets called when the player count selectors value is set
 func change_player_count():
